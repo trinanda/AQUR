@@ -52,8 +52,16 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
+
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    date_of_birth = db.Column(db.DateTime)
+    address = db.Column(db.String(255))
+
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
+                           onupdate=db.func.current_timestamp())
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -194,3 +202,25 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+class Operator(User):
+    __tablename__ = 'operator'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    phone_number = db.Column(db.Integer)
+    education = db.Column(db.String)
+
+
+class Teacher(User):
+    __tablename__ = 'teacher'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+class Student(User):
+    __tablename__ = 'student'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    phone_number = db.Column(db.Integer)
+    education = db.Column(db.String)
