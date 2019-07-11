@@ -215,7 +215,7 @@ class Teacher(User):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone_number = db.Column(db.Integer)
-    education = db.Column(db.String)
+    last_education = db.Column(db.String)
 
 
 class Student(User):
@@ -223,5 +223,5 @@ class Student(User):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone_number = db.Column(db.Integer)
-    education = db.Column(db.String)
+    last_education = db.Column(db.String)
     job = db.Column(db.String)
