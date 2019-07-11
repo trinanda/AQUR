@@ -77,7 +77,7 @@ class User(UserMixin, db.Model):
 
     def can(self, permissions):
         return self.role is not None and \
-            (self.role.permissions & permissions) == permissions
+               (self.role.permissions & permissions) == permissions
 
     def is_admin(self):
         return self.can(Permission.ADMINISTER)
@@ -208,14 +208,14 @@ class Operator(User):
     __tablename__ = 'operator'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    phone_number = db.Column(db.Integer)
-    education = db.Column(db.String)
 
 
 class Teacher(User):
     __tablename__ = 'teacher'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    phone_number = db.Column(db.Integer)
+    education = db.Column(db.String)
 
 
 class Student(User):
@@ -224,3 +224,4 @@ class Student(User):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone_number = db.Column(db.Integer)
     education = db.Column(db.String)
+    job = db.Column(db.String)
