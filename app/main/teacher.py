@@ -10,4 +10,4 @@ teacher = Blueprint('teacher', __name__)
 @login_required
 @teacher_required
 def index():
-    return 'hello teacher :)'
+    return render_template('main/teacher/index.html')

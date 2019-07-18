@@ -29,9 +29,9 @@ class Role(db.Model):
     def insert_roles():
         roles = {
             'User': (Permission.GENERAL, 'main', True),
-            'Operator': (Permission.OPERATOR, 'main', True),
-            'Teacher': (Permission.TEACHER, 'main', True),
-            'Student': (Permission.STUDENT, 'main', True),
+            'Operator': (Permission.OPERATOR, 'operator', True),
+            'Teacher': (Permission.TEACHER, 'teacher', True),
+            'Student': (Permission.STUDENT, 'student', True),
             'Administrator': (
                 Permission.ADMINISTER,
                 'admin',

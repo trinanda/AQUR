@@ -10,4 +10,4 @@ operator = Blueprint('operator', __name__)
 @login_required
 @operator_required
 def index():
-    return 'hello operator :)'
+    return render_template('main/operator/index.html')

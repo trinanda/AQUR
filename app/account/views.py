@@ -41,17 +41,13 @@ def login():
             login_user(user, form.remember_me.data)
             flash('You are now logged in. Welcome back!', 'success')
             if user.type == 'operator':
-                print('test', user.type)
                 return redirect(request.args.get('next') or url_for('operator.index'))
             elif user.type == 'teacher':
-                print('test', user.type)
                 return redirect(request.args.get('next') or url_for('teacher.index'))
             elif user.type == 'student':
-                print('test', user.type)
                 return redirect(request.args.get('next') or url_for('student.index'))
             else:
-                # return redirect(request.args.get('next') or url_for('main.index'))
-                return 'testing!'
+                return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('Invalid email or password.', 'form-error')
     return render_template('account/login.html', form=form)
