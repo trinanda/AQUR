@@ -40,18 +40,18 @@ def login():
             user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('You are now logged in. Welcome back!', 'success')
-            # return redirect(request.args.get('next') or url_for('main.index'))
             if user.type == 'operator':
                 print('test', user.type)
-                return redirect(request.args.get('next') or url_for('main.operator'))
+                return redirect(request.args.get('next') or url_for('operator.index'))
             elif user.type == 'teacher':
                 print('test', user.type)
-                return redirect(request.args.get('next') or url_for('main.teacher'))
+                return redirect(request.args.get('next') or url_for('teacher.index'))
             elif user.type == 'student':
                 print('test', user.type)
-                return redirect(request.args.get('next') or url_for('main.student'))
+                return redirect(request.args.get('next') or url_for('student.index'))
             else:
-                return redirect(request.args.get('next') or url_for('main.index'))
+                # return redirect(request.args.get('next') or url_for('main.index'))
+                return 'testing!'
         else:
             flash('Invalid email or password.', 'form-error')
     return render_template('account/login.html', form=form)

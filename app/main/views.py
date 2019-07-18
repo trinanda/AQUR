@@ -15,18 +15,3 @@ def about():
     editable_html_obj = EditableHTML.get_editable_html('about')
     return render_template(
         'main/about.html', editable_html_obj=editable_html_obj)
-
-
-@main.route('/operator')
-def operator():
-    return 'hello operator :)'
-
-
-@main.route('/teacher')
-def teacher():
-    return 'hello teacher :)'
-
-
-@main.route('/student')
-def student():
-    return 'hello student :)'

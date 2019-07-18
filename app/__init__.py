@@ -66,6 +66,15 @@ def create_app(config_name):
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .main import operator as operator_blueprint
+    app.register_blueprint(operator_blueprint, url_prefix='/operator')
+
+    from .main import teacher as teacher_blueprint
+    app.register_blueprint(teacher_blueprint, url_prefix='/teacher')
+
+    from .main import student as student_blueprint
+    app.register_blueprint(student_blueprint, url_prefix='/student')
+
     from .account import account as account_blueprint
     app.register_blueprint(account_blueprint, url_prefix='/account')
 
