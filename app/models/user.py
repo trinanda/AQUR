@@ -23,16 +23,15 @@ class Role(db.Model):
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
     users = db.relationship('User',
-                            # enable_typechecks=False,
                             backref='role', lazy='dynamic')
 
     @staticmethod
     def insert_roles():
         roles = {
             'User': (Permission.GENERAL, 'main', True),
-            'Operator': (Permission.OPERATOR, 'operator', True),
-            'Teacher': (Permission.TEACHER, 'teacher', True),
-            'Student': (Permission.STUDENT, 'student', True),
+            'Operator': (Permission.OPERATOR, 'main', True),
+            'Teacher': (Permission.TEACHER, 'main', True),
+            'Student': (Permission.STUDENT, 'main', True),
             'Administrator': (
                 Permission.ADMINISTER,
                 'admin',
