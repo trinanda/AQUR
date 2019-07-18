@@ -10,6 +10,9 @@ from .. import db, login_manager
 class Permission:
     GENERAL = 0x01
     ADMINISTER = 0xff
+    OPERATOR = 7
+    TEACHER = 7
+    STUDENT = 7
 
 
 class Role(db.Model):
@@ -19,12 +22,17 @@ class Role(db.Model):
     index = db.Column(db.String(64))
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    users = db.relationship('User',
+                            # enable_typechecks=False,
+                            backref='role', lazy='dynamic')
 
     @staticmethod
     def insert_roles():
         roles = {
             'User': (Permission.GENERAL, 'main', True),
+            'Operator': (Permission.OPERATOR, 'operator', True),
+            'Teacher': (Permission.TEACHER, 'teacher', True),
+            'Student': (Permission.STUDENT, 'student', True),
             'Administrator': (
                 Permission.ADMINISTER,
                 'admin',
@@ -62,6 +70,8 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
+
+    type = db.Column(db.String(50))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -187,6 +197,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()
 
+    __mapper_args__ = {
+        'polymorphic_identity': 'users',
+        'with_polymorphic': '*',
+        "polymorphic_on": type
+    }
+
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, _):
@@ -209,6 +225,11 @@ class Operator(User):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    __mapper_args__ = {
+        'polymorphic_identity': 'operator',
+        'with_polymorphic': '*'
+    }
+
 
 class Teacher(User):
     __tablename__ = 'teacher'
@@ -216,6 +237,11 @@ class Teacher(User):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone_number = db.Column(db.Integer)
     last_education = db.Column(db.String)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'teacher',
+        'with_polymorphic': '*'
+    }
 
 
 class Student(User):
@@ -225,3 +251,8 @@ class Student(User):
     phone_number = db.Column(db.Integer)
     last_education = db.Column(db.String)
     job = db.Column(db.String)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'student',
+        'with_polymorphic': '*'
+    }

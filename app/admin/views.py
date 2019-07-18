@@ -19,7 +19,7 @@ from app.admin.forms import (
 )
 from app.decorators import admin_required
 from app.email import send_email
-from app.models import EditableHTML, Role, User
+from app.models import EditableHTML, Role, User, Teacher, Operator, Student
 
 admin = Blueprint('admin', __name__)
 
@@ -39,16 +39,58 @@ def new_user():
     """Create a new user."""
     form = NewUserForm()
     if form.validate_on_submit():
-        user = User(
-            role=form.role.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email=form.email.data,
-            password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('User {} successfully created'.format(user.full_name()),
-              'form-success')
+
+        if form.role.data.__dict__['name'] == 'User':
+            user = User(
+                role=form.role.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('User {} successfully created'.format(user.full_name()),
+                  'form-success')
+
+        elif form.role.data.__dict__['name'] == 'Operator':
+            operator = Operator(
+                role=form.role.data,
+
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data)
+            db.session.add(operator)
+            db.session.commit()
+            flash('Operator {} successfully created'.format(operator.full_name()),
+                  'form-success')
+
+        elif form.role.data.__dict__['name'] == 'Teacher':
+            teacher = Teacher(
+                role=form.role.data,
+
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data)
+            db.session.add(teacher)
+            db.session.commit()
+            flash('Teacher {} successfully created'.format(teacher.full_name()),
+                  'form-success')
+
+        elif form.role.data.__dict__['name'] == 'Student':
+            student = Student(
+                role=form.role.data,
+
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data)
+            db.session.add(student)
+            db.session.commit()
+            flash('Student {} successfully created'.format(student.full_name()),
+                  'form-success')
+
     return render_template('admin/new_user.html', form=form)
 
 
