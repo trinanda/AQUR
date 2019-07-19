@@ -28,9 +28,9 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (Permission.GENERAL, 'main', True),
-            'Operator': (Permission.OPERATOR, 'operator', True),
-            'Teacher': (Permission.TEACHER, 'teacher', True),
+            'User': (Permission.GENERAL, 'main', False),
+            'Operator': (Permission.OPERATOR, 'operator', False),
+            'Teacher': (Permission.TEACHER, 'teacher', False),
             'Student': (Permission.STUDENT, 'student', True),
             'Administrator': (
                 Permission.ADMINISTER,
