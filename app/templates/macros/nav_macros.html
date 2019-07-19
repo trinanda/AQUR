@@ -20,10 +20,16 @@
 #}
 
 {% macro header_items(current_user) %}
-    {% set endpoints = [
-      ('main.index', config.APP_NAME, 'home'),
-      ('main.about', 'About', 'info')
-    ]%}
+
+    {% if current_user.is_authenticated %}
+        {% set endpoints = []%}
+    {% else %}
+        {% set endpoints = [
+            ('main.index', config.APP_NAME, 'home'),
+            ('main.about', 'About', 'info')
+        ]%}
+    {% endif %}
+
     {% set user = [] %}
     {% if current_user.is_authenticated %}
       {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
