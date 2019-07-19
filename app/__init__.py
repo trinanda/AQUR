@@ -63,22 +63,22 @@ def create_app(config_name):
         SSLify(app)
 
     # Create app blueprints
-    from .main import main as main_blueprint
+    from app.users.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    from .main import operator as operator_blueprint
+    from app.users.operator import operator as operator_blueprint
     app.register_blueprint(operator_blueprint, url_prefix='/operator')
 
-    from .main import teacher as teacher_blueprint
+    from app.users.teacher import teacher as teacher_blueprint
     app.register_blueprint(teacher_blueprint, url_prefix='/teacher')
 
-    from .main import student as student_blueprint
+    from app.users.student import student as student_blueprint
     app.register_blueprint(student_blueprint, url_prefix='/student')
 
     from .account import account as account_blueprint
     app.register_blueprint(account_blueprint, url_prefix='/account')
 
-    from .admin import admin as admin_blueprint
+    from app.users.admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     return app

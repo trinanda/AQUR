@@ -40,7 +40,9 @@ def login():
             user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('You are now logged in. Welcome back!', 'success')
-            if user.type == 'operator':
+            if user.role_id == 2:
+                return redirect(request.args.get('next') or url_for('admin.index'))
+            elif user.type == 'operator':
                 return redirect(request.args.get('next') or url_for('operator.index'))
             elif user.type == 'teacher':
                 return redirect(request.args.get('next') or url_for('teacher.index'))

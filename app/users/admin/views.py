@@ -10,13 +10,10 @@ from flask import (
 from flask_login import current_user, login_required
 from flask_rq import get_queue
 
+from app.users.admin.forms import ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm, \
+    NewUserForm
 from app import db
-from app.admin.forms import (
-    ChangeAccountTypeForm,
-    ChangeUserEmailForm,
-    InviteUserForm,
-    NewUserForm,
-)
+
 from app.decorators import admin_required
 from app.email import send_email
 from app.models import EditableHTML, Role, User, Teacher, Operator, Student
@@ -40,7 +37,19 @@ def new_user():
     form = NewUserForm()
     if form.validate_on_submit():
 
-        if form.role.data.__dict__['name'] == 'User':
+        if form.role.data.__dict__['name'] == 'Administrator':
+            user = User(
+                role=form.role.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('User {} successfully created'.format(user.full_name()),
+                  'form-success')
+
+        elif form.role.data.__dict__['name'] == 'User':
             user = User(
                 role=form.role.data,
                 first_name=form.first_name.data,
@@ -90,6 +99,8 @@ def new_user():
             db.session.commit()
             flash('Student {} successfully created'.format(student.full_name()),
                   'form-success')
+        else:
+            pass
 
     return render_template('admin/new_user.html', form=form)
 
