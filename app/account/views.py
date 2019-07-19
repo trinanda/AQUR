@@ -225,9 +225,10 @@ def confirm_request():
 def confirm(token):
     """Confirm new user's account with provided token."""
     if current_user.confirmed:
-        return redirect(url_for('main.index'))
+        return redirect(url_for(current_user.role.index + '.index'))
     if current_user.confirm_account(token):
         flash('Your account has been confirmed.', 'success')
+        return redirect(url_for(current_user.role.index + '.index'))
     else:
         flash('The confirmation link is invalid or has expired.', 'error')
     return redirect(url_for('main.index'))
@@ -296,5 +297,5 @@ def before_request():
 def unconfirmed():
     """Catch users with unconfirmed emails."""
     if current_user.is_anonymous or current_user.confirmed:
-        return redirect(url_for('main.index'))
+        return redirect(url_for(current_user.role.index + '.index'))
     return render_template('account/unconfirmed.html')
