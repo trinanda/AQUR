@@ -8,7 +8,6 @@ from .. import db, login_manager
 
 
 class Permission:
-    GENERAL = 0x01
     ADMINISTER = 0xff
     OPERATOR = 0x04
     TEACHER = 0x02
@@ -28,15 +27,14 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (Permission.GENERAL, 'main', False),
-            'Operator': (Permission.OPERATOR, 'operator', False),
-            'Teacher': (Permission.TEACHER, 'teacher', False),
-            'Student': (Permission.STUDENT, 'student', True),
             'Administrator': (
                 Permission.ADMINISTER,
                 'admin',
                 False  # grants all permissions
-            )
+            ),
+            'Operator': (Permission.OPERATOR, 'operator', False),
+            'Teacher': (Permission.TEACHER, 'teacher', False),
+            'Student': (Permission.STUDENT, 'student', True),
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
