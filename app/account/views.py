@@ -25,7 +25,7 @@ from app.account.forms import (
     ResetPasswordForm,
 )
 from app.email import send_email
-from app.models import User
+from app.models import User, Role
 
 account = Blueprint('account', __name__)
 
@@ -35,18 +35,18 @@ def login():
     """Log in an existing user."""
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user, user_role = db.session.query(User, Role).join(Role).filter(User.email == form.email.data).first()
         if user is not None and user.password_hash is not None and \
             user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('You are now logged in. Welcome back!', 'success')
-            if user.role_id == 1:
+            if user_role.index == 'admin':
                 return redirect(request.args.get('next') or url_for('admin.index'))
-            elif user.type == 'operator':
+            elif user_role.index == 'operator':
                 return redirect(request.args.get('next') or url_for('operator.index'))
-            elif user.type == 'teacher':
+            elif user_role.index == 'teacher':
                 return redirect(request.args.get('next') or url_for('teacher.index'))
-            elif user.type == 'student':
+            elif user_role.index == 'student':
                 return redirect(request.args.get('next') or url_for('student.index'))
             else:
                 return redirect(request.args.get('next') or url_for('main.index'))

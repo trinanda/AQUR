@@ -1,8 +1,8 @@
-"""remove User role
+""".
 
-Revision ID: c834f7c3b86a
+Revision ID: 50acab716942
 Revises: 
-Create Date: 2019-07-19 15:23:07.698781
+Create Date: 2019-08-05 21:46:06.211289
 
 """
 from alembic import op
@@ -10,9 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-from sqlalchemy.dialects import postgresql
-
-revision = 'c834f7c3b86a'
+revision = '50acab716942'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -82,7 +80,7 @@ def upgrade():
     op.create_table('course',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
-    sa.Column('type_of_course', postgresql.ENUM('REGULAR', 'PRIVATE', name='type_of_course', create_type=False), nullable=True),
+    sa.Column('type_of_course', sa.Enum('REGULAR', 'PRIVATE', name='type_of_course'), nullable=True),
     sa.Column('schedule', sa.DateTime(), nullable=True),
     sa.Column('teacher_id', sa.Integer(), nullable=True),
     sa.Column('student_id', sa.Integer(), nullable=True),
@@ -97,7 +95,7 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('total', sa.Integer(), nullable=True),
     sa.Column('student_id', sa.Integer(), nullable=True),
-    sa.Column('status', postgresql.ENUM('PENDING', 'REJECTED', 'COMPLETED', name='payment_status', create_type=False), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'COMPLETED', name='payment_status'), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['student_id'], ['student.id'], ),
