@@ -3,7 +3,6 @@
 
 ##### Important feature
 1. Murid
-    - bisa register
     - Lihat profile
     - membayar spp
     
