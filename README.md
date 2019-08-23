@@ -8,6 +8,7 @@
     
 2. Guru
     - Absensi kehadiran murid
+    - Lihat profile (himself and their students)
     
 3. Operator
     - Broadcast jika ada kajian dan even lainnya

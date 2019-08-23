@@ -35,7 +35,14 @@ def login():
     """Log in an existing user."""
     form = LoginForm()
     if form.validate_on_submit():
-        user, user_role = db.session.query(User, Role).join(Role).filter(User.email == form.email.data).first()
+
+        # TODO | flash message if user is None
+        try:
+            user, user_role = db.session.query(User, Role).join(Role).filter(User.email == form.email.data).first()
+        except Exception as e:
+            flash('Please create a user')
+            return redirect(url_for('account.register'))
+
         if user is not None and user.password_hash is not None and \
             user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
