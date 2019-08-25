@@ -14,10 +14,7 @@ from app.models import User
 
 
 class LoginForm(Form):
-    email = EmailField(
-        'Email', validators=[InputRequired(),
-                             Length(1, 64),
-                             Email()])
+    email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators=[InputRequired()])
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log in')

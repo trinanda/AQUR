@@ -83,9 +83,8 @@ def register():
             template='account/email/confirm',
             user=user,
             confirm_link=confirm_link)
-        flash('A confirmation link has been sent to {}.'.format(user.email),
-              'warning')
-        return redirect(url_for('main.index'))
+        flash('A confirmation link has been sent to your email', 'warning')
+        return redirect(url_for('account.login'))
     return render_template('account/register.html', form=form)
 
 
@@ -93,7 +92,6 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.', 'info')
     return redirect(url_for('main.index'))
 
 
