@@ -125,8 +125,10 @@
   <!-- modernizr JS
 		============================================ -->
   <script src="{{ url_for('static', filename='kialap-master/js/vendor/modernizr-2.8.3.min.js') }}"></script>
-
   <!--kialap-template-->
+
+  <!--course-template-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='course/styles/courses_styles.css') }}">
 
 </head>
 
@@ -150,7 +152,7 @@
             <div class="peer peer-greed"><a class="sidebar-link td-n" href="index.html">
                 <div class="peers ai-c fxw-nw">
                   <div class="peer">
-                    <div class="logo"><img src="assets/static/images/logo.png" alt=""></div>
+                    <div class="logo"><img src="{{ url_for('static', filename='adminator-admin-dashboard/assets/static/images/logo.png') }}" alt=""></div>
                   </div>
                   <div class="peer peer-greed">
                     <h5 class="lh-1 mB-0 logo-text">Adminator</h5>
@@ -166,6 +168,7 @@
           <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.operator_dashboard') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Dashboard</span></a></li>
           <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">Teachers</span></a></li>
           <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_students') }}"><span class="icon-holder"><i class="c-green-500 ti-user"></i> </span><span class="title">Students</span></a></li>
+          <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.courses') }}"><span class="icon-holder"><i class="c-purple-500 ti-book"></i> </span><span class="title">Courses</span></a></li>
         </ul>
       </div>
     </div>
@@ -281,7 +284,7 @@
                     <span>Profile</span></a></li>
                 <li><a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-email mR-10"></i> <span>Messages</span></a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-power-off mR-10"></i> <span>Logout</span></a></li>
+                <li><a href="{{ url_for('account.logout') }}" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700"><i class="ti-power-off mR-10"></i> <span>Logout</span></a></li>
               </ul>
             </li>
           </ul>

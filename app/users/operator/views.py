@@ -36,3 +36,8 @@ def all_students():
 @operator.route('/student_profile')
 def student_profile():
     return render_template('main/operator/student-profile.html')
+
+
+@operator.route('/courses')
+def courses():
+    return render_template('main/operator/courses.html')
