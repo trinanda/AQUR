@@ -4,6 +4,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from app.models.course import taught_courses
 from .. import db, login_manager
 
 
@@ -234,6 +235,8 @@ class Teacher(User):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     phone_number = db.Column(db.Integer)
     last_education = db.Column(db.String)
+    taught_courses = db.relationship('Course', secondary=taught_courses,
+                                     backref=db.backref('teacher', lazy='dynamic'))
 
     __mapper_args__ = {
         'polymorphic_identity': 'teacher',
