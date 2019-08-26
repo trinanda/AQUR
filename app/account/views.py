@@ -25,7 +25,7 @@ from app.account.forms import (
     ResetPasswordForm,
 )
 from app.email import send_email
-from app.models import User, Role
+from app.models import User, Role, Student
 
 account = Blueprint('account', __name__)
 
@@ -67,7 +67,7 @@ def register():
     """Register a new user, and send them a confirmation email."""
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(
+        user = Student(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
