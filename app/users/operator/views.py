@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, flash, url_for
+from werkzeug.utils import redirect
 
-from app.decorators import operator_required
+from app import db
+from app.models import Course
+
+from app.users.operator.forms import AddCourseForm
 
 operator = Blueprint('operator', __name__)
 
@@ -41,3 +44,17 @@ def student_profile():
 @operator.route('/courses')
 def courses():
     return render_template('main/operator/courses.html')
+
+
+@operator.route('/add-course', methods=['GET', 'POST'])
+def add_course():
+    """Create a new course."""
+    form = AddCourseForm()
+    if form.validate_on_submit():
+        course = Course(
+            name=form.name.data)
+        db.session.add(course)
+        db.session.commit()
+        flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
+        return redirect(url_for('operator.courses'))
+    return render_template('main/operator/add_course.html', form=form)

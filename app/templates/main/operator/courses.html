@@ -1,9 +1,16 @@
 {% extends "main/base-template.html" %}
 {% block content %}
 <div id='mainContent'>
-  <h4 class="c-grey-900 mT-10 mB-30">Courses</h4>
   <div class="contacts-area mg-b-15">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 class="c-grey-900 mT-10 mB-30">Courses</h4>
+        </div>
+        <div class="col-md-2 ml-auto">
+          <a href="{{ url_for('operator.add_course') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add course</a>
+        </div>
+      </div>
       <div class="row">
         <!-- Popular Course Item -->
         <div class="col-lg-4 course_box">

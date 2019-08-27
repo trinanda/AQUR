@@ -103,29 +103,29 @@
       } %}
 
       {{ f.begin_form(form, flashes) }}
-      {{ f.render_form_field(form.email) }}
-      {{ f.render_form_field(form.password) }}
+        {{ f.render_form_field(form.email) }}
+        {{ f.render_form_field(form.password) }}
 
-      {#{{ f.render_form_field(form.remember_me, extra_classes='column') }}#}
-      <div class="right aligned row">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-5">
-              <a href="{{ url_for('account.register') }}">Register an account?</a>
-            </div>
-            <div class="col-md-5 ml-auto">
-              <a href="{{ url_for('account.reset_password_request') }}">Forgot password?</a>
+        {#{{ f.render_form_field(form.remember_me, extra_classes='column') }}#}
+        <div class="right aligned row">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5">
+                <a href="{{ url_for('account.register') }}">Register an account?</a>
+              </div>
+              <div class="col-md-5 ml-auto">
+                <a href="{{ url_for('account.reset_password_request') }}">Forgot password?</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
-      {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
-      {{ f.form_message(flashes['info'], header='Information', class='info') }}
-      {{ f.form_message(flashes['success'], header='Success!', class='success') }}
-      <br>
-      {{ f.render_form_field(form.submit) }}
+        {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+        {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+        {{ f.form_message(flashes['info'], header='Information', class='info') }}
+        {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+        <br>
+        {{ f.render_form_field(form.submit) }}
       {{ f.end_form(form) }}
 
     </div>
