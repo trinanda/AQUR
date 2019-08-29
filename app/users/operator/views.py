@@ -43,7 +43,12 @@ def student_profile():
 
 @operator.route('/courses')
 def courses():
-    return render_template('main/operator/courses.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+
+    courses = Course.query.order_by(Course.created_at.desc()).paginate(page, per_page, error_out=False)
+
+    return render_template('main/operator/courses.html', courses=courses)
 
 
 @operator.route('/add-course', methods=['GET', 'POST'])

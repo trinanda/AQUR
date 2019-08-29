@@ -13,13 +13,14 @@
       </div>
       <div class="row">
         <!-- Popular Course Item -->
+        {% for data in courses.items %}
         <div class="col-lg-4 course_box">
           <div class="card">
             <a href="#">
-              <img class="card-img-top" src="{{ url_for('static', filename='course/images/Al-Qur\'an.png') }}" alt="#">
+              <img class="card-img-top" src="{{ url_for('static', filename='images/app/'+data['image']) }}" alt="{{data.image}}">
             </a>
             <div class="card-body text-center">
-              <div class="card-title" style="margin: 0px;">Tahsin</div>
+              <div class="card-title" style="margin: 0px;">{{ data.name }}</div>
               <!--<div class="card-text">Belajar Tajwid, Memperbaiki bacaan etc...</div>-->
             </div>
             <!--<div class="price_box d-flex flex-row align-items-center">-->
@@ -31,6 +32,7 @@
             <!--</div>-->
           </div>
         </div>
+        {% endfor %}
 
         <!-- Footer -->
         {#
