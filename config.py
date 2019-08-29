@@ -71,6 +71,16 @@ class Config:
     def init_app(app):
         pass
 
+    # Flask-upload
+    UPLOADED_PHOTOS_DEST = basedir + '/app/static/images/app/'
+    UPLOADED_PHOTOS_ALLOW = ('jpg', 'jpeg', 'png')
+
+    try:
+        os.makedirs(UPLOADED_PHOTOS_DEST)
+    except FileExistsError:
+        # directory already exists
+        pass
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

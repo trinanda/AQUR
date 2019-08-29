@@ -7,10 +7,11 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
+from flask_uploads import configure_uploads, UploadSet
 from flask_wtf import CsrfProtect
 
 from app.assets import app_css, app_js, vendor_css, vendor_js
-from config import config
+from config import config, Config
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -18,6 +19,7 @@ mail = Mail()
 db = SQLAlchemy()
 csrf = CsrfProtect()
 compress = Compress()
+photos = UploadSet('photos', Config.UPLOADED_PHOTOS_ALLOW)
 
 # Set up Flask-Login
 login_manager = LoginManager()
@@ -32,14 +34,7 @@ def create_app(config_name):
     # not using sqlalchemy event system, hence disabling it
 
     config[config_name].init_app(app)
-
-    # Set up extensions
-    mail.init_app(app)
-    db.init_app(app)
-    login_manager.init_app(app)
-    csrf.init_app(app)
-    compress.init_app(app)
-    RQ(app)
+    register_extensions(app)
 
     # Register Jinja template functions
     from .utils import register_template_utils
@@ -82,3 +77,14 @@ def create_app(config_name):
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     return app
+
+
+def register_extensions(app):
+    # Set up extensions
+    mail.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+    csrf.init_app(app)
+    compress.init_app(app)
+    RQ(app)
+    configure_uploads(app, photos)
