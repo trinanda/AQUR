@@ -38,3 +38,11 @@ def add_course():
         flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
         return redirect(url_for('operator.courses'))
     return render_template('main/operator/courses/add_course.html', form=form)
+
+
+@operator.route('/course_details')
+def course_details():
+    legend = 'Monthly Data'
+    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    return render_template('main/operator/courses/course_details.html', values=values, labels=labels, legend=legend)
