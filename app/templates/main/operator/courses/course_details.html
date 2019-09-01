@@ -9,6 +9,7 @@
 </style>
 
 <div id="mainContent">
+  <h1>{{ course.name }}</h1>
   <div class="row gap-20 masonry pos-r">
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item w-100">
@@ -135,10 +136,10 @@
                 </div>
                 <div class="peers pT-20 mT-20 bdT fxw-nw@lg+ jc-sb ta-c gap-10">
                   <div class="peer">
-                    <button class="btn btn-primary btn-circle btn-circle-xl m-1">Edit</button>
+                    <a href="{{ url_for('operator.edit_course', course_id=course.id) }}"><button class="btn btn-primary btn-circle m-1">Edit</button></a>
                   </div>
                   <div class="peer">
-                    <button class="btn btn-danger btn-circle btn-circle-xl m-1">Delete</button>
+                    <a href="{{ url_for('operator.delete_course', course_id=course.id) }}"><button class="btn btn-danger btn-circle m-1">Delete</button></a>
                   </div>
                 </div>
               </div>

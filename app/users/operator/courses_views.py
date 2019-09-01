@@ -1,11 +1,11 @@
-from flask import render_template, flash, url_for, request
+from flask import render_template, flash, url_for, request, abort
 from werkzeug.utils import redirect
 
 from app import db, photos
 from app.models import Course
 from app.users.operator import operator
 
-from app.users.operator.forms import AddCourseForm
+from app.users.operator.forms import AddCourseForm, EditCourseForm
 
 
 @operator.route('/courses')
@@ -37,12 +37,54 @@ def add_course():
         db.session.commit()
         flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
         return redirect(url_for('operator.courses'))
-    return render_template('main/operator/courses/add_course.html', form=form)
+    return render_template('main/operator/courses/manipulate_course.html', form=form)
 
 
-@operator.route('/course_details')
-def course_details():
+@operator.route('/course_details/<int:course_id>')
+def course_details(course_id):
+    course = Course.query.filter_by(id=course_id).first()
+    if course is None:
+        abort(404)
+
     legend = 'Monthly Data'
     labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
     values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('main/operator/courses/course_details.html', values=values, labels=labels, legend=legend)
+    return render_template('main/operator/courses/course_details.html', values=values, labels=labels, legend=legend,
+                           course=course)
+
+
+@operator.route('/delete_course/<int:course_id>')
+def delete_course(course_id):
+    """Delete a user's account."""
+    course = Course.query.filter_by(id=course_id).first()
+    if course is None:
+        abort(404)
+    db.session.delete(course)
+    db.session.commit()
+    flash('Successfully deleted course %s.' % course.course_name(), 'success')
+    return redirect(url_for('operator.courses'))
+
+
+@operator.route('/edit_course/<int:course_id>', methods=['GET', 'POST'])
+def edit_course(course_id):
+    """Edit a course's information."""
+    course = Course.query.filter_by(id=course_id).first()
+    if course is None:
+        abort(404)
+
+    form = EditCourseForm()
+    if form.validate_on_submit():
+        course_name = form.name.data
+        course.name = course_name
+        try:
+            filename = photos.save(request.files['image'], name="courses/" + course_name + "_course.")
+            course.image = filename
+        except Exception as e:
+            flash('Please input correct image format', 'error')
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+        flash('Successfully edit course', 'success')
+        return redirect(url_for('operator.course_details', course_id=242))
+    return render_template('main/operator/courses/manipulate_course.html', course=course, form=form)

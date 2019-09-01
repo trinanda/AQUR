@@ -16,7 +16,7 @@
         {% for data in courses.items %}
         <div class="col-lg-4 course_box">
           <div class="card">
-            <a href="#">
+            <a href="{{ url_for('operator.course_details', course_id=data.id) }}">
               <img class="card-img-top" src="{{ url_for('static', filename='images/app/'+data['image']) }}" alt="{{data.image}}">
             </a>
             <div class="card-body text-center">

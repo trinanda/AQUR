@@ -8,9 +8,15 @@ from app.models import Course
 
 class AddCourseForm(Form):
     name = StringField('Course name', validators=[InputRequired(), Length(1, 100)])
-    image = FileField('image', validators=[InputRequired()])
+    image = FileField('Image', validators=[InputRequired()])
     submit = SubmitField('Add course')
 
     def validate_name(form, field):
         if Course.query.filter_by(name=field.data).first():
             raise ValidationError('Course name already registered!')
+
+
+class EditCourseForm(Form):
+    name = StringField('Course name', validators=[InputRequired(), Length(1, 100)])
+    image = FileField('Image', validators=[InputRequired()])
+    submit = SubmitField('Edit course')

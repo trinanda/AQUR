@@ -19,7 +19,11 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
-        <h2 class="c-grey-900">Add new course</h2>
+        {% if course %}
+          <h2 class="c-grey-900">Edit course</h2>
+        {% else %}
+          <h2 class="c-grey-900">Add new course</h2>
+        {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
         'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -28,7 +32,11 @@
         } %}
         <div class="mT-30">
           {{ f.begin_form(form, flashes) }}
-              {{ f.render_form_field(form.name) }}
+              {% if course %}
+                {{ f.render_form_field(form.name, value=course.name) }}
+              {% else %}
+                {{ f.render_form_field(form.name) }}
+              {% endif %}
               {{ f.render_form_field(form.image) }}
               {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
               {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
