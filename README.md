@@ -16,7 +16,7 @@
         - spp murid    
         - gaji guru
             - bonus guru
-    - data guru
+    - data guru (akhwat tidak ada photo)
     - data murid (akhwat tidak ada photo)
     - graph (registrasi murid, keuangan)
     - registrasi murid

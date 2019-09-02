@@ -4,7 +4,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.models.course import taught_courses
+from ..models import Gender
+
 from .. import db, login_manager
 
 
@@ -57,14 +58,15 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
+    gender = db.Column(db.Enum(Gender, name='gender'))
+    date_of_birth = db.Column(db.Date())
+    address = db.Column(db.String(255))
+    photo = db.Column(db.Unicode(128))
+    phone_number = db.Column(db.String(12), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
-
+    last_education = db.Column(db.String)
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
-    date_of_birth = db.Column(db.DateTime)
-    address = db.Column(db.String(255))
-
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
@@ -216,43 +218,3 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-class Operator(User):
-    __tablename__ = 'operator'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'operator',
-        'with_polymorphic': '*'
-    }
-
-
-class Teacher(User):
-    __tablename__ = 'teacher'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    phone_number = db.Column(db.Integer)
-    last_education = db.Column(db.String)
-    taught_courses = db.relationship('Course', secondary=taught_courses,
-                                     backref=db.backref('teacher', lazy='dynamic'))
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'teacher',
-        'with_polymorphic': '*'
-    }
-
-
-class Student(User):
-    __tablename__ = 'student'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    phone_number = db.Column(db.Integer)
-    last_education = db.Column(db.String)
-    job = db.Column(db.String)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'student',
-        'with_polymorphic': '*'
-    }

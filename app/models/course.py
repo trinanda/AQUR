@@ -1,19 +1,13 @@
-import enum
-
 from sqlalchemy.dialects.postgresql import ARRAY
 
 from app import db
+from app.models.selectfield_helpers import TypeOfCourse
 
 taught_courses = db.Table(
     'taught_courses',
     db.Column('teacher_id', db.Integer(), db.ForeignKey('teacher.id')),
     db.Column('course_id', db.Integer(), db.ForeignKey('course.id')),
 )
-
-
-class TypeOfCourse(enum.Enum):
-    REGULAR = 'REGULAR'
-    PRIVATE = 'PRIVATE'
 
 
 class Course(db.Model):
