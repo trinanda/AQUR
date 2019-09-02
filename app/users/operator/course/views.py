@@ -5,17 +5,17 @@ from app import db, photos
 from app.models import Course
 from app.users.operator import operator
 
-from app.users.operator.forms import AddCourseForm, EditCourseForm
+from app.users.operator.course.forms import AddCourseForm, EditCourseForm
 
 
-@operator.route('/courses')
-def courses():
+@operator.route('/all-courses')
+def all_courses():
     page = request.args.get('page', 1, type=int)
     per_page = 5
 
     courses = Course.query.order_by(Course.created_at.desc()).paginate(page, per_page, error_out=False)
 
-    return render_template('main/operator/courses/courses.html', courses=courses)
+    return render_template('main/operator/courses/all-courses.html', courses=courses)
 
 
 @operator.route('/add-course', methods=['GET', 'POST'])
@@ -37,7 +37,7 @@ def add_course():
         db.session.commit()
         flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
         return redirect(url_for('operator.courses'))
-    return render_template('main/operator/courses/manipulate_course.html', form=form)
+    return render_template('main/operator/courses/manipulate-course.html', form=form)
 
 
 @operator.route('/course_details/<int:course_id>')
@@ -49,7 +49,7 @@ def course_details(course_id):
     legend = 'Monthly Data'
     labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
     values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('main/operator/courses/course_details.html', values=values, labels=labels, legend=legend,
+    return render_template('main/operator/courses/course-details.html', values=values, labels=labels, legend=legend,
                            course=course)
 
 

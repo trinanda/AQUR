@@ -1,0 +1,47 @@
+{% extends "main/base-template.html" %}
+{% block content %}
+<div id='mainContent'>
+  <div class="contacts-area mg-b-15">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 class="c-grey-900 mT-10 mB-30">Teachers</h4>
+        </div>
+        <div class="col-md-2 ml-auto">
+          <a href="{{ url_for('operator.add_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Teacher</a>
+        </div>
+      </div>
+      <div class="row">
+        {% for data in teachers.items %}
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="hpanel hblue contact-panel contact-panel-cs responsive-mg-b-30">
+            <div class="panel-body custom-panel-jw">
+              <a href="{{ url_for('operator.teacher_profile') }}">
+                {% if data.photo and data.gender.value == "Male" %}
+                  <img alt="logo" class="img-circle m-b" style="-moz-border-radius: 38px;border-radius: 38px; display: block;margin-left: auto;margin-right: auto;" src="{{ url_for('static', filename='photo') }}" width="150" height="150">
+                {% elif not data.photo and data.gender.value == "Male" %}
+                  <img alt="logo" class="img-circle m-b" style="-moz-border-radius: 38px;border-radius: 38px; display: block;margin-left: auto;margin-right: auto;" src="{{ url_for('static', filename='images/app/example/arabic-male.png') }}" width="150"
+                    height="150">
+                {% else %}
+                  <img alt="logo" class="img-circle m-b" style="-moz-border-radius: 38px;border-radius: 38px; display: block;margin-left: auto;margin-right: auto;" src="{{ url_for('static', filename='images/app/example/arabic-female.png') }}" width="150"
+                    height="150">
+                {% endif %}
+                <h3>
+                  {% if data.gender.value == "Male" %}
+                  <b style="color: #0B83E2;">Ustadz</b>
+                  {% else %}
+                  <b style="color: #0B83E2;">Ustadzah</b>
+                  {% endif %}
+                  {{ data.first_name }} {{ data.last_name }}
+                </h3>
+              </a>
+              <b class="all-pro-ad">Tahsin Teacher</b>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
