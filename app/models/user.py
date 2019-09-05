@@ -62,7 +62,7 @@ class User(UserMixin, db.Model):
     date_of_birth = db.Column(db.Date())
     address = db.Column(db.String(255))
     photo = db.Column(db.Unicode(128))
-    phone_number = db.Column(db.String(12), index=True)
+    phone_number = db.Column(db.String(12), index=True, unique=True)
     email = db.Column(db.String(64), unique=True, index=True)
     last_education = db.Column(db.String)
     password_hash = db.Column(db.String(128))

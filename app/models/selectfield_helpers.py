@@ -6,7 +6,7 @@ class Gender(enum.Enum):
     FEMALE = 'Female'
 
     def __str__(self):
-        return str(self.value)
+        return self.value
 
 
 class LastEducation(enum.Enum):
@@ -20,8 +20,8 @@ class LastEducation(enum.Enum):
     S2 = 'S2'
     S3 = 'S3'
 
-    def __repr__(self):
-        return str(self.value)
+    def __str__(self):
+        return self.value
 
 
 class TypeOfCourse(enum.Enum):
@@ -30,3 +30,6 @@ class TypeOfCourse(enum.Enum):
 
     def __repr__(self):
         return str(self.value)
+
+
+last_educations = [(str(y), str(y)) for y in (LastEducation)]

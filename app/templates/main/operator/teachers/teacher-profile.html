@@ -1,0 +1,221 @@
+{% extends "main/base-template.html" %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div id='mainContent'>
+  <h4 class="c-grey-900 mT-10 mB-30">Teacher Profile</h4>
+  <div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+      {% set flashes = {
+      'error': get_flashed_messages(category_filter=['form-error']),
+      'warning': get_flashed_messages(category_filter=['form-check-email']),
+      'info': get_flashed_messages(category_filter=['form-info']),
+      'success': get_flashed_messages(category_filter=['form-success'])
+      } %}
+      <div class="row">
+        {{ f.begin_form(form, flashes) }}
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div class="profile-info-inner">
+            <div class="profile-img">
+              {% if teacher.photo and teacher.gender.value == "Male" %}
+              <div class="containerProfilePicture">
+                <img id="blah" src="{{ url_for('static', filename='images/app/'+teacher['photo']) }}" alt="Avatar" class="imageProfilePicture">
+                <div class="middle">
+                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto"> change photo</label>
+                  <input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
+                </div>
+              </div>
+              {% elif not teacher.photo and teacher.gender.value == "Male" %}
+              <div class="containerProfilePicture">
+                <img id="blah" src="{{ url_for('static', filename='images/app/example/arabic-male.png') }}" alt="Avatar" class="imageProfilePicture">
+                <div class="middle">
+                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto"> change photo</label>
+                  <input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
+                </div>
+              </div>
+              {% else %}
+              <img class="imgTeacherProfile" src="{{ url_for('static', filename='images/app/example/arabic-female.png') }}" alt="" />
+              {% endif %}
+            </div>
+            <div class="profile-details-hr">
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                  <div class="address-hr">
+                    <p><b>Name</b><br /> {{ teacher.full_name() }}</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                  <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                    <p><b>Teach</b><br /> Tahsin</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+          <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+            <ul id="myTabedu1" class="tab-review-design">
+              <li class="active"><a href="#reviews"> Biography</a></li>
+              <li><a href="#INFORMATION">Update Details</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content custom-product-edit">
+              <div class="product-tab-list tab-pane active in" id="reviews">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="review-content-section">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="content-profile">
+                            <table class="table table-sm table-hover table-responsive-sm">
+                              <tr>
+                                <th>Name</th>
+                                <td>{{ teacher.full_name() }}</td>
+                              </tr>
+                              <tr>
+                                <th>Phone number</th>
+                                <td>{{ teacher.phone_number }}</td>
+                              </tr>
+                              <tr>
+                                <th>Email</th>
+                                <td>{{ teacher.email }}</td>
+                              </tr>
+                              <tr>
+                                <th>Address</th>
+                                <td>{{ teacher.address }}</td>
+                              </tr>
+                              <tr>
+                                <th>Phone number</th>
+                                <td>{{ teacher.phone_number }}</td>
+                              </tr>
+                              <tr>
+                                <th>number of students</th>
+                                <td>120</td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mg-b-15">
+                        <div class="col-lg-12">
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="skill-title">
+                                <h2>Education</h2>
+                                <hr />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="ex-pro">
+                            <ul>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mg-b-15">
+                        <div class="col-lg-12">
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="skill-title">
+                                <h2>Experience</h2>
+                                <hr />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="ex-pro">
+                            <ul>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                              <li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-tab-list tab-pane" id="INFORMATION">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="review-content-section">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="form-row">
+                            {% if teacher %}
+                            {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6', value=teacher.first_name) }}
+                            {% else %}
+                            {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+
+                            {% if teacher %}
+                            {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6', value=teacher.last_name) }}
+                            {% else %}
+                            {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+
+                            {% if teacher %}
+                            {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=teacher.date_of_birth) }}
+                            {% else %}
+                            {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+
+                            {% if teacher %}
+                            {{ f.render_form_field(form.address, extra_classes='form-group col-lg-6', value=teacher.address) }}
+                            {% else %}
+                            {{ f.render_form_field(form.address, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+
+                            {% if teacher %}
+                            {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6', value=teacher.phone_number) }}
+                            {% else %}
+                            {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+
+                            {% if teacher %}
+                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6', value=teacher.email) }}
+                            {% else %}
+                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
+                          </div>
+                          {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+                          {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+                          {{ f.form_message(flashes['info'], header='Information', class='info') }}
+                          {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+                          <br>
+                          <button type="submit" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">
+                            Update
+                          </button>
+                          {{ f.end_form() }}
+                        </div>
+                      </div>
+                      {# Implement CSRF protection for site #}
+                      {% if csrf_token()|safe %}
+                      <div style="visibility: hidden; display: none">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

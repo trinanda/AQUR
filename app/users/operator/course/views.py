@@ -86,5 +86,5 @@ def edit_course(course_id):
         except Exception as e:
             db.session.rollback()
         flash('Successfully edit course', 'success')
-        return redirect(url_for('operator.course_details', course_id=242))
+        return redirect(url_for('operator.course_details', course_id=course_id))
     return render_template('main/operator/courses/manipulate_course.html', course=course, form=form)

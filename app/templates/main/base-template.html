@@ -10,133 +10,84 @@
   {# Any templates that extend this template can set custom_head_tags to add scripts to their page #}
   {% block custom_head_tags %}
 
-    <style>
-      #loader {
-        transition: all .3s ease-in-out;
-        opacity: 1;
-        visibility: visible;
-        position: fixed;
-        height: 100vh;
-        width: 100%;
-        background: #fff;
-        z-index: 90000
-      }
+  <link href="{{ url_for('static', filename='styles/css/base-template.css' )}}" rel="stylesheet" type="text/css" />
+  <link href="{{ url_for('static', filename='adminator-admin-dashboard/css/stylesheet.css' )}}" rel="stylesheet" type="text/css" />
 
-      #loader.fadeOut {
-        opacity: 0;
-        visibility: hidden
-      }
+  <link rel="stylesheet" href="{{ url_for('static', filename='themify-icons-master/css/themify-icons.css' )}}">
 
-      .spinner {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        top: calc(50% - 20px);
-        left: calc(50% - 20px);
-        background-color: #333;
-        border-radius: 100%;
-        -webkit-animation: sk-scaleout 1s infinite ease-in-out;
-        animation: sk-scaleout 1s infinite ease-in-out
-      }
+  <link rel="stylesheet" href="{{ url_for('static', filename='themify-icons-master/ie7/ie7.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-      @-webkit-keyframes sk-scaleout {
-        0% {
-          -webkit-transform: scale(0)
-        }
+  <!--kialap-template-->
+  <!-- favicon
+          ============================================ -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='kialap-master/img/favicon.ico') }}">
+  <!-- Google Fonts
+          ============================================ -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+  <!-- Bootstrap CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <!-- Bootstrap CSS
+          ============================================ -->
+  <!-- owl.carousel CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.carousel.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.transitions.css') }}">
+  <!-- animate CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/animate.css') }}">
+  <!-- normalize CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/normalize.css') }}">
+  <!-- meanmenu icon CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/meanmenu.min.css') }}">
+  <!-- main CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/main.css') }}">
+  <!-- educate icon CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/educate-custon-icon.css') }}">
+  <!-- morrisjs CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/morrisjs/morris.css') }}">
+  <!-- mCustomScrollbar CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/scrollbar/jquery.mCustomScrollbar.min.css') }}">
+  <!-- metisMenu CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/metisMenu/metisMenu.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/metisMenu/metisMenu-vertical.css') }}">
+  <!-- calendar CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/calendar/fullcalendar.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/calendar/fullcalendar.print.min.css') }}">
+  <!-- forms CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/form/all-type-forms.css') }}">
+  <!-- style CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/style.css') }}">
 
-        100% {
-          -webkit-transform: scale(1);
-          opacity: 0
-        }
-      }
+  <!-- responsive CSS
+          ============================================ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/responsive.css') }}">
+  <!-- modernizr JS
+          ============================================ -->
+  <script src="{{ url_for('static', filename='kialap-master/js/vendor/modernizr-2.8.3.min.js') }}"></script>
+  <!--kialap-template-->
 
-      @keyframes sk-scaleout {
-        0% {
-          -webkit-transform: scale(0);
-          transform: scale(0)
-        }
+  <!--course-template-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='course/styles/courses_styles.css') }}">
 
-        100% {
-          -webkit-transform: scale(1);
-          transform: scale(1);
-          opacity: 0
-        }
-      }
-    </style>
-    <link href="{{ url_for('static', filename='adminator-admin-dashboard/css/stylesheet.css' )}}" rel="stylesheet" type="text/css" />
+  <!-- chart.js-->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js'></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='themify-icons-master/css/themify-icons.css' )}}">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='themify-icons-master/ie7/ie7.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!--kialap-template-->
-
-    <!-- favicon
-          ============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='kialap-master/img/favicon.ico') }}">
-    <!-- Google Fonts
-          ============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-    <!-- Bootstrap CSS
-          ============================================ -->
-    <!-- owl.carousel CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.theme.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/owl.transitions.css') }}">
-    <!-- animate CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/animate.css') }}">
-    <!-- normalize CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/normalize.css') }}">
-    <!-- meanmenu icon CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/meanmenu.min.css') }}">
-    <!-- main CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/main.css') }}">
-    <!-- educate icon CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/educate-custon-icon.css') }}">
-    <!-- morrisjs CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/morrisjs/morris.css') }}">
-    <!-- mCustomScrollbar CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/scrollbar/jquery.mCustomScrollbar.min.css') }}">
-    <!-- metisMenu CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/metisMenu/metisMenu.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/metisMenu/metisMenu-vertical.css') }}">
-    <!-- calendar CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/calendar/fullcalendar.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/calendar/fullcalendar.print.min.css') }}">
-    <!-- forms CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/form/all-type-forms.css') }}">
-    <!-- style CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/style.css') }}">
-
-    <!-- responsive CSS
-          ============================================ -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/responsive.css') }}">
-    <!-- modernizr JS
-          ============================================ -->
-    <script src="{{ url_for('static', filename='kialap-master/js/vendor/modernizr-2.8.3.min.js') }}"></script>
-    <!--kialap-template-->
-
-    <!--course-template-->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='course/styles/courses_styles.css') }}">
-
-    <!-- chart.js-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js'></script>
+  <!--  Profile picture  -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/css/profile_picture.css') }}" type="text/css">
+  <script src="{{ url_for('static', filename='styles/js/profile_picture.js') }}"></script>
 
   {% endblock %}
 
