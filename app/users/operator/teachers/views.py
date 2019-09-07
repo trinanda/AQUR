@@ -13,7 +13,6 @@ from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm
 def add_teacher():
     """Invites a new teacher to create an account and set their own password."""
     set_defatul_teacher_role = Role.query.filter_by(index='teacher').first()
-    print('test role', set_defatul_teacher_role)
     form = InviteTeacherForm()
     if form.validate_on_submit():
         teacher = Teacher(
@@ -93,5 +92,4 @@ def teacher_profile(teacher_id):
         flash('Successfully updated {}'.format(teacher.full_name() + ' data'), 'success')
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
-    return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
-                           last_education=teacher.last_education)
+    return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form)

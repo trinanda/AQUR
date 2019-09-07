@@ -1,0 +1,307 @@
+{% extends "main/base-template.html" %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div id='mainContent'>
+	<div class="single-pro-review-area mt-t-30 mg-b-15">
+		<div class="container-fluid">
+			<h4 class="c-grey-900 mT-10 mB-30">Student Profile</h4>
+			{% set flashes = {
+			'error': get_flashed_messages(category_filter=['form-error']),
+			'warning': get_flashed_messages(category_filter=['form-check-email']),
+			'info': get_flashed_messages(category_filter=['form-info']),
+			'success': get_flashed_messages(category_filter=['form-success'])
+			} %}
+			<div class="row">
+				{{ f.begin_form(student_form, flashes) }}
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+					<div class="profile-info-inner">
+						<div class="profile-img">
+							{% if student.photo and student.gender.value == "Male" %}
+							<div class="containerProfilePicture">
+								<img id="blah" src="{{ url_for('static', filename='images/app/'+student['photo']) }}" alt="Avatar"
+								     class="imageProfilePicture">
+								<div class="middle">
+									<label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto">change photo</label>
+									<input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
+								</div>
+							</div>
+							{% elif not student.photo and student.gender.value == "Male" %}
+							<div class="containerProfilePicture">
+								<img id="blah" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="Avatar"
+								     class="imageProfilePicture">
+								<div class="middle">
+									<label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto">change photo</label>
+									<input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
+								</div>
+							</div>
+							{% else %}
+							<img class="imageProfilePicture" src="{{ url_for('static', filename='images/app/example/muslimah-icon.png') }}" alt=""/>
+							{% endif %}
+						</div>
+						<div class="profile-details-hr">
+							<div class="row">
+								<div class="col-lg-12 col-md-24 col-sm-24 col-xs-12">
+									<div class="address-hr">
+										<h2>{{ student.full_name() }}</h2>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+					<div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+						<ul id="myTabedu1" class="tab-review-design">
+							<li class="active"><a href="#reviews"> Biography</a></li>
+							<li><a href="#INFORMATION">Update Details</a></li>
+						</ul>
+						<div id="myTabContent" class="tab-content custom-product-edit">
+							<div class="product-tab-list tab-pane active in" id="reviews">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="review-content-section">
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="content-profile">
+														<table class="table table-sm table-hover table-responsive-sm">
+															<tr>
+																<th>Name</th>
+																<td>{{ student.full_name() }}</td>
+															</tr>
+															<tr>
+																<th>Gender</th>
+																<td>{{ student.gender }}</td>
+															</tr>
+															<tr>
+																<th>Date of birth</th>
+																<td>{{ student.date_of_birth }}</td>
+															</tr>
+															<tr>
+																<th>Address</th>
+																<td>{{ student.address }}</td>
+															</tr>
+															<tr>
+																<th>Email</th>
+																<td>{{ student.email }}</td>
+															</tr>
+															<tr>
+																<th>Phone number</th>
+																<td>{{ student.phone_number }}</td>
+															</tr>
+															<tr>
+																<th>Taken courses</th>
+																<td>[ <span data-toggle="collapse" data-target="#course1" style="cursor:pointer;">Arabic Language, </span><span
+																	data-toggle="collapse" data-target="#course2" style="cursor:pointer;">Tahsin</span> ]
+																</td>
+															</tr>
+															<!---->
+															<!---->
+															<tr>
+																<td>
+																	<table id="course1" class="collapse">
+																		<tr>
+																			<td>Arabic Language</td>
+																		</tr>
+																		<tr>
+																			<td>Instructor</td>
+																			<td>Ustadz Iwan</td>
+																		</tr>
+																		<tr>
+																			<td>Schedule</td>
+																			<td>Senin</td>
+																			<td>08.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Saturday</td>
+																			<td>15.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Friday</td>
+																			<td>11.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Thursday</td>
+																			<td>10.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Tuesday</td>
+																			<td>08.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Monday</td>
+																			<td>06.00</td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td>Sunday</td>
+																			<td>16.00</td>
+																		</tr>
+																	</table>
+																</td>
+															</tr>
+															<!---->
+															<!---->
+														</table>
+													</div>
+												</div>
+											</div>
+
+											<div class="row mg-b-15">
+												<div class="col-lg-12">
+													<div class="row">
+														<div class="col-lg-12">
+															<div class="skill-title">
+																<h2>Education</h2>
+																<hr/>
+															</div>
+														</div>
+													</div>
+													<div class="ex-pro">
+														<ul>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="row mg-b-15">
+												<div class="col-lg-12">
+													<div class="row">
+														<div class="col-lg-12">
+															<div class="skill-title">
+																<h2>Experience</h2>
+																<hr/>
+															</div>
+														</div>
+													</div>
+													<div class="ex-pro">
+														<ul>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
+																elit.
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="product-tab-list tab-pane" id="INFORMATION">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="review-content-section">
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="form-row">
+														{% if student %}
+														{{ f.render_form_field(student_form.first_name, extra_classes='form-group col-lg-6',
+														value=student.first_name) }}
+														{% else %}
+														{{ f.render_form_field(student_form.first_name, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.last_name, extra_classes='form-group col-lg-6',
+														value=student.last_name) }}
+														{% else %}
+														{{ f.render_form_field(student_form.last_name, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.gender, extra_classes='form-group col-lg-6',
+														value=student.gender) }}
+														{% else %}
+														{{ f.render_form_field(student_form.gender, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.date_of_birth, extra_classes='form-group col-lg-6',
+														value=student.date_of_birth) }}
+														{% else %}
+														{{ f.render_form_field(student_form.date_of_birth, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.address, extra_classes='form-group col-lg-12',
+														value=student.address) }}
+														{% else %}
+														{{ f.render_form_field(student_form.address, extra_classes='form-group col-lg-12') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.phone_number, extra_classes='form-group col-lg-6',
+														value=student.phone_number) }}
+														{% else %}
+														{{ f.render_form_field(student_form.phone_number, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+
+														{% if student %}
+														{{ f.render_form_field(student_form.email, extra_classes='form-group col-lg-6',
+														value=student.email) }}
+														{% else %}
+														{{ f.render_form_field(student_form.email, extra_classes='form-group col-lg-6') }}
+														{% endif %}
+													</div>
+													{{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+													{{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+													{{ f.form_message(flashes['info'], header='Information', class='info') }}
+													{{ f.form_message(flashes['success'], header='Success!', class='success') }}
+													<br>
+													<button type="submit" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Update</button>
+													{{ f.end_form() }}
+												</div>
+											</div>
+											{# Implement CSRF protection for site #}
+											{% if csrf_token()|safe %}
+											<div style="visibility: hidden; display: none">
+												<input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+											</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

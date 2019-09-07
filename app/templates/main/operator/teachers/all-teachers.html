@@ -31,20 +31,20 @@
                 {% if data.photo and data.gender.value == "Male" %}
                 <img class="img-circle m-b imgTeachers" src="{{ url_for('static', filename='images/app/'+data['photo']) }}" alt="{{data.photo}}">
                 {% elif not data.photo and data.gender.value == "Male" %}
-                <img class="img-circle m-b imgTeachers" src="{{ url_for('static', filename='images/app/example/arabic-male.png') }}">
+                <img class="img-circle m-b imgTeachers" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="">
                 {% else %}
-                <img class="img-circle m-b imgTeachers" src="{{ url_for('static', filename='images/app/example/arabic-female.png') }}">
+                <img class="img-circle m-b imgTeachers" src="{{ url_for('static', filename='images/app/example/muslimah-icon.png') }}" alt="">
                 {% endif %}
                 <h3>
                   {% if data.gender.value == "Male" %}
-                  <b style="color: #0B83E2;">Ustadz</b>
+                  <strong style="color: #0B83E2;">Ustadz</strong>
                   {% else %}
-                  <b style="color: #0B83E2;">Ustadzah</b>
+                  <strong style="color: #0B83E2;">Ustadzah</strong>
                   {% endif %}
                   {{ data.full_name() }}
                 </h3>
               </a>
-              <b class="all-pro-ad">Tahsin Teacher</b>
+              <strong class="all-pro-ad">Tahsin Teacher</strong>
             </div>
           </div>
         </div>

@@ -2,8 +2,8 @@ import enum
 
 
 class Gender(enum.Enum):
-    MALE = 'Male'
-    FEMALE = 'Female'
+    Male = 'Male'
+    Female = 'Female'
 
     def __str__(self):
         return self.value
@@ -29,7 +29,8 @@ class TypeOfCourse(enum.Enum):
     PRIVATE = 'PRIVATE'
 
     def __repr__(self):
-        return str(self.value)
+        return self.value
 
 
 last_educations = [(str(y), str(y)) for y in (LastEducation)]
+gender = [(str(y), y) for y in (Gender)]

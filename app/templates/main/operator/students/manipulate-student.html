@@ -19,10 +19,10 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
-        {% if teacher %}
-        <h2 class="c-grey-900">Edit Teacher</h2>
+        {% if student %}
+        <h2 class="c-grey-900">Edit Student</h2>
         {% else %}
-        <h2 class="c-grey-900">Add new Teacher</h2>
+        <h2 class="c-grey-900">Add new Student</h2>
         {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
@@ -33,13 +33,19 @@
         <div class="mT-30">
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
-            {% if teacher %}
-            {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6', value=teacher.first_name) }}
+            {% if student %}
+              {{ f.render_form_field(form.gender, extra_classes='form-group col-md-12', value=student.gender) }}
+            {% else %}
+              {{ f.render_form_field(form.gender, extra_classes='form-group col-md-12') }}
+            {% endif %}
+
+            {% if student %}
+            {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6', value=student.first_name) }}
             {% else %}
             {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6') }}
             {% endif %}
-            {% if teacher %}
-            {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6', value=teacher.last_name) }}
+            {% if student %}
+            {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6', value=student.last_name) }}
             {% else %}
             {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
             {% endif %}

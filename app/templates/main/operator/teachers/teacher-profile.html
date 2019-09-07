@@ -6,9 +6,9 @@
 
 {% block content %}
 <div id='mainContent'>
-  <h4 class="c-grey-900 mT-10 mB-30">Teacher Profile</h4>
   <div class="single-pro-review-area mt-t-30 mg-b-15">
     <div class="container-fluid">
+      <h4 class="c-grey-900 mT-10 mB-30">Teacher Profile</h4>
       {% set flashes = {
       'error': get_flashed_messages(category_filter=['form-error']),
       'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -30,14 +30,14 @@
               </div>
               {% elif not teacher.photo and teacher.gender.value == "Male" %}
               <div class="containerProfilePicture">
-                <img id="blah" src="{{ url_for('static', filename='images/app/example/arabic-male.png') }}" alt="Avatar" class="imageProfilePicture">
+                <img id="blah" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="Avatar" class="imageProfilePicture">
                 <div class="middle">
                   <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto"> change photo</label>
                   <input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
                 </div>
               </div>
               {% else %}
-              <img class="imgTeacherProfile" src="{{ url_for('static', filename='images/app/example/arabic-female.png') }}" alt="" />
+              <img class="imageProfilePicture" src="{{ url_for('static', filename='images/app/example/muslimah-icon.png') }}" alt="" />
               {% endif %}
             </div>
             <div class="profile-details-hr">
@@ -77,20 +77,16 @@
                                 <td>{{ teacher.full_name() }}</td>
                               </tr>
                               <tr>
-                                <th>Phone number</th>
-                                <td>{{ teacher.phone_number }}</td>
-                              </tr>
-                              <tr>
                                 <th>Email</th>
                                 <td>{{ teacher.email }}</td>
                               </tr>
                               <tr>
-                                <th>Address</th>
-                                <td>{{ teacher.address }}</td>
-                              </tr>
-                              <tr>
                                 <th>Phone number</th>
                                 <td>{{ teacher.phone_number }}</td>
+                              </tr>
+                              <tr>
+                                <th>Address</th>
+                                <td>{{ teacher.address }}</td>
                               </tr>
                               <tr>
                                 <th>number of students</th>

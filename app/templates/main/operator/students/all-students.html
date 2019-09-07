@@ -1,0 +1,46 @@
+{% extends "main/base-template.html" %}
+{% block content %}
+<style>
+	.studentsImg{
+		width: 207px;
+		height: 250px;
+	}
+</style>
+<div id='mainContent'>
+  <div class="contacts-area mg-b-15">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 class="c-grey-900 mT-10 mB-30">Students</h4>
+        </div>
+        <div class="col-md-2 ml-auto">
+          <a href="{{ url_for('operator.add_student') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Student</a>
+        </div>
+      </div>
+      <div class="row">
+        {% for data in students.items %}
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="student-inner-std res-mg-b-30">
+            <div class="student-img">
+              <a href="{{ url_for('operator.student_profile', student_id=data.id) }}">
+                {% if data.photo and data.gender.value == "Male" %}
+                  <img class="studentsImg" src="{{ url_for('static', filename='images/app/'+data['photo']) }}" alt="{{data.photo}}" />
+                {% elif not data.photo and data.gender.value == "Male" %}
+                  <img class="studentsImg" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="{{data.photo}}" />
+                {% else %}
+                  <img class="studentsImg" src="{{ url_for('static', filename='images/app/example/muslimah-icon.png') }}" alt="{{data.photo}}" />
+                {% endif %}
+              </a>
+            </div>
+            <div class="student-dtl">
+              <h2>{{ data.full_name() }}</h2>
+              <p class="dp">Bahasa Arab</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

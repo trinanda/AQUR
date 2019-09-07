@@ -134,3 +134,4 @@ dist
 *.sqlite
 .idea
 dump.rdb
+.pytest_cache

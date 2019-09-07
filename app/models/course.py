@@ -22,6 +22,9 @@ class Course(db.Model):
     def course_name(self):
         return '%s' % (self.name)
 
+    def __str__(self):
+        return self.name
+
 
 class Schedule(db.Model):
     __tablename__ = 'schedule'
