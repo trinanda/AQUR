@@ -89,6 +89,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/css/profile_picture.css') }}" type="text/css">
   <script src="{{ url_for('static', filename='styles/js/profile_picture.js') }}"></script>
 
+  <!--  gentelella-->
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='gentelella/custom.min.css') }}" rel="stylesheet">
+
   {% endblock %}
 
 </head>
@@ -130,6 +135,7 @@
           <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">Teachers</span></a></li>
           <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_students') }}"><span class="icon-holder"><i class="c-green-500 ti-user"></i> </span><span class="title">Students</span></a></li>
           <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_courses') }}"><span class="icon-holder"><i class="c-purple-500 ti-book"></i> </span><span class="title">Courses</span></a></li>
+          <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_schedules') }}"><span class="icon-holder"><i class="c-brown-500 ti-time"></i> </span><span class="title">Schedules</span></a></li>
         </ul>
       </div>
     </div>
@@ -325,6 +331,19 @@
   <!-- tawk chat JS
 		============================================ -->
   <script src="{{ url_for('static', filename='kialap-master/js/tawk-chat.js') }}"></script>
+
+  <!-- datatables-->
+  <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.58/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.58/vfs_fonts.js"></script>
+  <script src="{{ url_for('static', filename='gentelella/custom.min.js') }}"></script>
 
 </body>
 

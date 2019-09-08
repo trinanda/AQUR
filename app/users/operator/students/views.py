@@ -4,7 +4,7 @@ from werkzeug.utils import redirect
 
 from app import db, photos
 from app.email import send_email
-from app.models import Role, Student, User, gender
+from app.models import Role, Student, User
 from app.users.operator import operator
 from app.users.operator.students.forms import InviteStudentForm, EditStudentForm
 
