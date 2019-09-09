@@ -2,6 +2,7 @@ from flask import current_app
 from flask_login import AnonymousUserMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
+from sqlalchemy.ext import hybrid
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..models import Gender
@@ -82,8 +83,13 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    @hybrid.hybrid_property
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
+
+    @full_name.expression
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
 
     def __str__(self):
         return self.full_name()
