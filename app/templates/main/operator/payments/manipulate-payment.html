@@ -1,0 +1,93 @@
+{% extends "main/base-template.html" %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  button {
+    width: 75px;
+    height: 35px;
+    margin-top: -20px;
+  }
+</style>
+
+<div id="mainContent">
+  <div class="row gap-20 masonry pos-r">
+    <div class="masonry-sizer col-md-6"></div>
+    <div class="masonry-item col-md-6">
+      <div class="bgc-white p-20 bd">
+        {% if payment %}
+        <h2 class="c-grey-900">Edit Payment</h2>
+        {% else %}
+        <h2 class="c-grey-900">Add new Payment</h2>
+        {% endif %}
+        {% set flashes = {
+        'error': get_flashed_messages(category_filter=['form-error']),
+        'warning': get_flashed_messages(category_filter=['form-check-email']),
+        'info': get_flashed_messages(category_filter=['form-info']),
+        'success': get_flashed_messages(category_filter=['form-success'])
+        } %}
+        <div class="mT-30">
+          {{ f.begin_form(form, flashes) }}
+          <div class="form-row">
+            {% if payment %}
+              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=payment.student_email) }}
+            {% else %}
+              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+            {% endif %}
+
+            {% if payment %}
+            {{ f.render_form_field(form.total, extra_classes='form-group col-md-6', value=payment.total) }}
+            {% else %}
+            {{ f.render_form_field(form.total, extra_classes='form-group col-md-6') }}
+            {% endif %}
+
+            {% if payment %}
+            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6', value=payment.course_name) }}
+            {% else %}
+            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6') }}
+            {% endif %}
+
+            {% if payment %}
+            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6', value=payment.type_of_class) }}
+            {% else %}
+            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
+            {% endif %}
+
+            {% if payment %}
+            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6', value=payment.payment_for_month) }}
+            {% else %}
+            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6') }}
+            {% endif %}
+
+            {% if payment %}
+            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-6', value=payment.status_of_payment) }}
+            {% else %}
+            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-6') }}
+            {% endif %}
+          </div>
+          {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+          {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+          {{ f.form_message(flashes['info'], header='Information', class='info') }}
+          {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+          <br>
+          {#{{ f.render_form_field(form.submit) }}#}
+          <button type="submit" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">
+            Submit
+          </button>
+          {{ f.end_form() }}
+        </div>
+      </div>
+      {# Implement CSRF protection for site #}
+      {% if csrf_token()|safe %}
+      <div style="visibility: hidden; display: none">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
