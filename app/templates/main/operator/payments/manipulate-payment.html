@@ -38,36 +38,15 @@
             {% else %}
               {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
             {% endif %}
-
+            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
+            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
+            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6') }}
             {% if payment %}
             {{ f.render_form_field(form.total, extra_classes='form-group col-md-6', value=payment.total) }}
             {% else %}
             {{ f.render_form_field(form.total, extra_classes='form-group col-md-6') }}
             {% endif %}
-
-            {% if payment %}
-            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6', value=payment.course_name) }}
-            {% else %}
-            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6') }}
-            {% endif %}
-
-            {% if payment %}
-            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6', value=payment.type_of_class) }}
-            {% else %}
-            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
-            {% endif %}
-
-            {% if payment %}
-            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6', value=payment.payment_for_month) }}
-            {% else %}
-            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6') }}
-            {% endif %}
-
-            {% if payment %}
-            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-6', value=payment.status_of_payment) }}
-            {% else %}
             {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-6') }}
-            {% endif %}
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

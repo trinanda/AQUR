@@ -9,6 +9,9 @@ class Student(User):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     job = db.Column(db.String)
 
+    def __str__(self):
+        return self.email
+
     __mapper_args__ = {
         'polymorphic_identity': 'student',
         'with_polymorphic': '*'

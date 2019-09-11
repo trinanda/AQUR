@@ -14,3 +14,6 @@ class Payment(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
+
+    course_name = db.relationship('Course', backref=db.backref('payment', lazy='dynamic'))
+    student_email = db.relationship('Student', backref=db.backref('payment', lazy='dynamic'))
