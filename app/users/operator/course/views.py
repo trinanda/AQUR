@@ -36,7 +36,7 @@ def add_course():
         db.session.add(course)
         db.session.commit()
         flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
-        return redirect(url_for('operator.courses'))
+        return redirect(url_for('operator.all_courses'))
     return render_template('main/operator/courses/manipulate-course.html', form=form)
 
 
@@ -62,7 +62,7 @@ def delete_course(course_id):
     db.session.delete(course)
     db.session.commit()
     flash('Successfully deleted course %s.' % course.course_name(), 'success')
-    return redirect(url_for('operator.courses'))
+    return redirect(url_for('operator.all_courses'))
 
 
 @operator.route('/edit_course/<int:course_id>', methods=['GET', 'POST'])
