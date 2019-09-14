@@ -14,5 +14,6 @@ class Student(User):
 
     __mapper_args__ = {
         'polymorphic_identity': 'student',
-        'with_polymorphic': '*'
+        'with_polymorphic': '*',
+        'inherit_condition': user_id == User.id
     }

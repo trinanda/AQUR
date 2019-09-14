@@ -92,7 +92,7 @@ class User(UserMixin, db.Model):
         return self.first_name + ' ' + self.last_name
 
     def __str__(self):
-        return self.full_name()
+        return self.full_name
 
     def can(self, permissions):
         return self.role is not None and \
@@ -203,8 +203,8 @@ class User(UserMixin, db.Model):
             except IntegrityError:
                 db.session.rollback()
 
-    def __repr__(self):
-        return '<User \'%s\'>' % self.full_name()
+    # def __repr__(self):
+    #     return '<User \'%s\'>' % self.full_name()
 
     __mapper_args__ = {
         'polymorphic_identity': 'users',

@@ -63,6 +63,19 @@ class MonthNameList(enum.Enum):
         return self.value
 
 
+class DayNameList(enum.Enum):
+    Sunday = 'Sunday'
+    Monday = 'Monday'
+    Tuesday = 'Tuesday'
+    Wenesday = 'Wenesday'
+    Thursday = 'Thursday'
+    Friday = 'Friday'
+    Saturday = 'Saturday'
+
+    def __str__(self):
+        return self.value
+
+
 class PaymentStatus(enum.Enum):
     PENDING = 'PENDING'
     INSTALLMENT = 'INSTALLMENT'
@@ -79,4 +92,5 @@ gender = [(str(y), y) for y in (Gender)]
 type_of_class = [(str(y), y) for y in (TypeOfClass)]
 day_name_list = [(str(y), y) for y in (DayNameList)]
 month_name_list = [(str(y), y) for y in (MonthNameList)]
+day_name_list = [(str(y), y) for y in (DayNameList)]
 payment_status = [(str(y), y) for y in (PaymentStatus)]

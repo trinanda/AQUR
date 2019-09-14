@@ -1,25 +1,31 @@
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.orm import relationship
 
 from app import db
-from app.models.selectfield_properties import DayNameList, MonthNameList
+from app.models.selectfield_properties import DayNameList, MonthNameList, TypeOfClass
 
-
-# TODO | search able teacher and student name using jquery tags input autocomplete
 
 class Schedule(db.Model):
     __tablename__ = 'schedule'
     id = db.Column(db.Integer, primary_key=True)
-    payment_id = db.Column(ARRAY(db.Integer, db.ForeignKey('payment.id')))
 
-    student_id = db.Column(ARRAY(db.Integer, db.ForeignKey('student.id')))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    type_of_class = db.Column(db.Enum(TypeOfClass, name='type_of_class'))
 
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
     schedule_month = db.Column(db.Enum(MonthNameList, name='schedule_month'))
     schedule_day = db.Column(db.Enum(DayNameList, name='schedule_day'))
-    schedule_time = db.Column(db.Time())
-    duration = db.Column(db.Integer())
+    start_at = db.Column(db.Time())
+    end_at = db.Column(db.Time())
 
-    created_at = db.Column(db.DateTime())
+    created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
+
+    student = relationship("Student", foreign_keys=[student_id])
+    teacher = relationship("Teacher", foreign_keys=[teacher_id])
+    course = relationship("Course", foreign_keys=[course_id])
+    payment = relationship("Payment", foreign_keys=[payment_id])

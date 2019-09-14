@@ -17,3 +17,6 @@ class Payment(db.Model):
 
     course_name = db.relationship('Course', backref=db.backref('payment', lazy='dynamic'))
     student_email = db.relationship('Student', backref=db.backref('payment', lazy='dynamic'))
+
+    def __str__(self):
+        return str(self.status_of_payment)
