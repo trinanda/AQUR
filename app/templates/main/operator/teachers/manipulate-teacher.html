@@ -1,5 +1,6 @@
 {% extends "main/base-template.html" %}
 {% import 'macros/form_macros.html' as f %}
+{% import 'macros/check_password.html' as check %}
 
 {% block scripts %}
 {% endblock %}
@@ -19,10 +20,12 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
-        {% if teacher %}
+        {% if form.password %}
+        <h2 class="c-grey-900">Add new Teacher</h2>
+        {% elif form.password and teacher %}
         <h2 class="c-grey-900">Edit Teacher</h2>
         {% else %}
-        <h2 class="c-grey-900">Add new Teacher</h2>
+        <h2 class="c-grey-900">Invite new Teacher</h2>
         {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
@@ -43,8 +46,19 @@
             {% else %}
             {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
             {% endif %}
+
+            {% if form.gender %}
+            {{ f.render_form_field(form.gender, extra_classes='form-group col-md-12') }}
+            {% endif %}
+
+            {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
+            {% if form.password %}
+              {{ f.render_form_field(form.taught_courses, extra_classes='form-group col-md-12') }}
+              {{ f.render_form_field(form.password, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.password2, extra_classes='form-group col-md-6') }}
+            {% endif %}
+
           </div>
-          {{ f.render_form_field(form.email) }}
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
           {{ f.form_message(flashes['info'], header='Information', class='info') }}
@@ -55,6 +69,9 @@
             Submit
           </button>
           {{ f.end_form() }}
+          {% if form.password %}
+            {{ check.password_check('password', 0) }}
+          {% endif %}
         </div>
       </div>
       {# Implement CSRF protection for site #}

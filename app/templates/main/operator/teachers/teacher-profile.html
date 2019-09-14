@@ -44,7 +44,7 @@
               <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                   <div class="address-hr">
-                    <p><b>Name</b><br /> {{ teacher.full_name() }}</p>
+                    <p><b>Name</b><br /> {{ teacher.full_name }}</p>
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
@@ -74,7 +74,11 @@
                             <table class="table table-sm table-hover table-responsive-sm">
                               <tr>
                                 <th>Name</th>
-                                <td>{{ teacher.full_name() }}</td>
+                                <td>{{ teacher.full_name }}</td>
+                              </tr>
+                              <tr>
+                                <th>Gender</th>
+                                <td>{{ teacher.gender }}</td>
                               </tr>
                               <tr>
                                 <th>Email</th>
@@ -162,6 +166,8 @@
                             {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
                             {% endif %}
 
+                            {{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6') }}
+
                             {% if teacher %}
                             {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=teacher.date_of_birth) }}
                             {% else %}
@@ -180,10 +186,12 @@
                             {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
                             {% endif %}
 
+                            {{ f.render_form_field(form.taught_courses, extra_classes='form-group col-md-12') }}
+
                             {% if teacher %}
-                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6', value=teacher.email) }}
+                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-12', value=teacher.email) }}
                             {% else %}
-                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6') }}
+                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-12') }}
                             {% endif %}
                           </div>
                           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}

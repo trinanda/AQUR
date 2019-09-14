@@ -10,6 +10,6 @@ def index():
     return render_template('main/operator/index.html')
 
 
-@operator.route('/operator_dashboard')
+@operator.route('/operator-dashboard')
 def operator_dashboard():
     return render_template('main/operator/operator-dashboard.html')

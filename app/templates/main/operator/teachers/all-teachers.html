@@ -14,15 +14,19 @@
 <div id='mainContent'>
   <div class="contacts-area mg-b-15">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-4">
+      <div class="d-flex justify-content-end">
+        <div class="mr-auto p-2">
           <h4 class="c-grey-900 mT-10 mB-30">Teachers</h4>
         </div>
-        <div class="col-md-2 ml-auto">
-          <a href="{{ url_for('operator.add_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Teacher</a>
+        <div class="p-2">
+          <a href="{{ url_for('operator.invite_teacher') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">Invite new Teacher</a>
+        </div>
+        <div class="p-2">
+          <a href="{{ url_for('operator.new_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Teacher</a>
         </div>
       </div>
-      <div class="row">
+    </div>
+    <div class="row">
         {% for data in teachers.items %}
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
           <div class="hpanel hblue contact-panel contact-panel-cs responsive-mg-b-30">
@@ -41,7 +45,7 @@
                   {% else %}
                   <strong style="color: #0B83E2;">Ustadzah</strong>
                   {% endif %}
-                  {{ data.full_name() }}
+                  {{ data.full_name }}
                 </h3>
               </a>
               <strong class="all-pro-ad">Tahsin Teacher</strong>
