@@ -87,6 +87,15 @@ class PaymentStatus(enum.Enum):
         return self.value
 
 
+class CoursePeriodStatus(enum.Enum):
+    PENDING = 'PENDING'
+    RUNNING = 'RUNNING'
+    FINISHED = 'FINISHED'
+
+    def __str__(self):
+        return self.value
+
+
 last_educations = [(str(y), str(y)) for y in (LastEducation)]
 gender = [(str(y), y) for y in (Gender)]
 type_of_class = [(str(y), y) for y in (TypeOfClass)]
@@ -94,3 +103,4 @@ day_name_list = [(str(y), y) for y in (DayNameList)]
 month_name_list = [(str(y), y) for y in (MonthNameList)]
 day_name_list = [(str(y), y) for y in (DayNameList)]
 payment_status = [(str(y), y) for y in (PaymentStatus)]
+course_period_status = [(str(y), y) for y in (CoursePeriodStatus)]

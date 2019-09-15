@@ -51,7 +51,6 @@ def edit_payment(payment_id):
     """Edit a payment's information."""
     payment = Payment.query.filter_by(id=payment_id).first()
 
-    # TODO | the QuerySelectField default value already working
     form = PaymentForm(obj=payment)
     form.course_name.default = lambda: db.query(Course).filter_by(id=payment.course_id).first()
     form.student_email.default = lambda: db.query(Student.email).filter_by(id=payment.student_id).first()

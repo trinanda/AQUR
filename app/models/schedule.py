@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
 
 from app import db
-from app.models.selectfield_properties import DayNameList, MonthNameList, TypeOfClass
+from app.models.selectfield_properties import DayNameList, MonthNameList, TypeOfClass, CoursePeriodStatus
 
 
 class Schedule(db.Model):
@@ -20,6 +20,8 @@ class Schedule(db.Model):
     schedule_day = db.Column(db.Enum(DayNameList, name='schedule_day'))
     start_at = db.Column(db.Time())
     end_at = db.Column(db.Time())
+
+    course_period_status = db.Column(db.Enum(CoursePeriodStatus, name='course_period_status'))
 
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
