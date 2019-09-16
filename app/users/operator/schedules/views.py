@@ -1,4 +1,5 @@
 from flask import render_template, flash, url_for, request, session
+from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
 from app import db
@@ -19,8 +20,7 @@ def all_schedules():
 def add_schedule():
     form = ScheduleForm()
     if "step" not in request.form:
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="input_student_email")
+        return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="input_student_email")
 
     elif request.form["step"] == "available_course":
         student_email = form.student_email.data
@@ -55,7 +55,6 @@ def add_schedule():
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="input_schedule")
 
     elif request.form["step"] == "input_teacher_email":
-        session['schedule_month'] = form.schedule_month.data
         session['schedule_day'] = form.schedule_day.data
         session['start_at'] = str(form.start_at.data)
         session['end_at'] = str(form.end_at.data)
@@ -66,7 +65,6 @@ def add_schedule():
         student_email = session.get('student_email')
         course_name = session.get('course_name')
         type_of_class = session.get('type_of_class')
-        schedule_month = session.get('schedule_month')
         schedule_day = session.get('schedule_day')
         start_at = session.get('start_at')
         end_at = session.get('end_at')
@@ -74,15 +72,13 @@ def add_schedule():
         session['teacher_email'] = teacher_email
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="check_data",
                                student_email=student_email, course_name=course_name, type_of_class=type_of_class,
-                               schedule_month=schedule_month, schedule_day=schedule_day, start_at=start_at,
-                               end_at=end_at, teacher_email=teacher_email)
+                               schedule_day=schedule_day, start_at=start_at, end_at=end_at, teacher_email=teacher_email)
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
             student_email = session.get('student_email')
             course_name = session.get('course_name')
             type_of_class = session.get('type_of_class')
-            schedule_month = session.get('schedule_month')
             schedule_day = session.get('schedule_day')
             start_at = session.get('start_at')
             end_at = session.get('end_at')
@@ -99,7 +95,6 @@ def add_schedule():
                 student_id=student.id,
                 course_id=course.id,
                 type_of_class=type_of_class,
-                schedule_month=schedule_month,
                 schedule_day=schedule_day,
                 start_at=start_at,
                 end_at=end_at,
@@ -112,3 +107,24 @@ def add_schedule():
             return redirect(url_for('operator.all_schedules'))
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="submit")
     return render_template('main/operator/schedules/manipulate-schedule.html', form=form)
+
+
+@operator.route('/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
+def edit_schedule(schedule_id):
+    """Edit a schedule's information."""
+    schedule = Schedule.query.filter_by(id=schedule_id).first()
+    form = ScheduleForm(obj=schedule)
+
+    if schedule is None:
+        abort(404)
+
+    if request.method == "POST":
+        schedule.schedule_day = form.schedule_day.data
+        schedule.start_at = form.start_at.data
+        schedule.end_at = form.end_at.data
+        schedule.course_status = form.course_status.data
+
+        db.session.commit()
+        flash('Successfully edit schedule', 'success')
+        return redirect(url_for('operator.all_schedules'))
+    return render_template('main/operator/schedules/manipulate-schedule.html', schedule=schedule, form=form)

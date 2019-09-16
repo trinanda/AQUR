@@ -19,12 +19,12 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
-{#        {% if schedule %}
-        <h2 class="c-grey-900">Edit Schedule</h2>
+        {% if schedule %}
+        <h2 class="c-grey-900">Edit {{ schedule.student.full_name }} Schedule</h2>
         {% else %}
         <h2 class="c-grey-900">Add new Schedule</h2>
         {% endif %}
-#}
+
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
         'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -34,6 +34,17 @@
         <div class="mT-30">
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
+
+	          {% if schedule %}
+	            {{ f.begin_form(form, flashes) }}
+								{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
+								{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6', value=schedule.start_at) }}
+								{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6', value=schedule.end_at) }}
+								{{ f.render_form_field(form.course_status, extra_classes='form-group col-md-12') }}
+			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Update">
+	            {{ f.end_form() }}
+	          {% endif %}
+
           {% if step == "input_student_email" %}
 				    <form action="{{ url_for('operator.add_schedule') }}" method="get">
 							{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
@@ -54,7 +65,6 @@
 	          </form>
 	        {% elif step == "input_schedule" %}
 	          <form action="{{ url_for('operator.add_schedule') }}" method="get">
-							{{ f.render_form_field(form.schedule_month, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-12') }}
@@ -81,10 +91,7 @@
                 <th>Type of class</th>
                 <td>{{ type_of_class }}</td>
               </tr>
-              <tr>
-                <th>Month</th>
-                <td>{{ schedule_month }}</td>
-              </tr>
+	            <tr>
                 <th>Day</th>
                 <td>{{ schedule_day }}</td>
               <tr>

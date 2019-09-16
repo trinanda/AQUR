@@ -87,7 +87,7 @@ class PaymentStatus(enum.Enum):
         return self.value
 
 
-class CoursePeriodStatus(enum.Enum):
+class CourseStatus(enum.Enum):
     PENDING = 'PENDING'
     RUNNING = 'RUNNING'
     FINISHED = 'FINISHED'
@@ -103,4 +103,4 @@ day_name_list = [(str(y), y) for y in (DayNameList)]
 month_name_list = [(str(y), y) for y in (MonthNameList)]
 day_name_list = [(str(y), y) for y in (DayNameList)]
 payment_status = [(str(y), y) for y in (PaymentStatus)]
-course_period_status = [(str(y), y) for y in (CoursePeriodStatus)]
+course_status = [(str(y), y) for y in (CourseStatus)]
