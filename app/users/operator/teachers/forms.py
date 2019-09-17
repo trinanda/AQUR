@@ -25,8 +25,9 @@ class InviteTeacherForm(Form):
 
 class NewTeacherForm(InviteTeacherForm):
     gender = SelectField('Gender', choices=gender)
-    taught_courses = QuerySelectMultipleField('Taught course', validators=[required()], query_factory=course_list, allow_blank=True)
-    password = PasswordField('Password', validators=[InputRequired(),EqualTo('password2', 'Passwords must match.')])
+    taught_courses = QuerySelectMultipleField('Taught course', validators=[required()], query_factory=course_list,
+                                              allow_blank=True)
+    password = PasswordField('Password', validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[InputRequired()])
     submit = SubmitField('Create')
 
@@ -39,6 +40,10 @@ class EditTeacherForm(Form):
     address = StringField('Address', validators=[InputRequired(), Length(1, 255)])
     photo = FileField('Photo')
     phone_number = StringField('Phone number', validators=[InputRequired(), Length(1, 12)])
-    taught_courses = QuerySelectMultipleField('Taught course', validators=[required()], query_factory=course_list, allow_blank=True)
+    taught_courses = QuerySelectMultipleField('Taught course', validators=[required()], query_factory=course_list)
     email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
     submit = SubmitField('Update')
+
+    def validate_phone_number(self, field):
+        if User.query.filter_by(phone_number=field.data).first():
+            raise ValidationError('Phone number already exist..!')

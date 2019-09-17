@@ -1,20 +1,16 @@
 from flask_wtf import Form
 from wtforms import SelectField, SubmitField
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField, TimeField
 
 from wtforms.validators import required, ValidationError
 
-from app.models import Course, Teacher, type_of_class, day_name_list, Student, course_status
-
-
-def course_list():
-    return Course.query.all()
+from app.models import Teacher, type_of_class, day_name_list, Student, course_status
 
 
 class ScheduleForm(Form):
     student_email = EmailField('Student email', validators=[required()])
-    course_name = QuerySelectField('Course name', validators=[required()], query_factory=course_list)
+    course_name = SelectField('Course name', validators=[required('It seems the student didn\' pay any course ')],
+                              choices=[()])
     type_of_class = SelectField('Type of class', validators=[required()], choices=type_of_class)
     schedule_day = SelectField('Day', choices=day_name_list)
     start_at = TimeField('Start at', validators=[required()])

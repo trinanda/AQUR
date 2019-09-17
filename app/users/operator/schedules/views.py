@@ -3,7 +3,7 @@ from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
 from app import db
-from app.models import Payment, Student, Course, Schedule, Teacher
+from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm
 
@@ -20,16 +20,23 @@ def all_schedules():
 def add_schedule():
     form = ScheduleForm()
     if "step" not in request.form:
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="input_student_email")
+        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
+                               step="input_student_email")
 
     elif request.form["step"] == "available_course":
         student_email = form.student_email.data
         session['student_email'] = student_email
-        student_status = db.session.query(Payment, Student, Course).join(Student, Course).filter(
+        student = db.session.query(Payment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
             or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED")).all()
+
+        for data in student:
+            if data.Student.gender is None:
+                flash('It seems the student biodata not completed.', 'error')
+                return redirect(url_for('operator.add_schedule'))
+
         student_available_course = []
-        for data in student_status:
+        for data in student:
             student_available_course.append((data.Course.name, data.Course.name))
         form.course_name.choices = set(student_available_course)
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="available_course")
@@ -55,11 +62,50 @@ def add_schedule():
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="input_schedule")
 
     elif request.form["step"] == "input_teacher_email":
-        session['schedule_day'] = form.schedule_day.data
-        session['start_at'] = str(form.start_at.data)
-        session['end_at'] = str(form.end_at.data)
+        schedule_day = form.schedule_day.data
+        start_at = str(form.start_at.data)
+        end_at = str(form.end_at.data)
+
+        session['schedule_day'] = schedule_day
+        session['start_at'] = start_at
+        session['end_at'] = end_at
+
+        student_email = session.get('student_email')
+        course_name = session.get('course_name')
+
+        ### get a selected course name
+        course = Course.query.filter_by(name=course_name).first()
+        # then get all teacher id that taught the course name
+        taught_course = db.session.query(taught_courses).filter_by(course_id=course.id).all()
+        # store all of the teacher id that taught the matching course
+        teachers_id = []
+        for data in taught_course:
+            teachers_id.append(data.teacher_id)
+        # /#####################
+
+        ### get a user gender #######################
+        student = db.session.query(Student).filter_by(email=student_email).first()
+        teachers_id_by_gender = Teacher.query.filter(Teacher.id.in_(teachers_id)).filter(
+            Teacher.gender == student.gender.value).all()
+        # store all of the teacher id by matching gender
+        list_of_teachers_id_by_gender = []
+        for data in teachers_id_by_gender:
+            list_of_teachers_id_by_gender.append(data.id)
+        ###/#######################
+
+        not_available_teachers_by_schedule = Schedule.query.filter(
+            Schedule.teacher_id.in_(list_of_teachers_id_by_gender), Schedule.start_at == start_at).filter(
+            Schedule.schedule_day == schedule_day).all()
+
+        not_available_teachers = []
+        for data in not_available_teachers_by_schedule:
+            not_available_teachers.append(data.teacher_id)
+
+        available_teachers = db.session.query(Teacher).filter(Teacher.id.in_(list_of_teachers_id_by_gender),
+                                                              ~Teacher.id.in_(not_available_teachers)).all()
+
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="input_teacher_email")
+                               step="input_teacher_email", available_teachers=available_teachers)
 
     elif request.form["step"] == "check_data":
         student_email = session.get('student_email')

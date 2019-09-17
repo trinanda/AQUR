@@ -61,7 +61,7 @@ def student_profile(student_id):
     student_form = EditStudentForm(obj=student)
 
     if student_form.validate_on_submit():
-        student_name = student.full_name()
+        student_name = student.full_name
         student.first_name = student_form.first_name.data
         student.last_name = student_form.last_name.data
         student.gender = student_form.gender.data
@@ -97,7 +97,7 @@ def student_profile(student_id):
             db.session.rollback()
 
         if student_form.gender.data == "Male" or student_form.gender.data == "Female":
-            flash('Successfully updated {}'.format(student.full_name() + ' data'), 'success')
+            flash('Successfully updated {}'.format(student.full_name + ' data'), 'success')
         return redirect(url_for('operator.student_profile', student_id=student_id))
 
     return render_template('main/operator/students/student-profile.html', student=student, student_form=student_form)

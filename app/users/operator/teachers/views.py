@@ -128,6 +128,7 @@ def new_teacher():
             role=set_defatul_teacher_role,
             first_name=form.first_name.data,
             last_name=form.last_name.data,
+            gender=form.gender.data,
             email=form.email.data,
             password=form.password.data)
         db.session.add(teacher)

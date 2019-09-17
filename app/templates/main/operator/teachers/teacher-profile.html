@@ -49,7 +49,12 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                   <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                    <p><b>Teach</b><br /> Tahsin</p>
+                    <p>
+                      <b>Teach</b><br/>
+                      {% for data in teacher.taught_courses %}
+                        <span>{{ data }}, </span>
+                      {% endfor %}
+                    </p>
                   </div>
                 </div>
               </div>

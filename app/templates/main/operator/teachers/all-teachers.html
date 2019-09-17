@@ -48,7 +48,12 @@
                   {{ data.full_name }}
                 </h3>
               </a>
-              <strong class="all-pro-ad">Tahsin Teacher</strong>
+              <strong class="all-pro-ad">
+                Teach:
+                {% for data in data.taught_courses %}
+                  {{ data }},
+                {% endfor %}
+              </strong>
             </div>
           </div>
         </div>
