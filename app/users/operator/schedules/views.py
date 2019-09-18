@@ -160,17 +160,24 @@ def edit_schedule(schedule_id):
     """Edit a schedule's information."""
     schedule = Schedule.query.filter_by(id=schedule_id).first()
     form = ScheduleForm(obj=schedule)
-
     if schedule is None:
         abort(404)
 
     if request.method == "POST":
         schedule.schedule_day = form.schedule_day.data
-        schedule.start_at = form.start_at.data
-        schedule.end_at = form.end_at.data
         schedule.course_status = form.course_status.data
-
-        db.session.commit()
+        if form.start_at.data == None:
+            schedule.start_at = schedule.start_at
+        else:
+            schedule.start_at = form.start_at.data
+        if form.end_at.data == None:
+            schedule.end_at = schedule.end_at
+        else:
+            schedule.end_at = form.end_at.data
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
         flash('Successfully edit schedule', 'success')
         return redirect(url_for('operator.all_schedules'))
     return render_template('main/operator/schedules/manipulate-schedule.html', schedule=schedule, form=form)
