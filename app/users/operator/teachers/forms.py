@@ -45,5 +45,5 @@ class EditTeacherForm(Form):
     submit = SubmitField('Update')
 
     def validate_phone_number(self, field):
-        if User.query.filter_by(phone_number=field.data).first():
-            raise ValidationError('Phone number already exist..!')
+        if field.data == "None":
+            raise ValidationError('Please, set the phone number!')

@@ -32,15 +32,26 @@ def teacher_profile(teacher_id):
         teacher.gender = form.gender.data
         teacher.date_of_birth = form.date_of_birth.data
         teacher.address = form.address.data
+
+        validate_user_data = User.query.filter(~User.phone_number.in_([teacher.phone_number])).all()
+        all_user_phone_number = []
+        all_user_email = []
+
+        for data in validate_user_data:
+            all_user_phone_number.append(data.phone_number)
+
+        for data in validate_user_data:
+            all_user_email.append(data.email)
+
+        if form.phone_number.data in all_user_phone_number:
+            flash('Duplicate phone number with the other users, please input different number', 'error')
+            return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
+
+        if form.email.data in all_user_email:
+            flash('Duplicate email with the other users, please input different email', 'error')
+            return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
+
         teacher.phone_number = form.phone_number.data
-
-        for check_email in db.session.query(User.email).all():
-            if teacher.email == form.email.data:
-                pass
-            elif form.email.data in check_email:
-                flash('Email already registered', 'error')
-                return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
-
         teacher.email = form.email.data
 
         try:

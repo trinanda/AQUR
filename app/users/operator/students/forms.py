@@ -20,12 +20,7 @@ class InviteStudentForm(Form):
 
 
 class NewStudentForm(InviteStudentForm):
-    password = PasswordField(
-        'Password',
-        validators=[
-            InputRequired(),
-            EqualTo('password2', 'Passwords must match.')
-        ])
+    password = PasswordField('Password', validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[InputRequired()])
     submit = SubmitField('Create')
 
@@ -40,3 +35,7 @@ class EditStudentForm(Form):
     date_of_birth = DateField('Date of birth', validators=[DataRequired()], format='%Y-%m-%d')
     photo = FileField('Photo')
     submit = SubmitField('Update')
+
+    def validate_phone_number(self, field):
+        if field.data == "None":
+            raise ValidationError('Please, set the phone number!')

@@ -58,25 +58,36 @@ def student_profile(student_id):
     if student is None:
         abort(404)
 
-    student_form = EditStudentForm(obj=student)
+    form = EditStudentForm(obj=student)
 
-    if student_form.validate_on_submit():
+    if form.validate_on_submit():
         student_name = student.full_name
-        student.first_name = student_form.first_name.data
-        student.last_name = student_form.last_name.data
-        student.gender = student_form.gender.data
-        student.date_of_birth = student_form.date_of_birth.data
-        student.address = student_form.address.data
-        student.phone_number = student_form.phone_number.data
+        student.first_name = form.first_name.data
+        student.last_name = form.last_name.data
+        student.gender = form.gender.data
+        student.date_of_birth = form.date_of_birth.data
+        student.address = form.address.data
 
-        for check_email in db.session.query(User.email).all():
-            if student.email == student_form.email.data:
-                pass
-            elif student_form.email.data in check_email:
-                flash('Email already registered', 'error')
-                return redirect(url_for('operator.student_profile', student_id=student_id))
+        validate_user_data = User.query.filter(~User.phone_number.in_([student.phone_number])).all()
+        all_user_phone_number = []
+        all_user_email = []
 
-        student.email = student_form.email.data
+        for data in validate_user_data:
+            all_user_phone_number.append(data.phone_number)
+
+        for data in validate_user_data:
+            all_user_email.append(data.email)
+
+        if form.phone_number.data in all_user_phone_number:
+            flash('Duplicate phone number with the other users, please input different number', 'error')
+            return redirect(url_for('operator.student_profile', student_id=student_id))
+
+        if form.email.data in all_user_email:
+            flash('Duplicate email with the other users, please input different email', 'error')
+            return redirect(url_for('operator.student_profile', student_id=student_id))
+
+        student.phone_number = form.phone_number.data
+        student.email = form.email.data
 
         try:
             if not request.files['photo']:
@@ -85,7 +96,7 @@ def student_profile(student_id):
                 filename = photos.save(request.files['photo'], name="students/" + student_name + "_student.")
                 student.photo = filename
         except Exception as e:
-            if student_form.gender.data == "Male":
+            if form.gender.data == "Male":
                 return redirect(url_for('operator.student_profile', student_id=student_id))
 
             flash('Please input correct image format', 'error')
@@ -96,8 +107,8 @@ def student_profile(student_id):
         except Exception as e:
             db.session.rollback()
 
-        if student_form.gender.data == "Male" or student_form.gender.data == "Female":
+        if form.gender.data == "Male" or form.gender.data == "Female":
             flash('Successfully updated {}'.format(student.full_name + ' data'), 'success')
         return redirect(url_for('operator.student_profile', student_id=student_id))
 
-    return render_template('main/operator/students/student-profile.html', student=student, student_form=student_form)
+    return render_template('main/operator/students/student-profile.html', student=student, form=form)
