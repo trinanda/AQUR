@@ -90,9 +90,12 @@
   <script src="{{ url_for('static', filename='styles/js/profile_picture.js') }}"></script>
 
   <!--  gentelella-->
-  <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
   <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
   <link href="{{ url_for('static', filename='gentelella/custom.min.css') }}" rel="stylesheet">
+
+  <!--  DataTables-->
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
 
   {% endblock %}
 
@@ -345,7 +348,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.58/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.58/vfs_fonts.js"></script>
   <script src="{{ url_for('static', filename='gentelella/custom.min.js') }}"></script>
+  <script>
+      $(document).ready(function() {
+        $('#example').DataTable( {
+        dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        } );
+        // DataTable
+        var table = $('#example').DataTable();
+        // Apply the search
+        table.columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+    } );
+  </script>
 
 </body>
-
 </html>
