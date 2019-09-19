@@ -123,7 +123,7 @@ def invite_teacher():
             user=teacher,
             invite_link=invite_link,
         )
-        flash('Teacher {} successfully invited'.format(teacher.full_name()),
+        flash('Teacher {} successfully invited'.format(teacher.full_name),
               'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
@@ -131,7 +131,6 @@ def invite_teacher():
 
 @operator.route('/new-teacher', methods=['GET', 'POST'])
 def new_teacher():
-    """Invites a new teacher to create an account and set their own password."""
     set_defatul_teacher_role = Role.query.filter_by(index='teacher').first()
     form = NewTeacherForm()
     if form.validate_on_submit():

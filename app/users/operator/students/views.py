@@ -6,41 +6,7 @@ from app import db, photos
 from app.email import send_email
 from app.models import Role, Student, User
 from app.users.operator import operator
-from app.users.operator.students.forms import InviteStudentForm, EditStudentForm
-
-
-@operator.route('/add-student', methods=['GET', 'POST'])
-def add_student():
-    """Invites a new student to create an account and set their own password."""
-    set_defatul_student_role = Role.query.filter_by(index='student').first()
-    form = InviteStudentForm()
-    if form.validate_on_submit():
-        student = Student(
-            role=set_defatul_student_role,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email=form.email.data,
-            gender=form.gender.data)
-        db.session.add(student)
-        db.session.commit()
-        token = student.generate_confirmation_token()
-        invite_link = url_for(
-            'account.join_from_invite',
-            user_id=student.id,
-            token=token,
-            _external=True)
-        get_queue().enqueue(
-            send_email,
-            recipient=student.email,
-            subject='You Are Invited To Join',
-            template='account/email/invite',
-            user=student,
-            invite_link=invite_link,
-        )
-        flash('Student {} successfully invited'.format(student.full_name()),
-              'success')
-        return redirect(url_for('operator.all_students'))
-    return render_template('main/operator/students/manipulate-student.html', form=form)
+from app.users.operator.students.forms import InviteStudentForm, EditStudentForm, NewStudentForm
 
 
 @operator.route('/all-students')
@@ -112,3 +78,57 @@ def student_profile(student_id):
         return redirect(url_for('operator.student_profile', student_id=student_id))
 
     return render_template('main/operator/students/student-profile.html', student=student, form=form)
+
+
+@operator.route('/invite-student', methods=['GET', 'POST'])
+def invite_student():
+    """Invites a new student to create an account and set their own password."""
+    set_defatul_student_role = Role.query.filter_by(index='student').first()
+    form = InviteStudentForm()
+    if form.validate_on_submit():
+        student = Student(
+            role=set_defatul_student_role,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data)
+        db.session.add(student)
+        db.session.commit()
+        token = student.generate_confirmation_token()
+        invite_link = url_for(
+            'account.join_from_invite',
+            user_id=student.id,
+            token=token,
+            _external=True)
+        get_queue().enqueue(
+            send_email,
+            recipient=student.email,
+            subject='You Are Invited To Join',
+            template='account/email/invite',
+            user=student,
+            invite_link=invite_link,
+        )
+        flash('Student {} successfully invited'.format(student.full_name),
+              'success')
+        return redirect(url_for('operator.all_students'))
+    return render_template('main/operator/students/manipulate-student.html', form=form)
+
+
+@operator.route('/new-student', methods=['GET', 'POST'])
+def new_student():
+    set_defatul_student_role = Role.query.filter_by(index='student').first()
+    form = NewStudentForm()
+    if form.validate_on_submit():
+        student = Student(
+            role=set_defatul_student_role,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            gender=form.gender.data,
+            email=form.email.data,
+            password=form.password.data)
+        db.session.add(student)
+        db.session.commit()
+
+        flash('successfully added {} as a Student'.format(student.full_name),
+              'success')
+        return redirect(url_for('operator.all_students'))
+    return render_template('main/operator/students/manipulate-student.html', form=form)

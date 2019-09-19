@@ -8,7 +8,6 @@ from app.models import User, gender
 
 
 class InviteStudentForm(Form):
-    gender = SelectField('Gender', choices=gender)
     first_name = StringField('First name', validators=[InputRequired(), Length(1, 64)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
     email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
@@ -20,6 +19,7 @@ class InviteStudentForm(Form):
 
 
 class NewStudentForm(InviteStudentForm):
+    gender = SelectField('Gender', choices=gender)
     password = PasswordField('Password', validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[InputRequired()])
     submit = SubmitField('Create')

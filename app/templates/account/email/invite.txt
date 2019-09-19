@@ -1,4 +1,4 @@
-Dear {{ user.full_name() }},
+Dear {{ user.full_name }},
 
 You are invited to join {{ config.APP_NAME }}!
 
@@ -13,4 +13,3 @@ Sincerely,
 The {{ config.APP_NAME }} Team
 
 Note: replies to this email address are not monitored.
-

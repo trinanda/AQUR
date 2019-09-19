@@ -16,7 +16,7 @@
 			'success': get_flashed_messages(category_filter=['form-success'])
 			} %}
 			<div class="row">
-				{{ f.begin_form(student_form, flashes) }}
+				{{ f.begin_form(form, flashes) }}
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 					<div class="profile-info-inner">
 						<div class="profile-img">
@@ -230,52 +230,52 @@
 												<div class="col-lg-12">
 													<div class="form-row">
 														{% if student %}
-														{{ f.render_form_field(student_form.first_name, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6',
 														value=student.first_name) }}
 														{% else %}
-														{{ f.render_form_field(student_form.first_name, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.last_name, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6',
 														value=student.last_name) }}
 														{% else %}
-														{{ f.render_form_field(student_form.last_name, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.gender, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6',
 														value=student.gender) }}
 														{% else %}
-														{{ f.render_form_field(student_form.gender, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.date_of_birth, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6',
 														value=student.date_of_birth) }}
 														{% else %}
-														{{ f.render_form_field(student_form.date_of_birth, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.address, extra_classes='form-group col-lg-12',
+														{{ f.render_form_field(form.address, extra_classes='form-group col-lg-12',
 														value=student.address) }}
 														{% else %}
-														{{ f.render_form_field(student_form.address, extra_classes='form-group col-lg-12') }}
+														{{ f.render_form_field(form.address, extra_classes='form-group col-lg-12') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.phone_number, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6',
 														value=student.phone_number) }}
 														{% else %}
-														{{ f.render_form_field(student_form.phone_number, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 
 														{% if student %}
-														{{ f.render_form_field(student_form.email, extra_classes='form-group col-lg-6',
+														{{ f.render_form_field(form.email, extra_classes='form-group col-lg-6',
 														value=student.email) }}
 														{% else %}
-														{{ f.render_form_field(student_form.email, extra_classes='form-group col-lg-6') }}
+														{{ f.render_form_field(form.email, extra_classes='form-group col-lg-6') }}
 														{% endif %}
 													</div>
 													{{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
