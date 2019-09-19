@@ -4,7 +4,7 @@ from wtforms.fields.html5 import EmailField, TimeField
 
 from wtforms.validators import required, ValidationError
 
-from app.models import Teacher, type_of_class, day_name_list, Student, course_status
+from app.models import Teacher, type_of_class, day_name_list, Student, course_status, gender
 
 
 class ScheduleForm(Form):
@@ -26,3 +26,14 @@ class ScheduleForm(Form):
     def validate_teacher_email(self, field):
         if Teacher.query.filter_by(email=field.data).first() is None:
             raise ValidationError('It seems the email not registered as a teacher.')
+
+
+class CheckScheduleForm(Form):
+    course_name = SelectField('Course name', validators=[required('It seems the student didn\' pay any course ')],
+                              choices=[()])
+    type_of_class = SelectField('Type of class', validators=[required()], choices=type_of_class)
+    schedule_day = SelectField('Day', choices=day_name_list)
+    start_at = TimeField('Start at', validators=[required()])
+    end_at = TimeField('End at', validators=[required()])
+    gender = SelectField('Gender', choices=gender)
+    submit = SubmitField('OK')

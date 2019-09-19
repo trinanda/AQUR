@@ -17,8 +17,11 @@
 			<div class="x_panel">
 				<div class="x_title">
 					<h2>Schedule</h2>
-					<div class="row">
-						<div class="col-md-2 ml-auto" style="margin-top: 10px;">
+					<div class="d-flex justify-content-end">
+						<div class="p-2" style="margin-top: 10px;">
+							<a href="{{ url_for('operator.check_schedules') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">Check Schedule</a>
+						</div>
+						<div class="p-2" style="margin-top: 10px;">
 							<a href="{{ url_for('operator.add_schedule') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Schedule</a>
 						</div>
 					</div>

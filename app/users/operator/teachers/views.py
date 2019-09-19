@@ -12,7 +12,7 @@ from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm
 @operator.route('/all-teachers')
 def all_teachers():
     page = request.args.get('page', 1, type=int)
-    per_page = 5
+    per_page = 100
 
     teachers = Teacher.query.order_by(Teacher.created_at.desc()).paginate(page, per_page, error_out=False)
     return render_template('main/operator/teachers/all-teachers.html', teachers=teachers)
