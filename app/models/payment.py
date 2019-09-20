@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from app import db
 from app.models import MonthNameList, TypeOfClass, PaymentStatus
 
@@ -15,8 +17,8 @@ class Payment(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
 
-    course_name = db.relationship('Course', backref=db.backref('payment', lazy='dynamic'))
-    student_email = db.relationship('Student', backref=db.backref('payment', lazy='dynamic'))
+    course_ = relationship("Course", foreign_keys=[course_id])
+    student = relationship("Student", foreign_keys=[student_id])
 
     def __str__(self):
         return str(self.status_of_payment)

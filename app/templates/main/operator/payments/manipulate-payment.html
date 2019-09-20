@@ -34,7 +34,7 @@
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
             {% if payment %}
-              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=payment.student_email) }}
+              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=payment.student) }}
             {% else %}
               {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
             {% endif %}

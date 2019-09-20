@@ -53,7 +53,7 @@ class MonthNameList(enum.Enum):
     May = 'May'
     June = 'June'
     July = 'July'
-    Augustus = 'Augustus'
+    August = 'August'
     September = 'September'
     October = 'October'
     November = 'November'
