@@ -127,7 +127,5 @@ def course_details(course_id):
     return render_template('main/operator/courses/course-details.html', total_students=total_students,
                            total_private_students=total_private_students, total_regular_students=total_regular_students,
                            total_male_student=total_male_student, total_female_student=total_female_student,
-                           male_values=male_values,
-                           female_values=female_values, month_name_list=month_name_list, legend_male=legend_male,
-                           legend_female=legend_female,
-                           course=course)
+                           male_values=male_values, female_values=female_values, month_name_list=month_name_list,
+                           legend_male=legend_male, legend_female=legend_female, course=course)

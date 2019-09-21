@@ -17,7 +17,7 @@ class Payment(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
 
-    course_ = relationship("Course", foreign_keys=[course_id])
+    course = relationship("Course", foreign_keys=[course_id])
     student = relationship("Student", foreign_keys=[student_id])
 
     def __str__(self):
