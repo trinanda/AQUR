@@ -53,9 +53,9 @@
 
             {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
             {% if form.password %}
-              {{ f.render_form_field(form.taught_courses, extra_classes='form-group col-md-12') }}
               {{ f.render_form_field(form.password, extra_classes='form-group col-md-6') }}
               {{ f.render_form_field(form.password2, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.taught_courses, extra_classes='form-group col-md-12') }}
             {% endif %}
 
           </div>

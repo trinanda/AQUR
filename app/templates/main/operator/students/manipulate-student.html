@@ -1,5 +1,6 @@
 {% extends "main/base-template.html" %}
 {% import 'macros/form_macros.html' as f %}
+{% import 'macros/check_password.html' as check %}
 
 {% block scripts %}
 {% endblock %}
@@ -50,11 +51,11 @@
             {{ f.render_form_field(form.gender, extra_classes='form-group col-md-12') }}
             {% endif %}
 
+            {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
             {% if form.password %}
               {{ f.render_form_field(form.password, extra_classes='form-group col-md-6') }}
               {{ f.render_form_field(form.password2, extra_classes='form-group col-md-6') }}
             {% endif %}
-            {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
 
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
@@ -67,6 +68,9 @@
             Submit
           </button>
           {{ f.end_form() }}
+          {% if form.password %}
+            {{ check.password_check('password', 0) }}
+          {% endif %}
         </div>
       </div>
       {# Implement CSRF protection for site #}
