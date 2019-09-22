@@ -3,7 +3,7 @@ from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
 from app import db
-from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses
+from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm
 
@@ -144,7 +144,8 @@ def add_schedule():
                 schedule_day=schedule_day,
                 start_at=start_at,
                 end_at=end_at,
-                teacher_id=teacher.id
+                teacher_id=teacher.id,
+                course_status=CourseStatus.PENDING.value
             )
             db.session.add(schedule)
             db.session.commit()
