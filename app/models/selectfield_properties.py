@@ -67,7 +67,7 @@ class DayNameList(enum.Enum):
     Sunday = 'Sunday'
     Monday = 'Monday'
     Tuesday = 'Tuesday'
-    Wenesday = 'Wenesday'
+    Wednesday = 'Wednesday'
     Thursday = 'Thursday'
     Friday = 'Friday'
     Saturday = 'Saturday'
