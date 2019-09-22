@@ -1,10 +1,11 @@
 from flask import render_template, url_for, flash, request, abort
 from flask_rq import get_queue
+from sqlalchemy import or_
 from werkzeug.utils import redirect
 
 from app import db, photos
 from app.email import send_email
-from app.models import Teacher, Role, User, Course
+from app.models import Teacher, Role, User, Course, Schedule, Payment
 from app.users.operator import operator
 from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
 
@@ -20,6 +21,20 @@ def all_teachers():
 
 @operator.route('/teacher-profile/<int:teacher_id>', methods=['GET', 'POST'])
 def teacher_profile(teacher_id):
+    schedule = db.session.query(Schedule, Payment, Course).join(Payment, Course).filter(
+        Schedule.teacher_id == teacher_id).filter(
+        or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED"))
+
+    list_number_of_students = []
+    for data in schedule:
+        list_number_of_students.append(
+            {str(data.Schedule.course): schedule.filter(Schedule.course == data.Schedule.course).count()})
+
+    number_of_students = []
+    for dict_ in list_number_of_students:
+        if dict_ not in number_of_students:
+            number_of_students.append(dict_)
+
     teacher = Teacher.query.filter_by(id=teacher_id).first()
     if teacher is None:
         abort(404)
@@ -93,7 +108,8 @@ def teacher_profile(teacher_id):
         flash('Successfully updated {}'.format(teacher.full_name + ' data'), 'success')
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
-    return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form)
+    return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
+                           number_of_students=number_of_students)
 
 
 @operator.route('/invite-teacher', methods=['GET', 'POST'])

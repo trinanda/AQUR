@@ -74,7 +74,6 @@
                     <div class="review-content-section">
                       <div class="row">
                         <div class="col-lg-12">
-
                           <div class="content-profile">
                             <table class="table table-sm table-hover table-responsive-sm">
                               <tr>
@@ -98,9 +97,26 @@
                                 <td>{{ teacher.address }}</td>
                               </tr>
                               <tr>
-                                <th>number of students</th>
-                                <td>120</td>
+                                <th data-toggle="collapse" data-target="#numberOfStudens">Number of students</th>
                               </tr>
+                              <!---->
+															<!---->
+															<tr>
+																<td>
+																	<table id="numberOfStudens" class="collapse">
+                                    {% for dict_item in number_of_students %}
+                                      {% for key, value in dict_item.items() %}
+                                        <tr>
+                                          <td>{{ key }}</td>
+                                          <td>{{ value }}</td>
+                                        </tr>
+                                      {% endfor %}
+                                    {% endfor %}
+																	</table>
+																</td>
+															</tr>
+															<!---->
+															<!---->
                             </table>
                           </div>
                         </div>
