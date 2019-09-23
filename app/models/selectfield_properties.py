@@ -64,6 +64,7 @@ class MonthNameList(enum.Enum):
 
 
 class DayNameList(enum.Enum):
+    None_choice = ''
     Sunday = 'Sunday'
     Monday = 'Monday'
     Tuesday = 'Tuesday'
