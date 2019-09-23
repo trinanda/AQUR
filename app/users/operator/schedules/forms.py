@@ -12,9 +12,6 @@ class ScheduleForm(Form):
     course_name = SelectField('Course name', validators=[required('It seems the student didn\' pay any course ')],
                               choices=[()])
     type_of_class = SelectField('Type of class', validators=[required()], choices=type_of_class)
-    schedule_day = SelectField('Day', choices=day_name_list)
-    start_at = TimeField('Start at', validators=[required()])
-    end_at = TimeField('End at', validators=[required()])
     teacher_email = EmailField('Teacher email', validators=[required()])
     course_status = SelectField('Course status', validators=[required()], choices=course_status)
     submit = SubmitField('OK')
@@ -37,3 +34,13 @@ class CheckScheduleForm(Form):
     end_at = TimeField('End at', validators=[required()])
     gender = SelectField('Gender', choices=gender)
     submit = SubmitField('OK')
+
+
+class ScheduleDayForm(Form):
+    schedule_day = SelectField('Day', choices=day_name_list)
+    start_at = TimeField('Start at', validators=[required()])
+    end_at = TimeField('End at', validators=[required()])
+
+    schedule_day_2 = SelectField('Day 2', choices=day_name_list)
+    start_at_2 = TimeField('Start at 2')
+    end_at_2 = TimeField('End at 2 ')

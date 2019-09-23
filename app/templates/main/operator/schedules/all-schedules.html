@@ -28,22 +28,24 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-							<th>Student</th>
-							<th>Student email</th>
-							<th>Course</th>
-							<th>Type of class</th>
-							<th>Teacher</th>
-							<th>Teacher email</th>
-							<th>Month</th>
-							<th>Day</th>
-							<th>Start at</th>
-							<th>End at</th>
-							<th>Course status</th>
-							<th>Payment status</th>
-						</tr>
+					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th rowspan="2">Student</th>
+								<th rowspan="2">Student email</th>
+								<th rowspan="2">Course</th>
+								<th rowspan="2">Type of class</th>
+								<th rowspan="2">Teacher</th>
+								<th rowspan="2">Teacher email</th>
+								<th colspan="3">Schedule</th>
+								<th rowspan="2">Course status</th>
+								<th rowspan="2">Payment status</th>
+							</tr>
+							<tr>
+								<th>Month</th>
+								<th>Day</th>
+								<th>Day 2</th>
+							</tr>
 						</thead>
 						<tbody>
 						{% for data in schedules %}
@@ -55,29 +57,37 @@
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.payment_for_month }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.schedule_day }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.start_at.strftime('%H:%M') }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.end_at.strftime('%H:%M') }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_status }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.status_of_payment }}</td>
+								{% for day in data.days %}
+									{% if day.start_at.strftime and day.end_at.strftime %}
+										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ day.day }} {{ day.start_at.strftime('%H:%M') }}-{{ day.end_at.strftime('%H:%M') }}</td>
+									{% else %}
+										<td></td>
+									{% endif %}
+								{% endfor%}
+								{% if data.days %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_status }}</td>
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.status_of_payment }}</td>
+								{% else %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">None</td>
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">None</td>
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_status }}</td>
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.status_of_payment }}</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 						</tbody>
-						<tfoot>
-	            <tr>
-	                <th>Student</th>
-									<th>Student email</th>
-									<th>Course</th>
-									<th>Type of class</th>
-									<th>Teacher</th>
-									<th>Teacher email</th>
-									<th>Month</th>
-									<th>Day</th>
-									<th>Start at</th>
-									<th>End at</th>
-									<th>Course status</th>
-									<th>Payment status</th>
-	            </tr>
+							<tfoot>
+							<tr>
+								<th>Student</th>
+								<th>Student email</th>
+								<th>Course</th>
+								<th>Type of class</th>
+								<th>Teacher</th>
+								<th>Teacher email</th>
+								<th colspan="3">Schedule</th>
+								<th>Course status</th>
+								<th>Payment status</th>
+							</tr>
 		        </tfoot>
 					</table>
 				</div>
