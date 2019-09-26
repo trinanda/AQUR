@@ -23,4 +23,4 @@ class PaymentForm(Form):
 
     def validate_student_email(self, field):
         if Student.query.filter_by(email=field.data).first() is None:
-            raise ValidationError('It seems the email not registered as a student.')
+            raise ValidationError('It seems the email is not registered as a student email.')

@@ -57,14 +57,14 @@
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.payment_for_month }}</td>
-								{% for day in data.days %}
+								{% for day in data.schedule_day_and_time %}
 									{% if day.start_at.strftime and day.end_at.strftime %}
 										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ day.day }} {{ day.start_at.strftime('%H:%M') }}-{{ day.end_at.strftime('%H:%M') }}</td>
 									{% else %}
 										<td></td>
 									{% endif %}
 								{% endfor%}
-								{% if data.days %}
+								{% if data.schedule_day_and_time %}
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_status }}</td>
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.payment.status_of_payment }}</td>
 								{% else %}

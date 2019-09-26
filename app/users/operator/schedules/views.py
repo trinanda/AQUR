@@ -6,9 +6,11 @@ from werkzeug.utils import redirect
 from sqlalchemy import or_
 
 from app import db
-from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus, ScheduleDay
+from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus, ScheduleDayAndTime, \
+    RequisitionSchedule
 from app.users.operator import operator
-from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, ScheduleDayForm
+from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, ScheduleDayForm, \
+    RequisitionScheduleForm
 
 
 @operator.route('/all-schedules')
@@ -176,13 +178,13 @@ def add_schedule():
             payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
                 Student.id == student.id).filter(Course.name == course_name).first()
 
-            scheduleday = ScheduleDay(
+            schedule_day_and_time = ScheduleDayAndTime(
                 day=schedule_day,
                 start_at=start_at,
                 end_at=end_at,
             )
 
-            scheduleday_2 = ScheduleDay(
+            schedule_day_and_time_2 = ScheduleDayAndTime(
                 day=schedule_day_2,
                 start_at=start_at_2,
                 end_at=end_at_2,
@@ -196,8 +198,8 @@ def add_schedule():
                 teacher_id=teacher.id,
                 course_status=CourseStatus.PENDING.value
             )
-            schedule.days.append(scheduleday)
-            schedule.days.append(scheduleday_2)
+            schedule.schedule_day_and_time.append(schedule_day_and_time)
+            schedule.schedule_day_and_time.append(schedule_day_and_time_2)
             db.session.add(schedule)
             db.session.commit()
 
@@ -212,7 +214,8 @@ def add_schedule():
 def edit_schedule(schedule_id):
     """Edit a schedule's information."""
     schedule = Schedule.query.filter_by(id=schedule_id).first()
-    form = ScheduleForm(obj=schedule)
+    form = ScheduleDayForm(obj=schedule)
+
     if schedule is None:
         abort(404)
 
@@ -293,3 +296,153 @@ def check_schedules():
 
     return render_template('main/operator/schedules/check-schedules.html', form=form, schedules=schedules,
                            available_teachers='')
+
+
+@operator.route('/requisition-schedules')
+def requisition_schedules():
+    requisition_schedules = RequisitionSchedule.query.all()
+    return render_template('main/operator/schedules/requisition-schedules.html',
+                           requisition_schedules=requisition_schedules)
+
+
+@operator.route('/add-requisition-schedules', methods=['GET', 'POST'])
+def add_requisition_schedules():
+    form = RequisitionScheduleForm()
+    if request.method == "POST":
+        # if form.validate_on_submit():
+        student = Student.query.filter_by(email=form.student_email.data).first()
+        if student is None:
+            flash('It seems the email is not registered as a student email..!', 'error')
+            return redirect(url_for('operator.add_requisition_schedules'))
+
+        course = Course.query.filter_by(name=str(form.course_name.data)).first()
+
+        requisition_schedule = RequisitionSchedule(
+            student_id=student.id,
+            course_id=course.id,
+            type_of_class=form.type_of_class.data,
+        )
+        schedule_day_and_time_1 = ScheduleDayAndTime(
+            day=form.schedule_day.data,
+            start_at=form.start_at.data,
+            end_at=form.end_at.data,
+        )
+
+        schedule_day_2 = request.form['schedule_day_2']
+        if schedule_day_2 == '':
+            schedule_day_2 = None
+
+        start_at_2 = request.form['start_at_2']
+        if start_at_2 == '':
+            start_at_2 = None
+
+        end_at_2 = request.form['end_at_2']
+        if end_at_2 == '':
+            end_at_2 = None
+
+        schedule_day_and_time_2 = ScheduleDayAndTime(
+            day=schedule_day_2,
+            start_at=start_at_2,
+            end_at=end_at_2,
+        )
+
+        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_1)
+        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+        db.session.add(requisition_schedule)
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), 'error')
+            return redirect(url_for('operator.add_requisition_schedules'))
+        flash('Successfully added new requisition schedule for {}'.format(student.full_name), 'success')
+        return redirect(url_for('operator.requisition_schedules'))
+    return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form)
+
+
+@operator.route('/edit-requisition-schedules/<int:requisition_schedule_id>', methods=['GET', 'POST'])
+def edit_requisition_schedules(requisition_schedule_id):
+    """Edit a requisition_schedule information."""
+    schedule_day_and_time = ScheduleDayAndTime.query.filter_by(requisition_schedule_id=requisition_schedule_id).first()
+    requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
+
+    if schedule_day_and_time is None:
+        abort(404)
+    if requisition_schedule is None:
+        abort(404)
+
+    list_prepopulate_requisition_schedule_form = []
+    for data in requisition_schedule.schedule_day_and_time:
+        list_prepopulate_requisition_schedule_form.append(data.day)
+        list_prepopulate_requisition_schedule_form.append(data.start_at)
+        list_prepopulate_requisition_schedule_form.append(data.end_at)
+
+    prepopulate_requisition_schedule_form = [{
+        'schedule_day': str(list_prepopulate_requisition_schedule_form[0]),
+        'start_at': list_prepopulate_requisition_schedule_form[1],
+        'end_at': list_prepopulate_requisition_schedule_form[2],
+        'schedule_day_2': str(list_prepopulate_requisition_schedule_form[3]),
+        'start_at_2': list_prepopulate_requisition_schedule_form[4],
+        'end_at_2': list_prepopulate_requisition_schedule_form[5],
+    }]
+
+    form = RequisitionScheduleForm(obj=requisition_schedule)
+    form.course_name.data = schedule_day_and_time.requisition_schedule.course
+
+    form.schedule_day.data = prepopulate_requisition_schedule_form[0]['schedule_day']
+    form.schedule_day_2.data = prepopulate_requisition_schedule_form[0]['schedule_day_2']
+
+    if request.method == "POST":
+
+        student = Student.query.filter_by(email=form.student_email.data).first()
+        if student is None:
+            flash('It seems the email is not registered as a student email..!', 'error')
+            return redirect(url_for('operator.add_requisition_schedules'))
+
+        requisition_schedule.student_id = student.id
+        requisition_schedule.course_id = request.form['course_name']
+        requisition_schedule.type_of_class = form.type_of_class.data
+
+        ScheduleDayAndTime.query.filter(ScheduleDayAndTime.requisition_schedule_id == requisition_schedule_id).delete()
+        db.session.commit()
+
+        schedule_day_and_time_1 = ScheduleDayAndTime(
+            day=request.form['schedule_day'],
+            start_at=request.form['start_at'],
+            end_at=request.form['end_at'],
+        )
+        schedule_day_2 = request.form['schedule_day_2']
+        if schedule_day_2 == '':
+            schedule_day_2 = None
+
+        start_at_2 = request.form['start_at_2']
+        if start_at_2 == '':
+            start_at_2 = None
+
+        end_at_2 = request.form['end_at_2']
+        if end_at_2 == '':
+            end_at_2 = None
+
+        schedule_day_and_time_2 = ScheduleDayAndTime(
+            day=schedule_day_2,
+            start_at=start_at_2,
+            end_at=end_at_2,
+        )
+
+        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_1)
+        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+        db.session.add(requisition_schedule)
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), 'error')
+            return redirect(
+                url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
+
+        flash('Successfully edit requisition_schedule', 'success')
+        return redirect(url_for('operator.requisition_schedules'))
+    return render_template('main/operator/schedules/manipulate-requisition-schedules.html',
+                           requisition_schedule=requisition_schedule, form=form,
+                           prepopulate_requisition_schedule_form=prepopulate_requisition_schedule_form)

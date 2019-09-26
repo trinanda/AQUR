@@ -1,0 +1,75 @@
+{% extends "main/base-template.html" %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  button {
+    width: 75px;
+    height: 35px;
+    margin-top: -20px;
+  }
+
+</style>
+
+<div id="mainContent">
+	<div class="row gap-20 masonry pos-r">
+		<div class="masonry-sizer col-md-6"></div>
+		<div class="masonry-item col-md-6">
+			<div class="bgc-white p-20 bd">
+				{% if requisition_schedule %}
+        <h2 class="c-grey-900">Edit 'student name' Requisition Schedule</h2>
+        {% else %}
+        <h2 class="c-grey-900">Add new Requisition Schedule</h2>
+        {% endif %}
+				{% set flashes = {
+				'error': get_flashed_messages(category_filter=['form-error']),
+				'warning': get_flashed_messages(category_filter=['form-check-email']),
+				'info': get_flashed_messages(category_filter=['form-info']),
+				'success': get_flashed_messages(category_filter=['form-success'])
+				} %}
+				<div class="mT-30">
+					{{ f.begin_form(form, flashes) }}
+					<div class="form-row">
+							{% if requisition_schedule %}
+								{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=requisition_schedule.student.email) }}
+							{% else %}
+								{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+							{% endif %}
+							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-12') }}
+							{% if requisition_schedule %}
+									{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-6') }}
+									{{ f.render_form_field(form.schedule_day_2, extra_classes='form-group col-md-6') }}
+									{% for data in prepopulate_requisition_schedule_form %}
+										{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
+										{{ f.render_form_field(form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
+										{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
+										{{ f.render_form_field(form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
+									{% endfor %}
+							{% else %}
+								{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
+								{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6') }}
+								{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6') }}
+								{{ f.render_form_field(form.schedule_day_2, extra_classes='form-group col-md-12') }}
+								{{ f.render_form_field(form.start_at_2, extra_classes='form-group col-md-6') }}
+								{{ f.render_form_field(form.end_at_2, extra_classes='form-group col-md-6') }}
+							{% endif %}
+							<input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit">
+						{{ f.end_form() }}
+					</div>
+				</div>
+				{# Implement CSRF protection for site #}
+				{% if csrf_token()|safe %}
+				<div style="visibility: text; display: none">
+					<input type="text" name="csrf_token" value="{{ csrf_token()|safe }}">
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
