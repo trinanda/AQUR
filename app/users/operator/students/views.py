@@ -1,8 +1,10 @@
 from flask import render_template, url_for, flash, request, abort
+from flask_login import login_required
 from flask_rq import get_queue
 from werkzeug.utils import redirect
 
 from app import db, photos
+from app.decorators import operator_required
 from app.email import send_email
 from app.models import Role, Student, User
 from app.users.operator import operator
@@ -10,6 +12,8 @@ from app.users.operator.students.forms import InviteStudentForm, EditStudentForm
 
 
 @operator.route('/all-students')
+@login_required
+@operator_required
 def all_students():
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -19,6 +23,8 @@ def all_students():
 
 
 @operator.route('/student-profile/<int:student_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def student_profile(student_id):
     student = Student.query.filter_by(id=student_id).first()
     if student is None:
@@ -81,6 +87,8 @@ def student_profile(student_id):
 
 
 @operator.route('/invite-student', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def invite_student():
     """Invites a new student to create an account and set their own password."""
     set_defatul_student_role = Role.query.filter_by(index='student').first()
@@ -114,6 +122,8 @@ def invite_student():
 
 
 @operator.route('/new-student', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def new_student():
     set_defatul_student_role = Role.query.filter_by(index='student').first()
     form = NewStudentForm()

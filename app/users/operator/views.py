@@ -1,19 +1,23 @@
 from flask import render_template
+from flask_login import login_required
 from sqlalchemy import or_
 
 from app import db
+from app.decorators import operator_required
 from app.models import Payment, Student, MonthNameList, Course
 from app.users.operator import operator
 
 
 @operator.route('/')
-# @login_required
-# @operator_required
+@login_required
+@operator_required
 def index():
     return render_template('main/operator/index.html')
 
 
 @operator.route('/operator-dashboard')
+@login_required
+@operator_required
 def operator_dashboard():
     title = "AQUR"
 

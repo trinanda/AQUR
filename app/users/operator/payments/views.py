@@ -1,13 +1,17 @@
 from flask import render_template, flash, url_for, abort
+from flask_login import login_required
 from werkzeug.utils import redirect
 
 from app import db
+from app.decorators import operator_required
 from app.models import Payment, Student, Course
 from app.users.operator import operator
 from app.users.operator.payments.forms import PaymentForm
 
 
 @operator.route('/all-payments')
+@login_required
+@operator_required
 def all_payments():
     payments = db.session.query(Payment.id, Payment.type_of_class, Payment.total, Payment.payment_for_month,
                                 Payment.status_of_payment, Payment.created_at, Payment.updated_at, Student.email,
@@ -18,6 +22,8 @@ def all_payments():
 
 
 @operator.route('/add-payment', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def add_payment():
     """Create a new payments."""
     form = PaymentForm()
@@ -47,6 +53,8 @@ def add_payment():
 
 
 @operator.route('/edit_payment/<int:payment_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def edit_payment(payment_id):
     """Edit a payment's information."""
     payment = Payment.query.filter_by(id=payment_id).first()

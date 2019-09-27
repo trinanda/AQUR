@@ -1,8 +1,10 @@
 from flask import render_template, flash, url_for, request, abort
+from flask_login import login_required
 from sqlalchemy import or_
 from werkzeug.utils import redirect
 
 from app import db, photos
+from app.decorators import operator_required
 from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student
 from app.users.operator import operator
 
@@ -10,6 +12,8 @@ from app.users.operator.course.forms import AddCourseForm, EditCourseForm
 
 
 @operator.route('/all-courses')
+@login_required
+@operator_required
 def all_courses():
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -20,6 +24,8 @@ def all_courses():
 
 
 @operator.route('/add-course', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def add_course():
     """Create a new course."""
     form = AddCourseForm()
@@ -42,6 +48,8 @@ def add_course():
 
 
 @operator.route('/delete_course/<int:course_id>')
+@login_required
+@operator_required
 def delete_course(course_id):
     """Delete a user's account."""
     course = Course.query.filter_by(id=course_id).first()
@@ -54,6 +62,8 @@ def delete_course(course_id):
 
 
 @operator.route('/edit_course/<int:course_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def edit_course(course_id):
     """Edit a course's information."""
     course = Course.query.filter_by(id=course_id).first()
@@ -79,6 +89,8 @@ def edit_course(course_id):
 
 
 @operator.route('/course_details/<int:course_id>')
+@login_required
+@operator_required
 def course_details(course_id):
     course = Course.query.filter_by(id=course_id).first()
     if course is None:

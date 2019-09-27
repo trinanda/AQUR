@@ -1,9 +1,11 @@
 from flask import render_template, url_for, flash, request, abort
+from flask_login import login_required
 from flask_rq import get_queue
 from sqlalchemy import or_
 from werkzeug.utils import redirect
 
 from app import db, photos
+from app.decorators import operator_required
 from app.email import send_email
 from app.models import Teacher, Role, User, Course, Schedule, Payment
 from app.users.operator import operator
@@ -11,6 +13,8 @@ from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm
 
 
 @operator.route('/all-teachers')
+@login_required
+@operator_required
 def all_teachers():
     page = request.args.get('page', 1, type=int)
     per_page = 100
@@ -20,6 +24,8 @@ def all_teachers():
 
 
 @operator.route('/teacher-profile/<int:teacher_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def teacher_profile(teacher_id):
     schedule = db.session.query(Schedule, Payment, Course).join(Payment, Course).filter(
         Schedule.teacher_id == teacher_id).filter(
@@ -113,6 +119,8 @@ def teacher_profile(teacher_id):
 
 
 @operator.route('/invite-teacher', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def invite_teacher():
     """Invites a new teacher to create an account and set their own password."""
     set_defatul_teacher_role = Role.query.filter_by(index='teacher').first()
@@ -146,6 +154,8 @@ def invite_teacher():
 
 
 @operator.route('/new-teacher', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def new_teacher():
     set_defatul_teacher_role = Role.query.filter_by(index='teacher').first()
     form = NewTeacherForm()

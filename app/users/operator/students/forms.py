@@ -25,11 +25,8 @@ class NewStudentForm(InviteStudentForm):
     submit = SubmitField('Create')
 
 
-class EditStudentForm(Form):
-    first_name = StringField('First name', )
-    last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
+class EditStudentForm(InviteStudentForm):
     gender = SelectField('Gender', choices=gender)
-    email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
     phone_number = StringField('Phone number', validators=[InputRequired(), Length(1, 12)])
     address = StringField('Address', validators=[InputRequired(), Length(1, 255)])
     date_of_birth = DateField('Date of birth', validators=[DataRequired()], format='%Y-%m-%d')

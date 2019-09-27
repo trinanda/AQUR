@@ -1,11 +1,13 @@
 import datetime
 
 from flask import render_template, flash, url_for, request, session
+from flask_login import login_required
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 from sqlalchemy import or_
 
 from app import db
+from app.decorators import operator_required
 from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus, ScheduleDayAndTime, \
     RequisitionSchedule
 from app.users.operator import operator
@@ -14,12 +16,16 @@ from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, 
 
 
 @operator.route('/all-schedules')
+@login_required
+@operator_required
 def all_schedules():
     schedules = db.session.query(Schedule).all()
     return render_template('main/operator/schedules/all-schedules.html', schedules=schedules)
 
 
 @operator.route('/add-schedule', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def add_schedule():
     schedule_form = ScheduleForm()
     schedule_day_form = ScheduleDayForm()
@@ -211,6 +217,8 @@ def add_schedule():
 
 
 @operator.route('/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def edit_schedule(schedule_id):
     """Edit a schedule's information."""
     schedule = Schedule.query.filter_by(id=schedule_id).first()
@@ -240,6 +248,8 @@ def edit_schedule(schedule_id):
 
 
 @operator.route('/check-schedules', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def check_schedules():
     schedules = db.session.query(Schedule).all()
     form = CheckScheduleForm()
@@ -299,6 +309,8 @@ def check_schedules():
 
 
 @operator.route('/requisition-schedules')
+@login_required
+@operator_required
 def requisition_schedules():
     requisition_schedules = RequisitionSchedule.query.all()
     return render_template('main/operator/schedules/requisition-schedules.html',
@@ -306,6 +318,8 @@ def requisition_schedules():
 
 
 @operator.route('/add-requisition-schedules', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def add_requisition_schedules():
     form = RequisitionScheduleForm()
     if request.method == "POST":
@@ -361,6 +375,8 @@ def add_requisition_schedules():
 
 
 @operator.route('/edit-requisition-schedules/<int:requisition_schedule_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
 def edit_requisition_schedules(requisition_schedule_id):
     """Edit a requisition_schedule information."""
     schedule_day_and_time = ScheduleDayAndTime.query.filter_by(requisition_schedule_id=requisition_schedule_id).first()
