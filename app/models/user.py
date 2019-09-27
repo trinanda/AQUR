@@ -11,7 +11,7 @@ from .. import db, login_manager
 
 
 class Permission:
-    ADMINISTER = 0xff
+    ADMINISTER = 0x08
     OPERATOR = 0x04
     TEACHER = 0x02
     STUDENT = 0x01
@@ -100,6 +100,15 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.can(Permission.ADMINISTER)
+
+    def is_operator(self):
+        return self.can(Permission.OPERATOR)
+
+    def is_teacher(self):
+        return self.can(Permission.TEACHER)
+
+    def is_student(self):
+        return self.can(Permission.STUDENT)
 
     @property
     def password(self):

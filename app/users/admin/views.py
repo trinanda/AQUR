@@ -1,19 +1,9 @@
-from flask import (
-    Blueprint,
-    abort,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_rq import get_queue
 
-from app.users.admin.forms import ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm, \
-    NewUserForm
+from app.users.admin.forms import ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm, EditUserForm, NewUserForm
 from app import db
-
 from app.decorators import admin_required
 from app.email import send_email
 from app.models import EditableHTML, Role, User, Teacher, Operator, Student
@@ -26,7 +16,8 @@ admin = Blueprint('admin', __name__)
 @admin_required
 def index():
     """Admin dashboard page."""
-    return render_template('admin/index.html')
+    users = db.session.query(User.id, User, Role).join(Role).order_by(User.updated_at.desc()).all()
+    return render_template('admin/index.html', users=users)
 
 
 @admin.route('/new-user', methods=['GET', 'POST'])
@@ -36,7 +27,6 @@ def new_user():
     """Create a new user."""
     form = NewUserForm()
     if form.validate_on_submit():
-
         if form.role.data.__dict__['name'] == 'Administrator':
             user = User(
                 role=form.role.data,
@@ -46,63 +36,42 @@ def new_user():
                 password=form.password.data)
             db.session.add(user)
             db.session.commit()
-            flash('User {} successfully created'.format(user.full_name()),
-                  'form-success')
-
-        elif form.role.data.__dict__['name'] == 'User':
-            user = User(
-                role=form.role.data,
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                email=form.email.data,
-                password=form.password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash('User {} successfully created'.format(user.full_name()),
-                  'form-success')
+            flash('User {} successfully created'.format(user.full_name), 'success')
 
         elif form.role.data.__dict__['name'] == 'Operator':
             operator = Operator(
                 role=form.role.data,
-
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data)
             db.session.add(operator)
             db.session.commit()
-            flash('Operator {} successfully created'.format(operator.full_name()),
-                  'form-success')
+            flash('Operator {} successfully created'.format(operator.full_name), 'success')
 
         elif form.role.data.__dict__['name'] == 'Teacher':
             teacher = Teacher(
                 role=form.role.data,
-
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data)
             db.session.add(teacher)
             db.session.commit()
-            flash('Teacher {} successfully created'.format(teacher.full_name()),
-                  'form-success')
+            flash('Teacher {} successfully created'.format(teacher.full_name), 'success')
 
         elif form.role.data.__dict__['name'] == 'Student':
             student = Student(
                 role=form.role.data,
-
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data)
             db.session.add(student)
             db.session.commit()
-            flash('Student {} successfully created'.format(student.full_name()),
-                  'form-success')
-        else:
-            pass
-
-    return render_template('admin/new_user.html', form=form)
+            flash('Student {} successfully created'.format(student.full_name), 'success')
+        return redirect(url_for('admin.index'))
+    return render_template('admin/manipulate-user.html', form=form)
 
 
 @admin.route('/invite-user', methods=['GET', 'POST'])
@@ -131,11 +100,48 @@ def invite_user():
             subject='You Are Invited To Join',
             template='account/email/invite',
             user=user,
-            invite_link=invite_link,
-        )
-        flash('User {} successfully invited'.format(user.full_name()),
-              'form-success')
-    return render_template('admin/new_user.html', form=form)
+            invite_link=invite_link)
+        flash('User {} successfully invited'.format(user.full_name), 'success')
+        return redirect(url_for('admin.index'))
+    return render_template('admin/manipulate-user.html', form=form)
+
+
+@admin.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_user(user_id):
+    """Edit user information."""
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        abort(404)
+
+    form = EditUserForm(obj=user)
+
+    if form.validate_on_submit():
+        user.role = form.role.data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+
+        validate_user_data = User.query.filter(~User.phone_number.in_([user.phone_number])).all()
+        all_user_email = []
+
+        for data in validate_user_data:
+            all_user_email.append(data.email)
+
+        if form.email.data in all_user_email:
+            flash('Duplicate email with the other users, please input different email', 'error')
+            return redirect(url_for('admin.edit_user', user_id=user_id))
+
+        user.email = form.email.data
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return redirect(url_for('admin.edit_user', user_id=user_id))
+        flash('Successfully edited user {}'.format(user.full_name), 'success')
+        return redirect(url_for('admin.index'))
+    return render_template('admin/manipulate-user.html', form=form, user=user)
 
 
 @admin.route('/users')
@@ -174,20 +180,17 @@ def change_user_email(user_id):
         user.email = form.email.data
         db.session.add(user)
         db.session.commit()
-        flash('Email for user {} successfully changed to {}.'.format(
-            user.full_name(), user.email), 'form-success')
+        flash('Email for user {} successfully changed to {}.'.format(user.full_name, user.email), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
-@admin.route(
-    '/user/<int:user_id>/change-account-type', methods=['GET', 'POST'])
+@admin.route('/user/<int:user_id>/change-account-type', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def change_account_type(user_id):
     """Change a user's account type."""
     if current_user.id == user_id:
-        flash('You cannot change the type of your own account. Please ask '
-              'another administrator to do this.', 'error')
+        flash('You cannot change the type of your own account. Please ask another administrator to do this.', 'error')
         return redirect(url_for('admin.user_info', user_id=user_id))
 
     user = User.query.get(user_id)
@@ -198,8 +201,7 @@ def change_account_type(user_id):
         user.role = form.role.data
         db.session.add(user)
         db.session.commit()
-        flash('Role for user {} successfully changed to {}.'.format(
-            user.full_name(), user.role.name), 'form-success')
+        flash('Role for user {} successfully changed to {}.'.format(user.full_name, user.role.name), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
@@ -220,13 +222,12 @@ def delete_user_request(user_id):
 def delete_user(user_id):
     """Delete a user's account."""
     if current_user.id == user_id:
-        flash('You cannot delete your own account. Please ask another '
-              'administrator to do this.', 'error')
+        flash('You cannot delete your own account. Please ask another administrator to do this.', 'error')
     else:
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)
         db.session.commit()
-        flash('Successfully deleted user %s.' % user.full_name(), 'success')
+        flash('Successfully deleted user %s.' % user.full_name, 'success')
     return redirect(url_for('admin.registered_users'))
 
 
@@ -235,7 +236,6 @@ def delete_user(user_id):
 @admin_required
 def update_editor_contents():
     """Update the contents of an editor."""
-
     edit_data = request.form.get('edit_data')
     editor_name = request.form.get('editor_name')
 
