@@ -35,11 +35,16 @@
           {{ f.begin_form(schedule_form, flashes) }}
           <div class="form-row">
 	          {% if schedule %}
-	            {{ f.begin_form(form, flashes) }}
-								{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
-								{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6', value=schedule.start_at) }}
-								{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6', value=schedule.end_at) }}
-								{{ f.render_form_field(form.course_status, extra_classes='form-group col-md-12') }}
+	            {{ f.begin_form(schedule_form, flashes) }}
+								{{ f.render_form_field(schedule_form.schedule_day, extra_classes='form-group col-md-6') }}
+	              {{ f.render_form_field(schedule_form.schedule_day_2, extra_classes='form-group col-md-6') }}
+	              {% for data in prepopulate_schedule_form %}
+									{{ f.render_form_field(schedule_form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
+									{{ f.render_form_field(schedule_form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
+									{{ f.render_form_field(schedule_form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
+									{{ f.render_form_field(schedule_form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
+								{% endfor %}
+								{{ f.render_form_field(schedule_form.course_status, extra_classes='form-group col-md-12') }}
 			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Update">
 	            {{ f.end_form() }}
 	          {% endif %}
@@ -112,7 +117,6 @@
 		                <td>-</td>
 		              {% endif %}
 	              </tr>
-
 	            </table>
 	            <form action="#" method="post">
 	              <input type=hidden name="step" value="submit">
