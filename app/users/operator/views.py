@@ -11,13 +11,6 @@ from app.users.operator import operator
 @operator.route('/')
 @login_required
 @operator_required
-def index():
-    return render_template('main/operator/index.html')
-
-
-@operator.route('/operator-dashboard')
-@login_required
-@operator_required
 def operator_dashboard():
     title = "AQUR"
 

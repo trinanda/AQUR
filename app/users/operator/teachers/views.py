@@ -23,7 +23,7 @@ def all_teachers():
     return render_template('main/operator/teachers/all-teachers.html', teachers=teachers)
 
 
-@operator.route('/teacher-profile/<int:teacher_id>', methods=['GET', 'POST'])
+@operator.route('/teacher/teacher-profile/<int:teacher_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def teacher_profile(teacher_id):
@@ -118,7 +118,7 @@ def teacher_profile(teacher_id):
                            number_of_students=number_of_students)
 
 
-@operator.route('/invite-teacher', methods=['GET', 'POST'])
+@operator.route('/teacher/invite-teacher', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def invite_teacher():
@@ -153,7 +153,7 @@ def invite_teacher():
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
 
 
-@operator.route('/new-teacher', methods=['GET', 'POST'])
+@operator.route('/teacher/new-teacher', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def new_teacher():

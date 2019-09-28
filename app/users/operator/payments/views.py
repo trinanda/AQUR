@@ -21,7 +21,7 @@ def all_payments():
     return render_template('main/operator/payments/all-payments.html', payments=payments)
 
 
-@operator.route('/add-payment', methods=['GET', 'POST'])
+@operator.route('/payment/add-payment', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def add_payment():
@@ -52,7 +52,7 @@ def add_payment():
     return render_template('main/operator/payments/manipulate-payment.html', form=form)
 
 
-@operator.route('/edit_payment/<int:payment_id>', methods=['GET', 'POST'])
+@operator.route('/payment/edit_payment/<int:payment_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_payment(payment_id):

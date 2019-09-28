@@ -22,7 +22,7 @@ def all_students():
     return render_template('main/operator/students/all-students.html', students=students)
 
 
-@operator.route('/student-profile/<int:student_id>', methods=['GET', 'POST'])
+@operator.route('/student/student-profile/<int:student_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def student_profile(student_id):
@@ -86,7 +86,7 @@ def student_profile(student_id):
     return render_template('main/operator/students/student-profile.html', student=student, form=form)
 
 
-@operator.route('/invite-student', methods=['GET', 'POST'])
+@operator.route('/student/invite-student', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def invite_student():
@@ -121,7 +121,7 @@ def invite_student():
     return render_template('main/operator/students/manipulate-student.html', form=form)
 
 
-@operator.route('/new-student', methods=['GET', 'POST'])
+@operator.route('/student/new-student', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def new_student():

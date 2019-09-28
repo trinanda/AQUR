@@ -8,7 +8,7 @@ from app.decorators import operator_required
 from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student
 from app.users.operator import operator
 
-from app.users.operator.course.forms import AddCourseForm, EditCourseForm
+from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
 
 
 @operator.route('/all-courses')
@@ -23,7 +23,7 @@ def all_courses():
     return render_template('main/operator/courses/all-courses.html', courses=courses)
 
 
-@operator.route('/add-course', methods=['GET', 'POST'])
+@operator.route('/course/add-course', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def add_course():
@@ -47,7 +47,7 @@ def add_course():
     return render_template('main/operator/courses/manipulate-course.html', form=form)
 
 
-@operator.route('/delete_course/<int:course_id>')
+@operator.route('/course/delete_course/<int:course_id>')
 @login_required
 @operator_required
 def delete_course(course_id):
@@ -61,7 +61,7 @@ def delete_course(course_id):
     return redirect(url_for('operator.all_courses'))
 
 
-@operator.route('/edit_course/<int:course_id>', methods=['GET', 'POST'])
+@operator.route('/course/edit_course/<int:course_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_course(course_id):
@@ -88,7 +88,7 @@ def edit_course(course_id):
     return render_template('main/operator/courses/manipulate-course.html', course=course, form=form)
 
 
-@operator.route('/course_details/<int:course_id>')
+@operator.route('/course/course_details/<int:course_id>')
 @login_required
 @operator_required
 def course_details(course_id):

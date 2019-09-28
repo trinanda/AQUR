@@ -23,7 +23,7 @@ def all_schedules():
     return render_template('main/operator/schedules/all-schedules.html', schedules=schedules)
 
 
-@operator.route('/add-schedule', methods=['GET', 'POST'])
+@operator.route('/schedule/add-schedule', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def add_schedule():
@@ -216,7 +216,7 @@ def add_schedule():
     return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form)
 
 
-@operator.route('/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
+@operator.route('/schedule/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_schedule(schedule_id):
@@ -303,7 +303,7 @@ def edit_schedule(schedule_id):
                            schedule_form=schedule_form, prepopulate_schedule_form=prepopulate_schedule_form)
 
 
-@operator.route('/check-schedules', methods=['GET', 'POST'])
+@operator.route('/schedule/check-schedules', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def check_schedules():
@@ -363,7 +363,7 @@ def check_schedules():
                            available_teachers='')
 
 
-@operator.route('/requisition-schedules')
+@operator.route('/schedule/all-requisition-schedules')
 @login_required
 @operator_required
 def requisition_schedules():
@@ -372,7 +372,7 @@ def requisition_schedules():
                            requisition_schedules=requisition_schedules)
 
 
-@operator.route('/add-requisition-schedules', methods=['GET', 'POST'])
+@operator.route('/schedule/add-requisition-schedule', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def add_requisition_schedules():
@@ -429,7 +429,7 @@ def add_requisition_schedules():
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form)
 
 
-@operator.route('/edit-requisition-schedules/<int:requisition_schedule_id>', methods=['GET', 'POST'])
+@operator.route('/schedule/edit-requisition-schedules/<int:requisition_schedule_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_requisition_schedules(requisition_schedule_id):
