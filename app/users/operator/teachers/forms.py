@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms.ext.sqlalchemy.fields import QuerySelectMultipleField
 from wtforms.fields import StringField, SubmitField, FileField, PasswordField, SelectField
 from wtforms import ValidationError
@@ -12,7 +12,7 @@ def course_list():
     return Course.query.all()
 
 
-class InviteTeacherForm(Form):
+class InviteTeacherForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(1, 64)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
     email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
@@ -32,7 +32,7 @@ class NewTeacherForm(InviteTeacherForm):
     submit = SubmitField('Create')
 
 
-class EditTeacherForm(Form):
+class EditTeacherForm(FlaskForm):
     first_name = StringField('First name', )
     last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
     gender = SelectField('Gender', choices=gender)

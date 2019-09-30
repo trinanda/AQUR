@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms.fields import StringField, SubmitField, FileField
 from wtforms import ValidationError
 from wtforms.validators import InputRequired, Length
@@ -6,7 +6,7 @@ from wtforms.validators import InputRequired, Length
 from app.models import Course
 
 
-class AddCourseForm(Form):
+class AddCourseForm(FlaskForm):
     name = StringField('Course name', validators=[InputRequired(), Length(1, 100)])
     image = FileField('Image', validators=[InputRequired()])
     submit = SubmitField('Add course')
@@ -16,7 +16,7 @@ class AddCourseForm(Form):
             raise ValidationError('Course name already registered!')
 
 
-class EditCourseForm(Form):
+class EditCourseForm(FlaskForm):
     name = StringField('Course name', validators=[InputRequired(), Length(1, 100)])
     image = FileField('Image', validators=[InputRequired()])
     submit = SubmitField('Edit course')

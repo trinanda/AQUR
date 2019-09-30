@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField, IntegerField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField
@@ -12,7 +12,7 @@ def course_list():
     return Course.query.all()
 
 
-class PaymentForm(Form):
+class PaymentForm(FlaskForm):
     student_email = EmailField('Student email', validators=[required()])
     total = IntegerField(validators=[required()])
     course_name = QuerySelectField('Course name', validators=[required()], query_factory=course_list)

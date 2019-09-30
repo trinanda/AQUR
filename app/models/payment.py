@@ -1,5 +1,3 @@
-from sqlalchemy.orm import relationship
-
 from app import db
 from app.models import MonthNameList, TypeOfClass, PaymentStatus
 
@@ -14,11 +12,10 @@ class Payment(db.Model):
     payment_for_month = db.Column(db.Enum(MonthNameList, name='payment_for_month'))
     status_of_payment = db.Column(db.Enum(PaymentStatus, name='status_of_payment'))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
-                           onupdate=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
-    course = relationship("Course", foreign_keys=[course_id])
-    student = relationship("Student", foreign_keys=[student_id])
+    course = db.relationship("Course", foreign_keys=[course_id])
+    student = db.relationship("Student", foreign_keys=[student_id])
 
     def __str__(self):
         return str(self.status_of_payment)

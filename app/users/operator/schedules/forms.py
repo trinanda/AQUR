@@ -3,7 +3,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField, TimeField
 from wtforms.validators import required, ValidationError
 
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms.validators import Email
 
 from app.models import Teacher, type_of_class, day_name_list, Student, course_status, gender, Course
@@ -13,7 +13,7 @@ def courses_list():
     return Course.query.all()
 
 
-class ScheduleForm(Form):
+class ScheduleForm(FlaskForm):
     student_email = EmailField('Student email', validators=[required()])
     course_name = SelectField('Course name', validators=[required('It seems the student didn\' pay any course ')],
                               choices=[()])
@@ -31,7 +31,7 @@ class ScheduleForm(Form):
             raise ValidationError('It seems the email is not registered as a teacher email.')
 
 
-class CheckScheduleForm(Form):
+class CheckScheduleForm(FlaskForm):
     course_name = SelectField('Course name', validators=[required('It seems the student didn\' pay any course ')],
                               choices=[()])
     type_of_class = SelectField('Type of class', validators=[required()], choices=type_of_class)

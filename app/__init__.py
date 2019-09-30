@@ -8,16 +8,16 @@ from flask_mail import Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import configure_uploads, UploadSet
-from flask_wtf import CsrfProtect
+from flask_wtf import CSRFProtect
 
 from app.assets import app_css, app_js, vendor_css, vendor_js
-from config import config, Config
+from config import config as Config
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 mail = Mail()
 db = SQLAlchemy()
-csrf = CsrfProtect()
+csrf = CSRFProtect()
 compress = Compress()
 photos = UploadSet('photos', Config.UPLOADED_PHOTOS_ALLOW)
 
@@ -27,13 +27,18 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'account.login'
 
 
-def create_app(config_name):
+def create_app(config):
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    config_name = config
+
+    if not isinstance(config, str):
+        config_name = os.getenv('FLASK_CONFIG', 'default')
+
+    app.config.from_object(config[Config])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # not using sqlalchemy event system, hence disabling it
 
-    config[config_name].init_app(app)
+    Config[config_name].init_app(app)
     register_extensions(app)
 
     # Register Jinja template functions
