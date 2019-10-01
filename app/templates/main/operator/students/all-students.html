@@ -11,13 +11,13 @@
     <div class="container-fluid">
       <div class="d-flex justify-content-end">
         <div class="mr-auto p-2">
-          <h4 class="c-grey-900 mT-10 mB-30">Students</h4>
+          <h4 class="c-grey-900 mT-10 mB-30">{{ _('Students') }}</h4>
         </div>
         <div class="p-2">
-          <a href="{{ url_for('operator.invite_student') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">Invite new Student</a>
+          <a href="{{ url_for('operator.invite_student') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">{{ _('Invite new Student') }}</a>
         </div>
         <div class="p-2">
-          <a href="{{ url_for('operator.new_student') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Student</a>
+          <a href="{{ url_for('operator.new_student') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Student') }}</a>
         </div>
       </div>
       </div>

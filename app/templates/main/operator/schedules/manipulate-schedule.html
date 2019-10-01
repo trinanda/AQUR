@@ -37,9 +37,9 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item col-md-6">
 	    {% if schedule %}
-	      <h2 class="c-grey-900">Edit {{ schedule.student.full_name }} Schedule</h2>
+	      <h2 class="c-grey-900">{{ _('Edit') }} {{ schedule.student.full_name }} {{ _('Schedule') }}</h2>
 	    {% else %}
-	      <h2 class="c-grey-900">Add new Schedule</h2>
+	      <h2 class="c-grey-900">{{ _('Add new Schedule') }}</h2>
 	    {% endif %}
 	    <div class="bgc-white p-70 bd">
 		    {% if step == "input_student_email" %}
@@ -118,21 +118,21 @@
 									{{ f.render_form_field(schedule_form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
 								{% endfor %}
 								{{ f.render_form_field(schedule_form.course_status, extra_classes='form-group col-md-12') }}
-			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Update">
+			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Update') }}">
 	            {{ f.end_form() }}
 	          {% endif %}
 	          {% if step == "input_student_email" %}
 	            {{ f.render_form_field(schedule_form.student_email, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="available_course">
-						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Check available course">
+						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check available course') }}">
 		        {% elif step == "available_course" %}
 							{{ f.render_form_field(schedule_form.course_name, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="type_of_class">
-						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Input type of class">
+						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input type of class') }}">
 		        {% elif step == "type_of_class" %}
 							{{ f.render_form_field(schedule_form.type_of_class, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="input_schedule">
-						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Input schedule">
+						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input schedule') }}">
 	             {{ f.end_form() }}
 	             {{ f.begin_form(schedule_day_form, flashes) }}
 		        {% elif step == "input_schedule" %}
@@ -143,38 +143,38 @@
 							{{ f.render_form_field(schedule_day_form.start_at_2, extra_classes='form-group col-md-6') }}
 							{{ f.render_form_field(schedule_day_form.end_at_2, extra_classes='form-group col-md-6') }}
 	            <input type=hidden name="step" value="input_teacher_email">
-	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Input Teacher">
+	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input Teacher') }}">
 	            {{ f.end_form() }}
 	            {{ f.begin_form(schedule_form, flashes) }}
 		        {% elif step == "input_teacher_email" %}
 							{{ f.render_form_field(schedule_form.teacher_email, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="check_data">
-					    <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Check all input">
+					    <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check all input') }}">
 		        {% elif step == "check_data" %}
 		          <div class="table-responsive">
 		            <table class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover" cellspacing="0" width="100%">
 		              <tr>
-		                <th>Student email</th>
+		                <th>{{ _('Student email') }}</th>
 		                <td>{{ student_email }}</td>
 		              </tr>
 		              <tr>
-		                <th>Course name</th>
+		                <th>{{ _('Course name') }}</th>
 		                <td>{{ course_name }}</td>
 		              </tr>
 		              <tr>
-		                <th>Type of class</th>
+		                <th>{{ _('Type of class') }}</th>
 		                <td>{{ type_of_class }}</td>
 		              </tr>
 			            <tr>
-		                <th>Teacher email</th>
+		                <th>{{ _('Teacher email') }}</th>
 		                <td>{{ teacher_email }}</td>
 		              </tr>
 			            <tr>
-				            <th colspan="2">Schedule</th>
+				            <th colspan="2">{{ _('Schedule') }}</th>
 			            </tr>
 			            <tr>
-				            <td>Day-1</td>
-				            <td>Day-2</td>
+				            <td>{{ _('Day-1') }}</td>
+				            <td>{{ _('Day-2') }}</td>
 			            </tr>
 			            <tr>
 		                <td>{{ schedule_day }}</td>

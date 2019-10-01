@@ -21,11 +21,11 @@
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
         {% if form.password %}
-        <h2 class="c-grey-900">Add new Student</h2>
+        <h2 class="c-grey-900">{{ _('Add new Student') }}</h2>
         {% elif form.password and teacher %}
-        <h2 class="c-grey-900">Edit Student</h2>
+        <h2 class="c-grey-900">{{ _('Edit Student') }}</h2>
         {% else %}
-        <h2 class="c-grey-900">Invite new Student</h2>
+        <h2 class="c-grey-900">{{ _('Invite new Student') }}</h2>
         {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),

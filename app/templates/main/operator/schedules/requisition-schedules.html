@@ -16,10 +16,10 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Requisition Schedule</h2>
+					<h2>{{ _('Requisition Schedule') }}</h2>
 					<div class="d-flex justify-content-end">
 						<div class="p-2" style="margin-top: 10px;">
-							<a href="{{ url_for('operator.add_requisition_schedules') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Requisition Schedule</a>
+							<a href="{{ url_for('operator.add_requisition_schedules') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Requisition Schedule') }}</a>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -28,17 +28,17 @@
 					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover display" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th rowspan="2">Student</th>
-								<th rowspan="2">Student email</th>
-								<th rowspan="2">Phone number</th>
-								<th rowspan="2">Gender</th>
-								<th rowspan="2">Course</th>
-								<th rowspan="2">Type of class</th>
-								<th colspan="2">Schedule</th>
+								<th rowspan="2">{{ _('Student') }}</th>
+								<th rowspan="2">{{ _('Student email') }}</th>
+								<th rowspan="2">{{ _('Phone number') }}</th>
+								<th rowspan="2">{{ _('Gender') }}</th>
+								<th rowspan="2">{{ _('Course') }}</th>
+								<th rowspan="2">{{ _('Type of class') }}</th>
+								<th colspan="2">{{ _('Schedule') }}</th>
 							</tr>
 							<tr>
-								<th>Day</th>
-								<th>Day 2</th>
+								<th>{{ _('Day') }}</th>
+								<th>{{ _('Day 2') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -62,13 +62,13 @@
 						</tbody>
 							<tfoot>
 							<tr>
-								<th>Student</th>
-								<th>Student email</th>
-								<th>Phone number</th>
-								<th>Gender</th>
-								<th>Course</th>
-								<th>Type of class</th>
-								<th colspan="2">Schedule</th>
+								<th>{{ _('Student') }}</th>
+								<th>{{ _('Student email') }}</th>
+								<th>{{ _('Phone number') }}</th>
+								<th>{{ _('Gender') }}</th>
+								<th>{{ _('Course') }}</th>
+								<th>{{ _('Type of class') }}</th>
+								<th colspan="2">{{ _('Schedule') }}</th>
 							</tr>
 		        </tfoot>
 					</table>

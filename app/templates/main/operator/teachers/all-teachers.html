@@ -16,13 +16,13 @@
     <div class="container-fluid">
       <div class="d-flex justify-content-end">
         <div class="mr-auto p-2">
-          <h4 class="c-grey-900 mT-10 mB-30">Teachers</h4>
+          <h4 class="c-grey-900 mT-10 mB-30">{{ _('Teachers') }}</h4>
         </div>
         <div class="p-2">
-          <a href="{{ url_for('operator.invite_teacher') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">Invite new Teacher</a>
+          <a href="{{ url_for('operator.invite_teacher') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">{{ _('Invite new Teacher') }}</a>
         </div>
         <div class="p-2">
-          <a href="{{ url_for('operator.new_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Add new Teacher</a>
+          <a href="{{ url_for('operator.new_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Teacher') }}</a>
         </div>
       </div>
       </div>
@@ -49,7 +49,7 @@
                 </h3>
               </a>
               <strong class="all-pro-ad">
-                Teach:
+                {{ _('Teach') }}:
                 {% for data in data.taught_courses %}
                   {{ data }},
                 {% endfor %}

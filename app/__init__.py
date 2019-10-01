@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, request, current_app
 from flask_assets import Environment
 from flask_compress import Compress
 from flask_login import LoginManager
@@ -9,8 +9,11 @@ from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import configure_uploads, UploadSet
 from flask_wtf import CSRFProtect
+from flask_babel import Babel
 
+from app import cli
 from app.assets import app_css, app_js, vendor_css, vendor_js
+from config import Config as config_flask_upload
 from config import config as Config
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -19,7 +22,8 @@ mail = Mail()
 db = SQLAlchemy()
 csrf = CSRFProtect()
 compress = Compress()
-photos = UploadSet('photos', Config.UPLOADED_PHOTOS_ALLOW)
+photos = UploadSet('photos', config_flask_upload.UPLOADED_PHOTOS_ALLOW)
+babel = Babel()
 
 # Set up Flask-Login
 login_manager = LoginManager()
@@ -34,7 +38,7 @@ def create_app(config):
     if not isinstance(config, str):
         config_name = os.getenv('FLASK_CONFIG', 'default')
 
-    app.config.from_object(config[Config])
+    app.config.from_object(Config[config_name])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # not using sqlalchemy event system, hence disabling it
 
@@ -93,3 +97,10 @@ def register_extensions(app):
     compress.init_app(app)
     RQ(app)
     configure_uploads(app, photos)
+    babel.init_app(app)
+    cli.register(app)
+
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(current_app.config['LANGUAGES'])

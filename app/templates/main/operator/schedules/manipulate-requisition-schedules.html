@@ -21,9 +21,9 @@
 		<div class="masonry-item col-md-6">
 			<div class="bgc-white p-20 bd">
 				{% if requisition_schedule %}
-        <h2 class="c-grey-900">Edit 'student name' Requisition Schedule</h2>
+        <h2 class="c-grey-900">{{ _('Edit "student name" Requisition Schedule') }}</h2>
         {% else %}
-        <h2 class="c-grey-900">Add new Requisition Schedule</h2>
+        <h2 class="c-grey-900">{{ _('Add new Requisition Schedule') }}</h2>
         {% endif %}
 				{% set flashes = {
 				'error': get_flashed_messages(category_filter=['form-error']),

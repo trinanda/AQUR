@@ -8,7 +8,7 @@
 <div id='mainContent'>
   <div class="single-pro-review-area mt-t-30 mg-b-15">
     <div class="container-fluid">
-      <h4 class="c-grey-900 mT-10 mB-30">Teacher Profile</h4>
+      <h4 class="c-grey-900 mT-10 mB-30">{{ _('Teacher Profile') }}</h4>
       {% set flashes = {
       'error': get_flashed_messages(category_filter=['form-error']),
       'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -24,7 +24,7 @@
               <div class="containerProfilePicture">
                 <img id="blah" src="{{ url_for('static', filename='images/app/'+teacher['photo']) }}" alt="Avatar" class="imageProfilePicture">
                 <div class="middle">
-                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto"> change photo</label>
+                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto">{{ ('change photo') }}</label>
                   <input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
                 </div>
               </div>
@@ -32,7 +32,7 @@
               <div class="containerProfilePicture">
                 <img id="blah" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="Avatar" class="imageProfilePicture">
                 <div class="middle">
-                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto"> change photo</label>
+                  <label for="files" class="fa fa-photo d-flex justify-content-center d-sm-table mx-auto editPhoto">{{ ('change photo') }}</label>
                   <input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
                 </div>
               </div>
@@ -44,13 +44,13 @@
               <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                   <div class="address-hr">
-                    <p><b>Name</b><br /> {{ teacher.full_name }}</p>
+                    <p><b>{{ _('Name') }}</b><br /> {{ teacher.full_name }}</p>
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                   <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
                     <p>
-                      <b>Teach</b><br/>
+                      <b>{{ _('Teach') }}</b><br/>
                       {% for data in teacher.taught_courses %}
                         <span>{{ data }}, </span>
                       {% endfor %}
@@ -64,8 +64,8 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
           <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
             <ul id="myTabedu1" class="tab-review-design">
-              <li class="active"><a href="#reviews"> Biography</a></li>
-              <li><a href="#INFORMATION">Update Details</a></li>
+              <li class="active"><a href="#reviews">{{ _('Biography') }}</a></li>
+              <li><a href="#INFORMATION">{{ _('Update Details') }}</a></li>
             </ul>
             <div id="myTabContent" class="tab-content custom-product-edit">
               <div class="product-tab-list tab-pane active in" id="reviews">
@@ -77,27 +77,27 @@
                           <div class="content-profile">
                             <table class="table table-sm table-hover table-responsive-sm">
                               <tr>
-                                <th>Name</th>
+                                <th>{{ _('Name') }}</th>
                                 <td>{{ teacher.full_name }}</td>
                               </tr>
                               <tr>
-                                <th>Gender</th>
+                                <th>{{ _('Gender') }}</th>
                                 <td>{{ teacher.gender }}</td>
                               </tr>
                               <tr>
-                                <th>Email</th>
+                                <th>{{ _('Email') }}</th>
                                 <td>{{ teacher.email }}</td>
                               </tr>
                               <tr>
-                                <th>Phone number</th>
+                                <th>{{ _('Phone number') }}</th>
                                 <td>{{ teacher.phone_number }}</td>
                               </tr>
                               <tr>
-                                <th>Address</th>
+                                <th>{{ _('Address') }}</th>
                                 <td>{{ teacher.address }}</td>
                               </tr>
                               <tr>
-                                <th data-toggle="collapse" data-target="#numberOfStudens">Number of students</th>
+                                <th data-toggle="collapse" data-target="#numberOfStudens">{{ _('Number of students') }}</th>
                               </tr>
                               <!---->
 															<!---->
@@ -126,7 +126,7 @@
                           <div class="row">
                             <div class="col-lg-12">
                               <div class="skill-title">
-                                <h2>Education</h2>
+                                <h2>{{ _('Education') }}</h2>
                                 <hr />
                               </div>
                             </div>
@@ -147,7 +147,7 @@
                           <div class="row">
                             <div class="col-lg-12">
                               <div class="skill-title">
-                                <h2>Experience</h2>
+                                <h2>{{ _('Experience') }}</h2>
                                 <hr />
                               </div>
                             </div>

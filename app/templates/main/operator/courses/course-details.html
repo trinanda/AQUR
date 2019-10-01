@@ -17,7 +17,7 @@
         <div class="col-md-3">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
-              <h6 class="lh-1">Total Students</h6>
+              <h6 class="lh-1">{{ _('Total Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
@@ -30,7 +30,7 @@
         <div class="col-md-2">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
-              <h6 class="lh-1">Private Students</h6>
+              <h6 class="lh-1">{{ _('Private Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
@@ -43,7 +43,7 @@
         <div class="col-md-2">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
-              <h6 class="lh-1">Regular Students</h6>
+              <h6 class="lh-1">{{ _('Regular Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
@@ -56,7 +56,7 @@
         <div class="col-md-2">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
-              <h6 class="lh-1">Male Students</h6>
+              <h6 class="lh-1">{{ _('Male Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
@@ -69,7 +69,7 @@
         <div class="col-md-3">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
-              <h6 class="lh-1">Female Students</h6>
+              <h6 class="lh-1">{{ _('Female Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
@@ -87,7 +87,7 @@
           <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
             <div class="layers">
               <div class="layer w-100 mB-10">
-                <h6 class="lh-1">Students Graph</h6>
+                <h6 class="lh-1">{{ _('Students Graph') }}</h6>
               </div>
               <div class="layer w-100">
                 <canvas id="myChart" class="img-responsive" height="100"></canvas>
@@ -95,10 +95,10 @@
             </div>
               <div class="peers pT-20 mT-20 bdT fxw-nw@lg+ jc-sb ta-c gap-10">
                 <div class="peer">
-                  <a href="{{ url_for('operator.edit_course', course_id=course.id) }}"><button class="btn btn-primary btn-circle m-1">Edit</button></a>
+                  <a href="{{ url_for('operator.edit_course', course_id=course.id) }}"><button class="btn btn-primary btn-circle m-1">{{ _('Edit') }}</button></a>
                 </div>
                 <div class="peer">
-                  <a href="{{ url_for('operator.delete_course', course_id=course.id) }}"><button class="btn btn-danger btn-circle m-1">Delete</button></a>
+                  <a href="{{ url_for('operator.delete_course', course_id=course.id) }}"><button class="btn btn-danger btn-circle m-1">{{ _('Delete') }}</button></a>
                 </div>
               </div>
           </div>

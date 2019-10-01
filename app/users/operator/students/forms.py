@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_babel import _, lazy_gettext as _l
 from wtforms.fields import StringField, SubmitField, FileField, PasswordField, SelectField
 from wtforms import ValidationError
 from wtforms.fields.html5 import EmailField, DateField
@@ -8,34 +9,31 @@ from app.models import User, gender
 
 
 class InviteStudentForm(FlaskForm):
-    first_name = StringField('First name', validators=[InputRequired(), Length(1, 64)])
-    last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
-    email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
-    submit = SubmitField('Invite')
+    first_name = StringField(_l('First name'), validators=[InputRequired(), Length(1, 64)])
+    last_name = StringField(_l('Last name'), validators=[InputRequired(), Length(1, 64)])
+    email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
+    submit = SubmitField(_l('Invite'))
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError(_('Email already registered.'))
 
 
 class NewStudentForm(InviteStudentForm):
-    gender = SelectField('Gender', choices=gender)
-    password = PasswordField('Password', validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
-    password2 = PasswordField('Confirm password', validators=[InputRequired()])
-    submit = SubmitField('Create')
+    gender = SelectField(_l('Gender'), choices=gender)
+    password = PasswordField(_l('Password'), validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
+    password2 = PasswordField(_l('Confirm password'), validators=[InputRequired()])
+    submit = SubmitField(_l('Create'))
 
 
-class EditStudentForm(FlaskForm):
-    first_name = StringField('First name', )
-    last_name = StringField('Last name', validators=[InputRequired(), Length(1, 64)])
-    gender = SelectField('Gender', choices=gender)
-    email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
-    phone_number = StringField('Phone number', validators=[InputRequired(), Length(1, 12)])
-    address = StringField('Address', validators=[InputRequired(), Length(1, 255)])
-    date_of_birth = DateField('Date of birth', validators=[DataRequired()], format='%Y-%m-%d')
-    photo = FileField('Photo')
-    submit = SubmitField('Update')
+class EditStudentForm(InviteStudentForm):
+    gender = SelectField(_l('Gender'), choices=gender)
+    phone_number = StringField(_l('Phone number'), validators=[InputRequired(), Length(1, 12)])
+    address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])
+    date_of_birth = DateField(_l('Date of birth'), validators=[DataRequired()], format='%Y-%m-%d')
+    photo = FileField(_l('Photo'))
+    submit = SubmitField(_l('Update'))
 
     def validate_phone_number(self, field):
         if field.data == "None":
-            raise ValidationError('Please, set the phone number!')
+            raise ValidationError(_('Please, set the phone number!'))
