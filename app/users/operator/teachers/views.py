@@ -3,11 +3,12 @@ from flask_login import login_required
 from flask_rq import get_queue
 from sqlalchemy import or_
 from werkzeug.utils import redirect
+from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Teacher, Role, User, Course, Schedule, Payment
+from app.models import Teacher, Role, User, Course, Schedule, Payment, Gender, PaymentStatus
 from app.users.operator import operator
 from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
 
@@ -27,9 +28,10 @@ def all_teachers():
 @login_required
 @operator_required
 def teacher_profile(teacher_id):
-    schedule = db.session.query(Schedule, Payment, Course).join(Payment, Course).filter(
+    schedule = db.session.query(Schedule, Payment, Teacher).join(Payment, Teacher).filter(
         Schedule.teacher_id == teacher_id).filter(
-        or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED"))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     list_number_of_students = []
     for data in schedule:
@@ -65,25 +67,24 @@ def teacher_profile(teacher_id):
             all_user_email.append(data.email)
 
         if form.phone_number.data in all_user_phone_number:
-            flash('Duplicate phone number with the other users, please input different number', 'error')
+            flash(_('Duplicate phone number with the other users, please input different number!'), 'error')
             return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
         if form.email.data in all_user_email:
-            flash('Duplicate email with the other users, please input different email', 'error')
+            flash(_('Duplicate email with the other users, please input different email!'), 'error')
             return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
         teacher.phone_number = form.phone_number.data
         teacher.email = form.email.data
 
         try:
-            if not request.files['photo']:
-                pass
-            else:
+            if request.files['photo']:
                 filename = photos.save(request.files['photo'], name="teachers/" + teacher_name + "_teacher.")
                 teacher.photo = filename
         except Exception as e:
-            flash('Please input correct image format', 'error')
-            return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
+            if teacher.gender == Gender.Male.value:
+                flash(_('Please input correct image format!'), 'error')
+                return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
         try:
             db.session.commit()
@@ -110,10 +111,9 @@ def teacher_profile(teacher_id):
             course = Course.query.filter_by(id=data).first()
             course.courses.append(teacher)
             db.session.commit()
+        flash(_('Successfully updated %(teacher_full_name)s data.', teacher_full_name=teacher.full_name), 'success')
 
-        flash('Successfully updated {}'.format(teacher.full_name + ' data'), 'success')
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
-
     return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
                            number_of_students=number_of_students)
 
@@ -147,8 +147,7 @@ def invite_teacher():
             user=teacher,
             invite_link=invite_link,
         )
-        flash('Teacher {} successfully invited'.format(teacher.full_name),
-              'success')
+        flash(_('Teacher %(teacher_full_name)s successfully invited.', teacher_full_name=teacher.full_name), 'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
 
@@ -182,7 +181,7 @@ def new_teacher():
             db.session.add(course)
             db.session.commit()
 
-        flash('successfully added {} as a Teacher'.format(teacher.full_name),
-              'success')
+        flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name), 'success')
+
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)

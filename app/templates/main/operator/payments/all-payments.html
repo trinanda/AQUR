@@ -40,10 +40,10 @@
 								<td>{{ data.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.type_of_class }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.total }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.payment_for_month }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.status_of_payment }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.payment_for_month|safe) }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.status_of_payment|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.created_at.strftime('%d-%m-%Y') }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.updated_at.strftime('%d-%m-%Y') }}</td>
 							</tr>

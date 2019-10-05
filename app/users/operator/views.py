@@ -4,7 +4,7 @@ from sqlalchemy import or_
 
 from app import db
 from app.decorators import operator_required
-from app.models import Payment, Student, MonthNameList, Course
+from app.models import Payment, Student, MonthNameList, Course, PaymentStatus
 from app.users.operator import operator
 
 
@@ -15,7 +15,8 @@ def operator_dashboard():
     title = "AQUR"
 
     students_payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
-        or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED"))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     ###### total students widgets ################
     total_students = students_payment.count()
@@ -40,12 +41,12 @@ def operator_dashboard():
     # TODO | InsyaAllah will work in the feature bellow | make the line bellow can accesible dinamically
     Tahsin_value_per_month = []
     Arabic_language_value_per_month = []
-    courses_value = [{"Tahsin": Tahsin_value_per_month, "Arabic Language": Arabic_language_value_per_month}]
+    courses_value = [{"Tahsin": Tahsin_value_per_month, "Bahasa Arab": Arabic_language_value_per_month}]
     for data in month_name_list:
         data_per_month = students_payment.filter(Payment.payment_for_month == data)
 
         Tahsin_value_per_month.append(data_per_month.filter(Course.name == "Tahsin").count())
-        Arabic_language_value_per_month.append(data_per_month.filter(Course.name == "Arabic Language").count())
+        Arabic_language_value_per_month.append(data_per_month.filter(Course.name == "Bahasa Arab").count())
 
     return render_template('main/operator/operator-dashboard.html', title=title, total_students=total_students,
                            month_name_list=month_name_list, total_students_per_course=total_students_per_course,

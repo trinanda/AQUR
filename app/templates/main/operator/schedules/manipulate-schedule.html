@@ -109,12 +109,14 @@
           <div class="form-row">
 	          {% if schedule %}
 	            {{ f.begin_form(schedule_form, flashes) }}
-								{{ f.render_form_field(schedule_form.schedule_day, extra_classes='form-group col-md-6') }}
-	              {{ f.render_form_field(schedule_form.schedule_day_2, extra_classes='form-group col-md-6') }}
+								{{ f.render_form_field(schedule_form.schedule_day, extra_classes='form-group col-md-12') }}
 	              {% for data in prepopulate_schedule_form %}
 									{{ f.render_form_field(schedule_form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
-									{{ f.render_form_field(schedule_form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
 									{{ f.render_form_field(schedule_form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
+								{% endfor %}
+	              {{ f.render_form_field(schedule_form.schedule_day_2, extra_classes='form-group col-md-12') }}
+	              {% for data in prepopulate_schedule_form %}
+									{{ f.render_form_field(schedule_form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
 									{{ f.render_form_field(schedule_form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
 								{% endfor %}
 								{{ f.render_form_field(schedule_form.course_status, extra_classes='form-group col-md-12') }}
@@ -178,10 +180,12 @@
 			            </tr>
 			            <tr>
 		                <td>{{ schedule_day }}</td>
-				            {% if schedule_day_2 %}
-		                <td>{{ schedule_day_2 }}</td>
+				            {% if schedule_day_2 == "None_choice" %}
+					            <td>-</td>
+				            {% elif schedule_day_2 %}
+			                <td>{{ schedule_day_2 }}</td>
 			              {% else %}
-				            <td>-</td>
+					            <td>-</td>
 			              {% endif %}
 		              <tr>
 		                <td>{{ start_at.strftime('%H:%M') }} - {{ end_at.strftime('%H:%M') }}</td>

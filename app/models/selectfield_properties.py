@@ -1,4 +1,5 @@
 import enum
+from flask_babel import lazy_gettext as _l
 
 
 class Gender(enum.Enum):
@@ -6,7 +7,7 @@ class Gender(enum.Enum):
     Female = 'Female'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class LastEducation(enum.Enum):
@@ -21,7 +22,7 @@ class LastEducation(enum.Enum):
     S3 = 'S3'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class TypeOfClass(enum.Enum):
@@ -29,10 +30,11 @@ class TypeOfClass(enum.Enum):
     PRIVATE = 'PRIVATE'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class DayNameList(enum.Enum):
+    None_choice = ' '
     Sunday = 'Sunday'
     Monday = 'Monday'
     Tuesday = 'Tuesday'
@@ -42,7 +44,7 @@ class DayNameList(enum.Enum):
     Saturday = 'Saturday'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class MonthNameList(enum.Enum):
@@ -60,21 +62,7 @@ class MonthNameList(enum.Enum):
     December = 'December'
 
     def __str__(self):
-        return self.value
-
-
-class DayNameList(enum.Enum):
-    None_choice = ''
-    Sunday = 'Sunday'
-    Monday = 'Monday'
-    Tuesday = 'Tuesday'
-    Wednesday = 'Wednesday'
-    Thursday = 'Thursday'
-    Friday = 'Friday'
-    Saturday = 'Saturday'
-
-    def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class PaymentStatus(enum.Enum):
@@ -85,7 +73,7 @@ class PaymentStatus(enum.Enum):
     EXPIRED = 'EXPIRED'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
 class CourseStatus(enum.Enum):
@@ -94,14 +82,13 @@ class CourseStatus(enum.Enum):
     FINISHED = 'FINISHED'
 
     def __str__(self):
-        return self.value
+        return '{}'.format(self.value)
 
 
-last_educations = [(str(y), str(y)) for y in (LastEducation)]
-gender = [(str(y), y) for y in (Gender)]
-type_of_class = [(str(y), y) for y in (TypeOfClass)]
-day_name_list = [(str(y), y) for y in (DayNameList)]
-month_name_list = [(str(y), y) for y in (MonthNameList)]
-day_name_list = [(str(y), y) for y in (DayNameList)]
-payment_status = [(str(y), y) for y in (PaymentStatus)]
-course_status = [(str(y), y) for y in (CourseStatus)]
+last_educations = [(y.name, _l(str(y.value))) for y in (LastEducation)]
+gender = [(y.name, _l(str(y.value))) for y in (Gender)]
+type_of_class = [(y.name, _l(str(y.value))) for y in (TypeOfClass)]
+day_name_list = [(y.name, _l(str(y.value))) for y in (DayNameList)]
+month_name_list = [(y.name, _l(str(y.value))) for y in (MonthNameList)]
+payment_status = [(y.name, _l(str(y.value))) for y in (PaymentStatus)]
+course_status = [(y.name, _l(str(y.value))) for y in (CourseStatus)]

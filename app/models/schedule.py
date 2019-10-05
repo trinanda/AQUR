@@ -8,7 +8,6 @@ class Schedule(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
-    type_of_class = db.Column(db.Enum(TypeOfClass, name='type_of_class'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     course_status = db.Column(db.Enum(CourseStatus, name='course_status'))
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())

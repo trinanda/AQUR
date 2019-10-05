@@ -1,6 +1,7 @@
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_rq import get_queue
+from flask_babel import _
 
 from app.users.admin.forms import ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm, EditUserForm, NewUserForm
 from app import db
@@ -36,7 +37,7 @@ def new_user():
                 password=form.password.data)
             db.session.add(user)
             db.session.commit()
-            flash('User {} successfully created'.format(user.full_name), 'success')
+            flash(_('User %(user_full_name)s successfully created.', user_full_name=user.full_name), 'success')
 
         elif form.role.data.__dict__['name'] == 'Operator':
             operator = Operator(
@@ -47,7 +48,8 @@ def new_user():
                 password=form.password.data)
             db.session.add(operator)
             db.session.commit()
-            flash('Operator {} successfully created'.format(operator.full_name), 'success')
+            flash(_('Operator %(operator_full_name)s successfully created.', operator_full_name=operator.full_name),
+                  'success')
 
         elif form.role.data.__dict__['name'] == 'Teacher':
             teacher = Teacher(
@@ -58,7 +60,8 @@ def new_user():
                 password=form.password.data)
             db.session.add(teacher)
             db.session.commit()
-            flash('Teacher {} successfully created'.format(teacher.full_name), 'success')
+            flash(_('Teacher %(teacher_full_name)s successfully created.', teacher_full_name=teacher.full_name),
+                  'success')
 
         elif form.role.data.__dict__['name'] == 'Student':
             student = Student(
@@ -69,7 +72,8 @@ def new_user():
                 password=form.password.data)
             db.session.add(student)
             db.session.commit()
-            flash('Student {} successfully created'.format(student.full_name), 'success')
+            flash(_('Student %(student_full_name)s successfully created.', student_full_name=student.full_name),
+                  'success')
         return redirect(url_for('admin.index'))
     return render_template('admin/manipulate-user.html', form=form)
 
@@ -101,7 +105,7 @@ def invite_user():
             template='account/email/invite',
             user=user,
             invite_link=invite_link)
-        flash('User {} successfully invited'.format(user.full_name), 'success')
+        flash(_('User %(user_full_name)s successfully invited.', user_full_name=user.full_name), 'success')
         return redirect(url_for('admin.index'))
     return render_template('admin/manipulate-user.html', form=form)
 
@@ -129,7 +133,7 @@ def edit_user(user_id):
             all_user_email.append(data.email)
 
         if form.email.data in all_user_email:
-            flash('Duplicate email with the other users, please input different email', 'error')
+            flash(_('Duplicate email with the other users, please input different email!'), 'error')
             return redirect(url_for('admin.edit_user', user_id=user_id))
 
         user.email = form.email.data
@@ -139,7 +143,7 @@ def edit_user(user_id):
         except Exception as e:
             db.session.rollback()
             return redirect(url_for('admin.edit_user', user_id=user_id))
-        flash('Successfully edited user {}'.format(user.full_name), 'success')
+        flash(_('Successfully edited user %(user_full_name)s.', user_full_name=user.full_name), 'success')
         return redirect(url_for('admin.index'))
     return render_template('admin/manipulate-user.html', form=form, user=user)
 
@@ -180,7 +184,8 @@ def change_user_email(user_id):
         user.email = form.email.data
         db.session.add(user)
         db.session.commit()
-        flash('Email for user {} successfully changed to {}.'.format(user.full_name, user.email), 'form-success')
+        flash(_('Email for user %(user_full_name)s successfully changed to %(user_email)s.',
+                user_full_name=user.full_name, user_email=user.email), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
@@ -190,7 +195,7 @@ def change_user_email(user_id):
 def change_account_type(user_id):
     """Change a user's account type."""
     if current_user.id == user_id:
-        flash('You cannot change the type of your own account. Please ask another administrator to do this.', 'error')
+        flash(_('You cannot change the type of your own account. Please ask another administrator to do this.'), 'error')
         return redirect(url_for('admin.user_info', user_id=user_id))
 
     user = User.query.get(user_id)
@@ -201,7 +206,9 @@ def change_account_type(user_id):
         user.role = form.role.data
         db.session.add(user)
         db.session.commit()
-        flash('Role for user {} successfully changed to {}.'.format(user.full_name, user.role.name), 'form-success')
+        flash(_('Role for user %(user_full_name)s successfully changed to %(user_role)s.', user_full_name=user.full_name,
+              user_role=user.role), 'form-success')
+
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
@@ -222,12 +229,12 @@ def delete_user_request(user_id):
 def delete_user(user_id):
     """Delete a user's account."""
     if current_user.id == user_id:
-        flash('You cannot delete your own account. Please ask another administrator to do this.', 'error')
+        flash(_('You cannot delete your own account. Please ask another administrator to do this.'), 'error')
     else:
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)
         db.session.commit()
-        flash('Successfully deleted user %s.' % user.full_name, 'success')
+        flash(_('Successfully deleted user %(user_full_name)s.', user_full_name=user.full_name), 'success')
     return redirect(url_for('admin.registered_users'))
 
 

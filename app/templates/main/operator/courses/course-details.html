@@ -113,10 +113,10 @@ var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [{% for item in month_name_list %}
-                "{{item}}",
+                "{{ _(item) }}",
         {% endfor %}],
         datasets: [{
-            label: '{{ legend_male }}',
+            label: '{{ _(legend_male) }}',
             data: {{ male_values }},
             backgroundColor: [
                 'rgba(75, 192, 192, 0.2)',
@@ -149,7 +149,7 @@ var myChart = new Chart(ctx, {
             borderWidth: 1
         },
         {
-            label: '{{ legend_female }}',
+            label: '{{ _(legend_female) }}',
             data: {{ female_values }},
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

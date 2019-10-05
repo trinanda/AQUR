@@ -1,6 +1,7 @@
 from flask import render_template, flash, url_for, abort
 from flask_login import login_required
 from werkzeug.utils import redirect
+from flask_babel import _
 
 from app import db
 from app.decorators import operator_required
@@ -17,7 +18,6 @@ def all_payments():
                                 Payment.status_of_payment, Payment.created_at, Payment.updated_at, Student.email,
                                 Payment.type_of_class, Course.name, Student.full_name).join(Student, Course).order_by(
         Payment.updated_at.desc()).all()
-
     return render_template('main/operator/payments/all-payments.html', payments=payments)
 
 
@@ -47,7 +47,7 @@ def add_payment():
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash('Successfully added new payment', 'success')
+        flash(_('Successfully added new payment.'), 'success')
         return redirect(url_for('operator.all_payments'))
     return render_template('main/operator/payments/manipulate-payment.html', form=form)
 
@@ -60,8 +60,7 @@ def edit_payment(payment_id):
     payment = Payment.query.filter_by(id=payment_id).first()
 
     form = PaymentForm(obj=payment)
-    form.course_name.default = lambda: db.query(Course).filter_by(id=payment.course_id).first()
-    form.student_email.default = lambda: db.query(Student.email).filter_by(id=payment.student_id).first()
+    form.course_name.data = payment.course
 
     if payment is None:
         abort(404)
@@ -82,6 +81,6 @@ def edit_payment(payment_id):
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash('Successfully edit payment', 'success')
+        flash(_('Successfully edit payment.'), 'success')
         return redirect(url_for('operator.all_payments'))
     return render_template('main/operator/payments/manipulate-payment.html', payment=payment, form=form)

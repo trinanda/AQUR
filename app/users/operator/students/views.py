@@ -2,6 +2,7 @@ from flask import render_template, url_for, flash, request, abort
 from flask_login import login_required
 from flask_rq import get_queue
 from werkzeug.utils import redirect
+from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
@@ -51,27 +52,24 @@ def student_profile(student_id):
             all_user_email.append(data.email)
 
         if form.phone_number.data in all_user_phone_number:
-            flash('Duplicate phone number with the other users, please input different number', 'error')
+            flash(_('Duplicate phone number with the other users, please input different number!'), 'error')
             return redirect(url_for('operator.student_profile', student_id=student_id))
 
         if form.email.data in all_user_email:
-            flash('Duplicate email with the other users, please input different email', 'error')
+            flash(_('Duplicate email with the other users, please input different email!'), 'error')
             return redirect(url_for('operator.student_profile', student_id=student_id))
 
         student.phone_number = form.phone_number.data
         student.email = form.email.data
 
         try:
-            if not request.files['photo']:
-                pass
-            else:
+            if request.files['photo']:
                 filename = photos.save(request.files['photo'], name="students/" + student_name + "_student.")
                 student.photo = filename
         except Exception as e:
             if form.gender.data == "Male":
                 return redirect(url_for('operator.student_profile', student_id=student_id))
-
-            flash('Please input correct image format', 'error')
+            flash(_('Please input correct image format!'), 'error')
             return redirect(url_for('operator.student_profile', student_id=student_id))
 
         try:
@@ -80,9 +78,8 @@ def student_profile(student_id):
             db.session.rollback()
 
         if form.gender.data == "Male" or form.gender.data == "Female":
-            flash('Successfully updated {}'.format(student.full_name + ' data'), 'success')
+            flash(_('successfully updated %(student_full_name)s data.', student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.student_profile', student_id=student_id))
-
     return render_template('main/operator/students/student-profile.html', student=student, form=form)
 
 
@@ -115,8 +112,7 @@ def invite_student():
             user=student,
             invite_link=invite_link,
         )
-        flash('Student {} successfully invited'.format(student.full_name),
-              'success')
+        flash(_('Student %(student_full_name)s successfully invited.', student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.all_students'))
     return render_template('main/operator/students/manipulate-student.html', form=form)
 
@@ -138,7 +134,6 @@ def new_student():
         db.session.add(student)
         db.session.commit()
 
-        flash('successfully added {} as a Student'.format(student.full_name),
-              'success')
+        flash(_('Successfully added %(student_full_name)s as a Student.', student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.all_students'))
     return render_template('main/operator/students/manipulate-student.html', form=form)

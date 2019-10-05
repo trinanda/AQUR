@@ -2,10 +2,11 @@ from flask import render_template, flash, url_for, request, abort
 from flask_login import login_required
 from sqlalchemy import or_
 from werkzeug.utils import redirect
+from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
-from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student
+from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus
 from app.users.operator import operator
 
 from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
@@ -19,7 +20,6 @@ def all_courses():
     per_page = 5
 
     courses = Course.query.order_by(Course.created_at.desc()).paginate(page, per_page, error_out=False)
-
     return render_template('main/operator/courses/all-courses.html', courses=courses)
 
 
@@ -34,15 +34,14 @@ def add_course():
         try:
             filename = photos.save(request.files['image'], name="courses/" + course_name + "_course.")
         except Exception as e:
-            flash('Please input correct image format', 'error')
+            flash(_('Please input correct image format'), 'error')
             return redirect(url_for('operator.add_course'))
         course = Course(
             name=course_name,
-            image=filename
-        )
+            image=filename)
         db.session.add(course)
         db.session.commit()
-        flash('Successfully added {} '.format(course.course_name()) + 'course', 'success')
+        flash(_('successfully added %(course_name)s course.', course_name=course.course_name()), 'success')
         return redirect(url_for('operator.all_courses'))
     return render_template('main/operator/courses/manipulate-course.html', form=form)
 
@@ -56,8 +55,13 @@ def delete_course(course_id):
     if course is None:
         abort(404)
     db.session.delete(course)
-    db.session.commit()
-    flash('Successfully deleted course %s.' % course.course_name(), 'success')
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        flash('Ops!, it seems the course already have registered students, we cannot delete it!', 'error')
+        return redirect(url_for('operator.course_details', course_id=course_id))
+    flash(_('successfully deleted %(course_name)s course.', course_name=course.course_name()), 'success')
     return redirect(url_for('operator.all_courses'))
 
 
@@ -78,12 +82,12 @@ def edit_course(course_id):
             filename = photos.save(request.files['image'], name="courses/" + course_name + "_course.")
             course.image = filename
         except Exception as e:
-            flash('Please input correct image format', 'error')
+            flash(_('Please input correct image format'), 'error')
         try:
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash('Successfully edit course', 'success')
+        flash(_('Successfully edit course'), 'success')
         return redirect(url_for('operator.course_details', course_id=course_id))
     return render_template('main/operator/courses/manipulate-course.html', course=course, form=form)
 
@@ -98,7 +102,8 @@ def course_details(course_id):
 
     students_payment = db.session.query(Payment, Student).join(Student).distinct(Payment.student_id).filter(
         Payment.course_id == course_id).filter(
-        or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED"))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     total_students = students_payment.count()
     total_private_students = students_payment.filter(Payment.type_of_class == TypeOfClass.PRIVATE.value).count()

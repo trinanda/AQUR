@@ -26,7 +26,10 @@ class NewStudentForm(InviteStudentForm):
     submit = SubmitField(_l('Create'))
 
 
-class EditStudentForm(InviteStudentForm):
+class EditStudentForm(FlaskForm):
+    first_name = StringField(_l('First name'), validators=[InputRequired(), Length(1, 64)])
+    last_name = StringField(_l('Last name'), validators=[InputRequired(), Length(1, 64)])
+    email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
     gender = SelectField(_l('Gender'), choices=gender)
     phone_number = StringField(_l('Phone number'), validators=[InputRequired(), Length(1, 12)])
     address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])

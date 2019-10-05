@@ -40,10 +40,10 @@
 							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.gender, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6') }}
+							{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6') }}
 							<input type=hidden name="step" value="available_teacher">
-							<input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Check Teacher">
+							<input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check Teacher') }}">
 						</form>
 						{% elif step == "available_teacher" %}
 						<div class="x_content">

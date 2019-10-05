@@ -137,19 +137,20 @@
         </div>
         <ul class="sidebar-menu scrollable pos-r">
           {% if current_user.is_operator() %}
-            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.operator_dashboard') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Dashboard</span></a></li>
-            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">Teachers</span></a></li>
-            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_students') }}"><span class="icon-holder"><i class="c-green-500 ti-user"></i> </span><span class="title">Students</span></a></li>
-            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_courses') }}"><span class="icon-holder"><i class="c-purple-500 ti-book"></i> </span><span class="title">Courses</span></a></li>
-            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_payments') }}"><span class="icon-holder"><i class="c-yellow-900 ti-money"></i> </span><span class="title">Payments</span></a></li>
-            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-brown-500 ti-time"></i> </span><span class="title">Schedules</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.operator_dashboard') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">{{ _('Dashboard') }}</span></a></li>
+            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">{{ _('Teachers') }}</span></a></li>
+            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_students') }}"><span class="icon-holder"><i class="c-green-500 ti-user"></i> </span><span class="title">{{ _('Students') }}</span></a></li>
+            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_courses') }}"><span class="icon-holder"><i class="c-purple-500 ti-book"></i> </span><span class="title">{{ _('Courses') }}</span></a></li>
+            <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_payments') }}"><span class="icon-holder"><i class="c-yellow-900 ti-money"></i> </span><span class="title">{{ _('Payments') }}</span></a></li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-brown-500 ti-time"></i> </span><span class="title">{{ _('Schedules') }}</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
               <ul class="dropdown-menu">
-                <li class="nav-item dropdown"><a href="{{ url_for('operator.all_schedules') }}"><span class="icon-holder"><i class="c-blue-900 ti-calendar"></i> </span><span>Schedules List</span></a></li>
-                <li class="nav-item dropdown"><a href="{{ url_for('operator.requisition_schedules') }}"><span class="icon-holder"><i class="c-teal-500 ti-view-list-alt"></i> </span><span>Requisition Schedules</span></a></li>
+                <li class="nav-item dropdown"><a href="{{ url_for('operator.all_schedules') }}"><span class="icon-holder"><i class="c-blue-900 ti-calendar"></i> </span><span>{{ _('Schedules List') }}</span></a></li>
+                <li class="nav-item dropdown"><a href="{{ url_for('operator.requisition_schedules') }}"><span class="icon-holder"><i class="c-teal-500 ti-view-list-alt"></i> </span><span>{{ _('Requisition Schedules') }}</span></a></li>
               </ul>
             </li>
           {% elif current_user.is_admin() %}
-            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('admin.index') }}"><span class="icon-holder"><i class="c-green-500 ti-layout-grid3-alt"></i> </span><span class="title">Manage Users</span></a></li>
+            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('admin.index') }}"><span class="icon-holder"><i class="c-green-500 ti-layout-grid3-alt"></i> </span><span class="title">{{ _('Manage Users') }}</span></a></li>
+          {% else %}
           {% endif %}
         </ul>
       </div>
@@ -373,7 +374,7 @@
         // Setup - add a text input to each footer cell
         $('#example tfoot th').each( function () {
             var title = $(this).text();
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            $(this).html( '<input type="text" placeholder="Search '+title+'" style="font-weight: normal;" />' );
         } );
         // DataTable
         var table = $('#example').DataTable();

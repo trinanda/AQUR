@@ -47,12 +47,12 @@
 								<td>{{ data.student.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.student.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.student.phone_number }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.student.gender }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(data.student.gender|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.course.name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.type_of_class }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								{% for schedule in data.schedule_day_and_time %}
 									{% if schedule.start_at.strftime and schedule.end_at.strftime %}
-										<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ schedule.day }} {{ schedule.start_at.strftime('%H:%M') }}-{{ schedule.end_at.strftime('%H:%M') }}</td>
+										<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(schedule.day|safe) }} {{ schedule.start_at.strftime('%H:%M') }}-{{ schedule.end_at.strftime('%H:%M') }}</td>
 									{% else %}
 										<td></td>
 									{% endif %}

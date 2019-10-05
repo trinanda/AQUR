@@ -1,6 +1,7 @@
 alembic==1.1.0
 appdirs==1.4.3
 attrs==19.1.0
+Babel==2.7.0
 blinker==1.4
 certifi==2019.6.16
 chardet==3.0.4
@@ -8,6 +9,7 @@ Click==7.0
 Faker==2.0.1
 Flask==1.1.1
 Flask-Assets==0.12
+Flask-Babel==0.12.2
 Flask-Compress==1.4.0
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
@@ -32,7 +34,9 @@ pipupgrade==1.5.1
 psycopg2==2.8.3
 pyparsing==2.4.2
 python-dateutil==2.8.0
+python-dotenv==0.10.3
 python-editor==1.0.4
+pytz==2019.2
 raygun4py==4.3.0
 redis==3.3.8
 requests==2.22.0

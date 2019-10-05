@@ -5,11 +5,12 @@ from flask_login import login_required
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 from sqlalchemy import or_
+from flask_babel import _
 
 from app import db
 from app.decorators import operator_required
 from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus, ScheduleDayAndTime, \
-    RequisitionSchedule
+    RequisitionSchedule, PaymentStatus
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, ScheduleDayForm, \
     RequisitionScheduleForm
@@ -38,11 +39,12 @@ def add_schedule():
         session['student_email'] = student_email
         student = db.session.query(Payment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
-            or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED")).all()
+            or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+                Payment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
 
         for data in student:
             if data.Student.gender is None:
-                flash('It seems the student biodata not completed.', 'error')
+                flash(_('It seems the student biodata not completed!'), 'error')
                 return redirect(url_for('operator.add_schedule'))
 
         student_available_course = []
@@ -58,7 +60,8 @@ def add_schedule():
         student_email = session.get('student_email')
         student_status = db.session.query(Payment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
-            or_(Payment.status_of_payment == "INSTALLMENT", Payment.status_of_payment == "COMPLETED")).filter(
+            or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+                Payment.status_of_payment == PaymentStatus.COMPLETED.value)).filter(
             Course.name == course_name).all()
 
         student_available_type_of_class = []
@@ -89,40 +92,6 @@ def add_schedule():
         session['end_at'] = end_at
         session['end_at_2'] = end_at_2
 
-        # student_email = session.get('student_email')
-        # course_name = session.get('course_name')
-
-        ### get a selected course name
-        # course = Course.query.filter_by(name=course_name).first()
-        # # then get all teacher id that taught the course name
-        # taught_course = db.session.query(taught_courses).filter_by(course_id=course.id).all()
-        # # store all of the teacher id that taught the matching course
-        # teachers_id = []
-        # for data in taught_course:
-        #     teachers_id.append(data.teacher_id)
-        # /#####################
-
-        ### get a user gender #######################
-        # student = db.session.query(Student).filter_by(email=student_email).first()
-        # teachers_id_by_gender = Teacher.query.filter(Teacher.id.in_(teachers_id)).filter(
-        #     Teacher.gender == student.gender.value).all()
-        # # store all of the teacher id by matching gender
-        # list_of_teachers_id_by_gender = []
-        # for data in teachers_id_by_gender:
-        #     list_of_teachers_id_by_gender.append(data.id)
-        ###/#######################
-
-        # not_available_teachers_by_schedule = Schedule.query.filter(
-        #     Schedule.teacher_id.in_(list_of_teachers_id_by_gender), Schedule.start_at == start_at).filter(
-        #     Schedule.schedule_day == schedule_day).all()
-
-        # not_available_teachers = []
-        # for data in not_available_teachers_by_schedule:
-        #     not_available_teachers.append(data.teacher_id)
-
-        # available_teachers = db.session.query(Teacher).filter(Teacher.id.in_(list_of_teachers_id_by_gender),
-        #                                                       ~Teacher.id.in_(not_available_teachers)).all()
-
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="input_teacher_email")
 
@@ -135,11 +104,7 @@ def add_schedule():
         start_at = datetime.datetime.strptime(session.get('start_at'), '%H:%M:%S')
         end_at = datetime.datetime.strptime(session.get('end_at'), '%H:%M:%S')
 
-        # schedule_day_2 = session.get('schedule_day_2')
-        # start_at_2 = datetime.datetime.strptime(session.get('start_at_2'), '%H:%M:%S')
-        # end_at_2 = datetime.datetime.strptime(session.get('end_at_2'), '%H:%M:%S')
         schedule_day_2 = session.get('schedule_day_2')
-
         try:
             start_at_2 = datetime.datetime.strptime(session.get('start_at_2'), '%H:%M:%S')
             end_at_2 = datetime.datetime.strptime(session.get('end_at_2'), '%H:%M:%S')
@@ -200,7 +165,6 @@ def add_schedule():
                 payment_id=payment.Payment.id,
                 student_id=student.id,
                 course_id=course.id,
-                type_of_class=type_of_class,
                 teacher_id=teacher.id,
                 course_status=CourseStatus.PENDING.value
             )
@@ -209,7 +173,8 @@ def add_schedule():
             db.session.add(schedule)
             db.session.commit()
 
-            flash('Successfully added new schedule for {}'.format(student.full_name), 'success')
+            flash(_('Successfully added new schedule for %(student_full_name)s.', student_full_name=student.full_name),
+                  'success')
             return redirect(url_for('operator.all_schedules'))
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="submit")
@@ -297,7 +262,7 @@ def edit_schedule(schedule_id):
             db.session.rollback()
             flash(str(e), 'error')
             return redirect(url_for('operator.edit_schedule', schedule_id=schedule_id))
-        flash('Successfully edit schedule', 'success')
+        flash(_('Successfully edit schedule.'), 'success')
         return redirect(url_for('operator.all_schedules'))
     return render_template('main/operator/schedules/manipulate-schedule.html', schedule=schedule,
                            schedule_form=schedule_form, prepopulate_schedule_form=prepopulate_schedule_form)
@@ -346,9 +311,11 @@ def check_schedules():
             list_of_teachers_id_by_gender.append(data.id)
         ###/#######################
 
-        not_available_teachers_by_schedule = Schedule.query.filter(
-            Schedule.teacher_id.in_(list_of_teachers_id_by_gender), Schedule.start_at == start_at).filter(
-            Schedule.schedule_day == schedule_day).all()
+        # TODO | InsyaAllah will check the line bellow
+        not_available_teachers_by_schedule = db.session.query(Schedule, ScheduleDayAndTime).join(
+            ScheduleDayAndTime).filter(Schedule.teacher_id.in_(list_of_teachers_id_by_gender),
+                                       ScheduleDayAndTime.start_at == start_at).filter(
+            ScheduleDayAndTime.day == schedule_day).all()
 
         not_available_teachers = []
         for data in not_available_teachers_by_schedule:
@@ -359,8 +326,7 @@ def check_schedules():
 
         return render_template('main/operator/schedules/check-schedules.html', form=form, step="available_teacher",
                                available_teachers=available_teachers)
-    return render_template('main/operator/schedules/check-schedules.html', form=form, schedules=schedules,
-                           available_teachers='')
+    return render_template('main/operator/schedules/check-schedules.html', form=form, schedules=schedules)
 
 
 @operator.route('/schedule/all-requisition-schedules')
@@ -378,10 +344,11 @@ def requisition_schedules():
 def add_requisition_schedules():
     form = RequisitionScheduleForm()
     if request.method == "POST":
+        # TODO | InsyaAllah will check the line bellow | why we can't use validate_on_submit..?
         # if form.validate_on_submit():
         student = Student.query.filter_by(email=form.student_email.data).first()
         if student is None:
-            flash('It seems the email is not registered as a student email..!', 'error')
+            flash(_('It seems the email is not registered as a student email!'), 'error')
             return redirect(url_for('operator.add_requisition_schedules'))
 
         course = Course.query.filter_by(name=str(form.course_name.data)).first()
@@ -398,7 +365,7 @@ def add_requisition_schedules():
         )
 
         schedule_day_2 = request.form['schedule_day_2']
-        if schedule_day_2 == '':
+        if schedule_day_2 == ' ':
             schedule_day_2 = None
 
         start_at_2 = request.form['start_at_2']
@@ -424,7 +391,8 @@ def add_requisition_schedules():
             db.session.rollback()
             flash(str(e), 'error')
             return redirect(url_for('operator.add_requisition_schedules'))
-        flash('Successfully added new requisition schedule for {}'.format(student.full_name), 'success')
+        flash(_('Successfully added new requisition schedule for %(student_full_name)s.',
+                student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.requisition_schedules'))
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form)
 
@@ -467,7 +435,7 @@ def edit_requisition_schedules(requisition_schedule_id):
 
         student = Student.query.filter_by(email=form.student_email.data).first()
         if student is None:
-            flash('It seems the email is not registered as a student email..!', 'error')
+            flash(_('It seems the email is not registered as a student email!'), 'error')
             return redirect(url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
 
         requisition_schedule.student_id = student.id
@@ -511,7 +479,7 @@ def edit_requisition_schedules(requisition_schedule_id):
             flash(str(e), 'error')
             return redirect(
                 url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-        flash('Successfully edit requisition schedule', 'success')
+        flash(_('Successfully edit requisition schedule.'), 'success')
         return redirect(url_for('operator.requisition_schedules'))
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html',
                            requisition_schedule=requisition_schedule, form=form,

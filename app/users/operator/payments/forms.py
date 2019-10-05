@@ -24,4 +24,3 @@ class PaymentForm(FlaskForm):
     def validate_student_email(self, field):
         if Student.query.filter_by(email=field.data).first() is None:
             raise ValidationError(_('It seems the email is not registered as a student email.'))
-
