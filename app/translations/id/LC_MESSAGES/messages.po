@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-05 07:19+0700\n"
-"PO-Revision-Date: 2019-10-05 07:24+0700\n"
+"POT-Creation-Date: 2019-10-05 22:34+0700\n"
+"PO-Revision-Date: 2019-10-05 22:37+0700\n"
 "Last-Translator: \n"
 "Language: id\n"
 "Language-Team: id <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: app/templates/main/operator/payments/all-payments.html:55
 #: app/templates/main/operator/students/student-profile.html:88
 #: app/templates/main/operator/teachers/teacher-profile.html:88
-#: app/users/admin/forms.py:33 app/users/admin/forms.py:52
+#: app/users/admin/forms.py:33 app/users/admin/forms.py:53
 #: app/users/operator/students/forms.py:14
 #: app/users/operator/students/forms.py:32
 #: app/users/operator/teachers/forms.py:19
@@ -49,8 +49,8 @@ msgid "Log in"
 msgstr ""
 
 #: app/account/forms.py:20 app/templates/admin/index.html:34
-#: app/templates/admin/index.html:54 app/users/admin/forms.py:31
-#: app/users/admin/forms.py:50 app/users/operator/students/forms.py:12
+#: app/templates/admin/index.html:60 app/users/admin/forms.py:31
+#: app/users/admin/forms.py:51 app/users/operator/students/forms.py:12
 #: app/users/operator/students/forms.py:30
 #: app/users/operator/teachers/forms.py:17
 #: app/users/operator/teachers/forms.py:36
@@ -58,8 +58,8 @@ msgid "First name"
 msgstr "Nama depan"
 
 #: app/account/forms.py:21 app/templates/admin/index.html:35
-#: app/templates/admin/index.html:55 app/users/admin/forms.py:32
-#: app/users/admin/forms.py:51 app/users/operator/students/forms.py:13
+#: app/templates/admin/index.html:61 app/users/admin/forms.py:32
+#: app/users/admin/forms.py:52 app/users/operator/students/forms.py:13
 #: app/users/operator/students/forms.py:31
 #: app/users/operator/teachers/forms.py:18
 #: app/users/operator/teachers/forms.py:37
@@ -118,72 +118,72 @@ msgstr "Perbarui email"
 msgid "Email already registered."
 msgstr "Email sudah terdaftar."
 
-#: app/account/views.py:23
+#: app/account/views.py:24
 msgid "Please create a user"
 msgstr ""
 
-#: app/account/views.py:29
+#: app/account/views.py:30
 msgid "You are now logged in. Welcome back!"
-msgstr ""
+msgstr "Berhasil login"
 
-#: app/account/views.py:41 app/account/views.py:171
+#: app/account/views.py:42 app/account/views.py:172
 msgid "Invalid email or password!"
 msgstr ""
 
-#: app/account/views.py:66
+#: app/account/views.py:67
 msgid "A confirmation link has been sent to your email"
-msgstr ""
+msgstr "Link konfirmasi telah di kirim ke email Anda."
 
-#: app/account/views.py:106
+#: app/account/views.py:107
 #, python-format
 msgid "A password reset link has been sent to %(email)s."
-msgstr ""
+msgstr "Link reset password telah dikirim ke %(email)s."
 
-#: app/account/views.py:120
+#: app/account/views.py:121
 msgid "Invalid email address!"
 msgstr ""
 
-#: app/account/views.py:123 app/account/views.py:141
+#: app/account/views.py:124 app/account/views.py:142
 msgid "Your password has been updated."
 msgstr "Password Anda berhasil diperbarui."
 
-#: app/account/views.py:126
+#: app/account/views.py:127
 msgid "The password reset link is invalid or has expired."
-msgstr ""
+msgstr "Link reset password telah kadaluwarsa."
 
-#: app/account/views.py:144
+#: app/account/views.py:145
 msgid "Original password is invalid!"
 msgstr ""
 
-#: app/account/views.py:168
+#: app/account/views.py:169
 #, python-format
 msgid "A confirmation link has been sent to %(new_email)s."
-msgstr ""
+msgstr "Link reset konfirmasi telah dikirim ke %(new_email)s."
 
-#: app/account/views.py:180
+#: app/account/views.py:181
 msgid "Your email address has been updated."
 msgstr "Email Anda berhasil diperbarui."
 
-#: app/account/views.py:182 app/account/views.py:215
+#: app/account/views.py:183 app/account/views.py:216
 msgid "The confirmation link is invalid or has expired!"
-msgstr ""
+msgstr "Link konfirmasi tidak valid atau telah kadaluwarsa."
 
-#: app/account/views.py:200
+#: app/account/views.py:201
 #, python-format
 msgid "A new confirmation link has been sent to %(current_user_email)s."
-msgstr ""
+msgstr "Link konfirmasi yang baru telah di kirim ke %(current_user_email)s."
 
-#: app/account/views.py:212
+#: app/account/views.py:213
 msgid "Your account has been confirmed."
-msgstr ""
+msgstr "Akun Anda telah di konfirmasi."
 
 #: app/account/views.py:227
 msgid "You are already logged in."
-msgstr ""
+msgstr "Anda telah login."
 
 #: app/account/views.py:235
 msgid "You have already joined."
-msgstr ""
+msgstr "Anda telah bergabung."
 
 #: app/account/views.py:244
 msgid ""
@@ -196,6 +196,8 @@ msgid ""
 "The confirmation link is invalid or has expired. Another invite email with a "
 "new link has been sent to you."
 msgstr ""
+"Link konfirmasi tidak valid atau telah kadaluwarsa. Email invite dengan link "
+"yang baru telah di kirimkan ke email Anda."
 
 #: app/models/selectfield_properties.py:6
 msgid "Male"
@@ -354,7 +356,7 @@ msgstr "Sedang Berjalan"
 msgid "FINISHED"
 msgstr "Telah Berakhir"
 
-#: app/templates/admin/index.html:19
+#: app/templates/admin/index.html:19 app/templates/layouts/base-template.html:152
 msgid "Manage Users"
 msgstr "Kelola Pengguna"
 
@@ -366,17 +368,35 @@ msgstr "Mengundang pengguna baru"
 msgid "Add new User"
 msgstr "Tambah User Baru"
 
-#: app/templates/admin/index.html:36 app/templates/admin/index.html:56
+#: app/templates/admin/index.html:36 app/templates/admin/index.html:62
 msgid "Email address"
 msgstr "Alamat email"
 
-#: app/templates/admin/index.html:37 app/templates/admin/index.html:57
+#: app/templates/admin/index.html:37 app/templates/admin/index.html:63
 msgid "Role"
 msgstr "Peran"
 
-#: app/templates/admin/index.html:38 app/templates/admin/index.html:58
+#: app/templates/admin/index.html:38 app/templates/admin/index.html:64
 msgid "Created at"
 msgstr "Dibuat pada"
+
+#: app/templates/admin/index.html:39 app/templates/admin/index.html:65
+#: app/templates/main/operator/payments/all-payments.html:32
+#: app/templates/main/operator/payments/all-payments.html:60
+msgid "Status"
+msgstr ""
+
+#: app/templates/admin/index.html:51
+msgid "Active"
+msgstr "Aktiv"
+
+#: app/templates/admin/index.html:53
+msgid "Inactive"
+msgstr "Tidak Aktiv"
+
+#: app/templates/admin/manipulate-user.html:110
+msgid "Activate user"
+msgstr "Aktivkan user"
 
 #: app/templates/layouts/base-template.html:140
 msgid "Dashboard"
@@ -448,7 +468,7 @@ msgstr "Murid perempuan"
 #: app/templates/main/operator/courses/course-details.html:98
 #: app/templates/main/operator/schedules/manipulate-requisition-schedules.html:24
 #: app/templates/main/operator/schedules/manipulate-schedule.html:40
-#: app/users/admin/forms.py:53
+#: app/users/admin/forms.py:55
 msgid "Edit"
 msgstr ""
 
@@ -504,11 +524,6 @@ msgstr ""
 #: app/templates/main/operator/schedules/all-schedules.html:47
 msgid "Month"
 msgstr "Bulan"
-
-#: app/templates/main/operator/payments/all-payments.html:32
-#: app/templates/main/operator/payments/all-payments.html:60
-msgid "Status"
-msgstr ""
 
 #: app/templates/main/operator/payments/all-payments.html:33
 #: app/templates/main/operator/payments/all-payments.html:61
@@ -791,7 +806,7 @@ msgstr "Tipe akun baru"
 msgid "Update role"
 msgstr "Perbarui role"
 
-#: app/users/admin/forms.py:29 app/users/admin/forms.py:48
+#: app/users/admin/forms.py:29 app/users/admin/forms.py:49
 msgid "Account type"
 msgstr "Tipe akun"
 
@@ -800,72 +815,72 @@ msgstr "Tipe akun"
 msgid "Invite"
 msgstr "Undang"
 
-#: app/users/admin/forms.py:44 app/users/operator/students/forms.py:26
+#: app/users/admin/forms.py:45 app/users/operator/students/forms.py:26
 #: app/users/operator/teachers/forms.py:32
 msgid "Create"
 msgstr "Buat"
 
-#: app/users/admin/views.py:40
+#: app/users/admin/views.py:42
 #, python-format
 msgid "User %(user_full_name)s successfully created."
-msgstr ""
+msgstr "User %(user_full_name)s telah dibuat."
 
-#: app/users/admin/views.py:51
+#: app/users/admin/views.py:55
 #, python-format
 msgid "Operator %(operator_full_name)s successfully created."
-msgstr ""
+msgstr "Operator %(operator_full_name)s telah dibuat."
 
-#: app/users/admin/views.py:62
+#: app/users/admin/views.py:69
 #, python-format
 msgid "Teacher %(teacher_full_name)s successfully created."
-msgstr ""
+msgstr "Teacher %(teacher_full_name)s telah dibuat."
 
-#: app/users/admin/views.py:73
+#: app/users/admin/views.py:83
 #, python-format
 msgid "Student %(student_full_name)s successfully created."
-msgstr ""
+msgstr "Student %(student_full_name)s telah dibuat."
 
-#: app/users/admin/views.py:105
+#: app/users/admin/views.py:116
 #, python-format
 msgid "User %(user_full_name)s successfully invited."
-msgstr ""
+msgstr "User %(user_full_name)s telah di invite."
 
-#: app/users/admin/views.py:133 app/users/operator/students/views.py:59
-#: app/users/operator/teachers/views.py:78
+#: app/users/admin/views.py:144 app/users/operator/students/views.py:59
+#: app/users/operator/teachers/views.py:74
 msgid "Duplicate email with the other users, please input different email!"
-msgstr ""
+msgstr "Duplikasi email dengan pengguna lain, mohon masukan email yang berbeda!"
 
-#: app/users/admin/views.py:143
+#: app/users/admin/views.py:155
 #, python-format
 msgid "Successfully edited user %(user_full_name)s."
-msgstr ""
+msgstr "User %(user_full_name)s berhasil di edit."
 
-#: app/users/admin/views.py:184
+#: app/users/admin/views.py:196
 #, python-format
 msgid "Email for user %(user_full_name)s successfully changed to %(user_email)s."
-msgstr ""
+msgstr "Email %(user_full_name)s telah di ganti dengan %(user_email)s."
 
-#: app/users/admin/views.py:194
+#: app/users/admin/views.py:207
 msgid ""
 "You cannot change the type of your own account. Please ask another "
 "administrator to do this."
 msgstr ""
 
-#: app/users/admin/views.py:205
+#: app/users/admin/views.py:218
 #, python-format
 msgid "Role for user %(user_full_name)s successfully changed to %(user_role)s."
 msgstr ""
 
-#: app/users/admin/views.py:227
+#: app/users/admin/views.py:241
 msgid ""
 "You cannot delete your own account. Please ask another administrator to do "
 "this."
 msgstr ""
 
-#: app/users/admin/views.py:232
+#: app/users/admin/views.py:246
 #, python-format
 msgid "Successfully deleted user %(user_full_name)s."
-msgstr ""
+msgstr "User %(user_full_name)s telah di hapus."
 
 #: app/users/operator/courses/forms.py:12 app/users/operator/courses/forms.py:22
 msgid "Image"
@@ -875,21 +890,21 @@ msgstr "Gambar"
 msgid "Course name already registered!"
 msgstr "Nama kursus sudah terdaftar!"
 
-#: app/users/operator/courses/views.py:38 app/users/operator/courses/views.py:84
+#: app/users/operator/courses/views.py:37 app/users/operator/courses/views.py:85
 msgid "Please input correct image format"
 msgstr "Mohon masukan format gambar yang benar!"
 
-#: app/users/operator/courses/views.py:46
+#: app/users/operator/courses/views.py:44
 #, python-format
 msgid "successfully added %(course_name)s course."
 msgstr "Berhasil menanambahkan kursus %(course_name)s."
 
-#: app/users/operator/courses/views.py:62
+#: app/users/operator/courses/views.py:64
 #, python-format
 msgid "successfully deleted %(course_name)s course."
 msgstr "Kursus %(course_name)s telah di hapus."
 
-#: app/users/operator/courses/views.py:89
+#: app/users/operator/courses/views.py:90
 msgid "Successfully edit course"
 msgstr "Berhasil edit data kursus"
 
@@ -907,11 +922,11 @@ msgstr "Status Pembayaran"
 msgid "It seems the email is not registered as a student email."
 msgstr "Seperti nya email ini tidak terdaftar sebagai email murid."
 
-#: app/users/operator/payments/views.py:51
+#: app/users/operator/payments/views.py:50
 msgid "Successfully added new payment."
 msgstr "Berhasil menambahkan pembayaran baru."
 
-#: app/users/operator/payments/views.py:86
+#: app/users/operator/payments/views.py:84
 msgid "Successfully edit payment."
 msgstr "Pembayaran berhasil di edit."
 
@@ -939,26 +954,26 @@ msgstr "Berakhir jam-2"
 msgid "It seems the student biodata not completed!"
 msgstr "Seperti nya biodata Murid belum lengkap!"
 
-#: app/users/operator/schedules/views.py:177
+#: app/users/operator/schedules/views.py:176
 #, python-format
 msgid "Successfully added new schedule for %(student_full_name)s."
 msgstr "Berhasil menambahkan jadwal untuk %(student_full_name)s."
 
-#: app/users/operator/schedules/views.py:266
+#: app/users/operator/schedules/views.py:265
 msgid "Successfully edit schedule."
 msgstr "Jadwal telah diubah."
 
-#: app/users/operator/schedules/views.py:353
-#: app/users/operator/schedules/views.py:440
+#: app/users/operator/schedules/views.py:351
+#: app/users/operator/schedules/views.py:438
 msgid "It seems the email is not registered as a student email!"
 msgstr "Seperti nya email tersebut tidak terdaftar sebagai email murid!"
 
-#: app/users/operator/schedules/views.py:396
+#: app/users/operator/schedules/views.py:394
 #, python-format
 msgid "Successfully added new requisition schedule for %(student_full_name)s."
 msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s."
 
-#: app/users/operator/schedules/views.py:485
+#: app/users/operator/schedules/views.py:482
 msgid "Successfully edit requisition schedule."
 msgstr "Berhasil edit permintaan jadwal."
 
@@ -973,29 +988,29 @@ msgid "Please, set the phone number!"
 msgstr "Mohon, masukan nomor HP!"
 
 #: app/users/operator/students/views.py:55
-#: app/users/operator/teachers/views.py:74
+#: app/users/operator/teachers/views.py:70
 msgid ""
 "Duplicate phone number with the other users, please input different number!"
 msgstr ""
 "Seperti nya nomor HP tersebut sudah digunakan oleh user lain, mohon masukan "
 "nomor HP yang berbeda!"
 
-#: app/users/operator/students/views.py:75
-#: app/users/operator/teachers/views.py:90
+#: app/users/operator/students/views.py:72
+#: app/users/operator/teachers/views.py:86
 msgid "Please input correct image format!"
 msgstr "Mohon masukan format gambar yang benar!"
 
-#: app/users/operator/students/views.py:84
+#: app/users/operator/students/views.py:81
 #, python-format
 msgid "successfully updated %(student_full_name)s data."
 msgstr "Berhasil memperbarui data %(student_full_name)s."
 
-#: app/users/operator/students/views.py:120
+#: app/users/operator/students/views.py:115
 #, python-format
 msgid "Student %(student_full_name)s successfully invited."
 msgstr "%(student_full_name)s telah di invite sebagai Murid."
 
-#: app/users/operator/students/views.py:143
+#: app/users/operator/students/views.py:137
 #, python-format
 msgid "Successfully added %(student_full_name)s as a Student."
 msgstr "Berhasil menambahkan %(student_full_name)s sebagai Murid."
@@ -1005,17 +1020,20 @@ msgstr "Berhasil menambahkan %(student_full_name)s sebagai Murid."
 msgid "Taught course"
 msgstr "Kursus yang di ajar"
 
-#: app/users/operator/teachers/views.py:120
+#: app/users/operator/teachers/views.py:114
 #, python-format
 msgid "Successfully updated %(teacher_full_name)s data."
 msgstr "Berhasil memperbarui data %(teacher_full_name)s."
 
-#: app/users/operator/teachers/views.py:157
+#: app/users/operator/teachers/views.py:150
 #, python-format
 msgid "Teacher %(teacher_full_name)s successfully invited."
 msgstr "%(teacher_full_name)s telah di invite sebagai Guru."
 
-#: app/users/operator/teachers/views.py:191
+#: app/users/operator/teachers/views.py:184
 #, python-format
 msgid "Successfully added %(teacher_full_name)s as a Teacher."
 msgstr "Berhasil menambahkan %(teacher_full_name)s sebagai Guru."
+
+#~ msgid "Active user"
+#~ msgstr "Aktivasi user"

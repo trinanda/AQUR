@@ -31,7 +31,7 @@ def login():
             if user_role.index == 'admin':
                 return redirect(request.args.get('next') or url_for('admin.index'))
             elif user_role.index == 'operator':
-                return redirect(request.args.get('next') or url_for('operator.index'))
+                return redirect(request.args.get('next') or url_for('operator.operator_dashboard'))
             elif user_role.index == 'teacher':
                 return redirect(request.args.get('next') or url_for('teacher.index'))
             elif user_role.index == 'student':

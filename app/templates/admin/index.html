@@ -34,8 +34,9 @@
 								<th>{{ _('First name') }}</th>
 								<th>{{ _('Last name') }}</th>
 								<th>{{ _('Email address') }}</th>
-								<th>{{ _('Role') }}<th>
+								<th>{{ _('Role') }}</th>
 								<th>{{ _('Created at') }}</th>
+								<th>{{ _('Status') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -46,6 +47,11 @@
 								<td onclick="window.location='{{ url_for('admin.edit_user', user_id=data.id) }}'">{{ data.User.email }}</td>
 								<td onclick="window.location='{{ url_for('admin.edit_user', user_id=data.id) }}'">{{ data.Role.name }}</td>
 								<td onclick="window.location='{{ url_for('admin.edit_user', user_id=data.id) }}'">{{ data.User.created_at }}</td>
+								{% if data.User.confirmed == true %}
+									<td onclick="window.location='{{ url_for('admin.edit_user', user_id=data.id) }}'">{{ _('Active') }}</td>
+								{% else %}
+									<td onclick="window.location='{{ url_for('admin.edit_user', user_id=data.id) }}'">{{ _('Inactive') }}</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 						</tbody>
@@ -54,8 +60,9 @@
 									<th>{{ _('First name') }}</th>
 									<th>{{ _('Last name') }}</th>
 									<th>{{ _('Email address') }}</th>
-									<th>{{ _('Role') }}<th>
+									<th>{{ _('Role') }}</th>
 									<th>{{ _('Created at') }}</th>
+									<th>{{ _('Status') }}</th>
 								</tr>
 		          </tfoot>
 					</table>

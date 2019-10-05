@@ -34,7 +34,9 @@ def new_user():
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
-                password=form.password.data)
+                password=form.password.data,
+                confirmed=form.confirmed.data
+            )
             db.session.add(user)
             db.session.commit()
             flash(_('User %(user_full_name)s successfully created.', user_full_name=user.full_name), 'success')
@@ -45,7 +47,9 @@ def new_user():
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
-                password=form.password.data)
+                password=form.password.data,
+                confirmed=form.confirmed.data
+            )
             db.session.add(operator)
             db.session.commit()
             flash(_('Operator %(operator_full_name)s successfully created.', operator_full_name=operator.full_name),
@@ -57,7 +61,9 @@ def new_user():
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
-                password=form.password.data)
+                password=form.password.data,
+                confirmed=form.confirmed.data
+            )
             db.session.add(teacher)
             db.session.commit()
             flash(_('Teacher %(teacher_full_name)s successfully created.', teacher_full_name=teacher.full_name),
@@ -69,7 +75,9 @@ def new_user():
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
-                password=form.password.data)
+                password=form.password.data,
+                confirmed=form.confirmed.data
+            )
             db.session.add(student)
             db.session.commit()
             flash(_('Student %(student_full_name)s successfully created.', student_full_name=student.full_name),
@@ -137,6 +145,7 @@ def edit_user(user_id):
             return redirect(url_for('admin.edit_user', user_id=user_id))
 
         user.email = form.email.data
+        user.confirmed = form.confirmed.data
 
         try:
             db.session.commit()
@@ -207,7 +216,7 @@ def change_account_type(user_id):
         db.session.add(user)
         db.session.commit()
         flash(_('Role for user %(user_full_name)s successfully changed to %(user_role)s.', user_full_name=user.full_name,
-              user_role=user.role), 'form-success')
+                user_role=user.role), 'form-success')
 
     return render_template('admin/manage_user.html', user=user, form=form)
 

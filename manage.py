@@ -85,7 +85,7 @@ def setup_general():
                 email=Config.ADMIN_EMAIL)
             db.session.add(user)
             db.session.commit()
-            print('Added administrator {}'.format(user.full_name()))
+            print('Added administrator {}'.format(user.full_name))
 
 
 @manager.command
