@@ -7,8 +7,8 @@ from app import db
 from app.decorators import operator_required
 from app.models import Payment, Student, Course, RegistrationPayment
 from app.users.operator import operator
-from app.users.operator.payments.forms import PaymentForm, edit_registration_payment_form_factory, \
-    AddRegistrationPaymentForm
+from app.users.operator.payments.forms import AddPaymentForm, edit_registration_payment_form_factory, \
+    AddRegistrationPaymentForm, edit_payment_form_factory
 
 
 @operator.route('/all-payments')
@@ -27,7 +27,7 @@ def all_payments():
 @operator_required
 def add_payment():
     """Create a new payments."""
-    form = PaymentForm()
+    form = AddPaymentForm()
     if form.validate_on_submit():
         student_email = form.student_email.data
         student_id = db.session.query(Student.id).filter_by(email=student_email).first()
@@ -60,8 +60,8 @@ def edit_payment(payment_id):
     """Edit a payment's information."""
     payment = Payment.query.filter_by(id=payment_id).first()
 
-    form = PaymentForm(obj=payment)
-    form.course_name.data = payment.course
+    EditPaymentForm = edit_payment_form_factory(default_course_name=str(payment.course))
+    form = EditPaymentForm(obj=payment)
 
     if payment is None:
         abort(404)
@@ -129,8 +129,7 @@ def edit_registration_payment(registration_payment_id):
     registration_payment = RegistrationPayment.query.filter_by(id=registration_payment_id).first()
 
     EditRegistrationPaymentForm = edit_registration_payment_form_factory(
-        default_type_name=str(registration_payment.course))
-
+        default_course_name=str(registration_payment.course))
     form = EditRegistrationPaymentForm(obj=registration_payment)
 
     if registration_payments is None:
