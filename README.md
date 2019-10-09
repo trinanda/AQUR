@@ -1,15 +1,15 @@
 ### TODO LIST
 
 #### most important feature for now
-1. prevent add new schedule if teacher gender is different with student gender
-2. prevent add new schedule if teacher email is none
-3. registration payment
-    - set user account to active if the user completed their registration payment
-    - register payment for each course
-4. List of Student in table mode.
+1. List of Student in table mode.
     - List of Student that didn't tuition payment
         - show the payment status in the current month
         - all months payment status since student has registered
+2. set payment status to expired if the payment for month has ended. 
+    - if that ended, then make a marking to student profile which course has ended.
+3. prevent add new schedule if teacher gender is different with student gender
+4. prevent add new schedule if teacher email is none
+
 5. List of Teacher in table mode.
 6. manipulate data with phone number
     - login with phone number

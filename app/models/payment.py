@@ -1,5 +1,5 @@
 from app import db
-from app.models import MonthNameList, TypeOfClass, PaymentStatus
+from app.models import MonthNameList, TypeOfClass, PaymentStatus, RegistrationPaymentStatus
 
 
 class Payment(db.Model):
@@ -27,7 +27,7 @@ class RegistrationPayment(db.Model):
     student_id = db.Column(db.Integer(), db.ForeignKey('student.id'))
     total = db.Column(db.Integer)
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id'))
-    status_of_payment = db.Column(db.Enum(PaymentStatus, name='status_of_payment'))
+    status_of_payment = db.Column(db.Enum(RegistrationPaymentStatus, name='status_of_payment'))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 

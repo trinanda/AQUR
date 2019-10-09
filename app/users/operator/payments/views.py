@@ -5,13 +5,13 @@ from flask_babel import _
 
 from app import db
 from app.decorators import operator_required
-from app.models import Payment, Student, Course, RegistrationPayment
+from app.models import Payment, Student, Course, RegistrationPayment, PaymentStatus
 from app.users.operator import operator
 from app.users.operator.payments.forms import AddPaymentForm, edit_registration_payment_form_factory, \
     AddRegistrationPaymentForm, edit_payment_form_factory
 
 
-@operator.route('/all-payments')
+@operator.route('/payment/tuition-payments')
 @login_required
 @operator_required
 def all_payments():
@@ -30,13 +30,19 @@ def add_payment():
     form = AddPaymentForm()
     if form.validate_on_submit():
         student_email = form.student_email.data
-        student_id = db.session.query(Student.id).filter_by(email=student_email).first()
+        student = Student.query.filter_by(email=student_email).first()
 
         course_name = str(form.course_name.data)
         course_id = db.session.query(Course.id).filter_by(name=course_name).first()
 
+        if str(RegistrationPayment.query.filter_by(student_id=student.id).filter_by(
+            course_id=course_id).first()) != PaymentStatus.INSTALLMENT.value and PaymentStatus.COMPLETED.value:
+            flash(_('It seems the student didn\'t pay the registration payment for the %(course_name)s course',
+                    course_name=course_name), 'warning')
+            return redirect(url_for('operator.add_payment'))
+
         payments = Payment(
-            student_id=student_id,
+            student_id=student.id,
             total=form.total.data,
             course_id=course_id,
             type_of_class=form.type_of_class.data,

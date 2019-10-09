@@ -5,7 +5,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import required, ValidationError
 
-from app.models import Course, type_of_class, month_name_list, payment_status, Student
+from app.models import Course, type_of_class, month_name_list, payment_status, Student, registration_payment_status
 
 
 class AddPaymentForm(FlaskForm):
@@ -34,7 +34,7 @@ class AddRegistrationPaymentForm(FlaskForm):
     student_email = EmailField(_l('Student email'), validators=[required()])
     total = IntegerField(_l('Total'), validators=[required()])
     course_name = QuerySelectField(_l('Course name'), validators=[required()], query_factory=lambda: Course.query.all())
-    status_of_payment = SelectField(_l('Payment Status'), choices=payment_status)
+    status_of_payment = SelectField(_l('Payment Status'), choices=registration_payment_status)
     submit = SubmitField()
 
     def validate_student_email(self, field):
