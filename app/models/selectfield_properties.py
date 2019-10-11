@@ -85,15 +85,6 @@ class RegistrationPaymentStatus(enum.Enum):
         return '{}'.format(self.value)
 
 
-class CourseStatus(enum.Enum):
-    PENDING = 'PENDING'
-    RUNNING = 'RUNNING'
-    FINISHED = 'FINISHED'
-
-    def __str__(self):
-        return '{}'.format(self.value)
-
-
 last_educations = [(y.name, _l(str(y.value))) for y in (LastEducation)]
 gender = [(y.name, _l(str(y.value))) for y in (Gender)]
 type_of_class = [(y.name, _l(str(y.value))) for y in (TypeOfClass)]
@@ -101,4 +92,3 @@ day_name_list = [(y.name, _l(str(y.value))) for y in (DayNameList)]
 month_name_list = [(y.name, _l(str(y.value))) for y in (MonthNameList)]
 payment_status = [(y.name, _l(str(y.value))) for y in (PaymentStatus)]
 registration_payment_status = [(y.name, _l(str(y.value))) for y in (RegistrationPaymentStatus)]
-course_status = [(y.name, _l(str(y.value))) for y in (CourseStatus)]

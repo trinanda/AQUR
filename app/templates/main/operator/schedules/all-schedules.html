@@ -39,8 +39,8 @@
 								<th rowspan="2">{{ _('Type of class') }}</th>
 								<th rowspan="2">{{ _('Teacher') }}</th>
 								<th rowspan="2">{{ _('Teacher email') }}</th>
+								<th rowspan="2">{{ _('Course start at') }}</th>
 								<th colspan="3">{{ _('Schedule') }}</th>
-								<th rowspan="2">{{ _('Course status') }}</th>
 								<th rowspan="2">{{ _('Payment status') }}</th>
 							</tr>
 							<tr>
@@ -58,21 +58,24 @@
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
+								{% if data.course_start_at %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at.strftime('%d-%m-%Y') }}</td>
+								{% else %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at }}</td>
+								{% endif %}
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.payment_for_month|safe) }}</td>
-								{% for day in data.schedule_day_and_time %}
+								{% for day in data.time_schedule %}
 									{% if day.start_at.strftime and day.end_at.strftime %}
 										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(day.day|safe) }} {{ day.start_at.strftime('%H:%M') }}-{{ day.end_at.strftime('%H:%M') }}</td>
 									{% else %}
 										<td></td>
 									{% endif %}
 								{% endfor%}
-								{% if data.schedule_day_and_time %}
-									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.course_status|safe) }}</td>
+								{% if data.time_schedule %}
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.status_of_payment|safe) }}</td>
 								{% else %}
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">None</td>
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">None</td>
-									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.course_status|safe) }}</td>
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.status_of_payment|safe) }}</td>
 								{% endif %}
 							</tr>
@@ -86,8 +89,8 @@
 									<th>{{ _('Type of class') }}</th>
 									<th>{{ _('Teacher') }}</th>
 									<th>{{ _('Teacher email') }}</th>
+									<th>{{ _('Course start at') }}</th>
 									<th colspan="3">{{ _('Schedule') }}</th>
-									<th>{{ _('Course status') }}</th>
 									<th>{{ _('Payment status') }}</th>
 								</tr>
 		        </tfoot>

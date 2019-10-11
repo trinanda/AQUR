@@ -9,10 +9,10 @@ from flask_babel import _
 
 from app import db
 from app.decorators import operator_required
-from app.models import Payment, Student, Course, Schedule, Teacher, taught_courses, CourseStatus, ScheduleDayAndTime, \
+from app.models import TemporaryPayment, Student, Course, Schedule, Teacher, taught_courses, TimeSchedule, \
     RequisitionSchedule, PaymentStatus
 from app.users.operator import operator
-from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, ScheduleDayForm, \
+from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, TimeScheduleForm, \
     RequisitionScheduleForm
 
 
@@ -29,7 +29,7 @@ def all_schedules():
 @operator_required
 def add_schedule():
     schedule_form = ScheduleForm()
-    schedule_day_form = ScheduleDayForm()
+    time_schedule_form = TimeScheduleForm()
     if "step" not in request.form:
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="input_student_email")
@@ -37,10 +37,10 @@ def add_schedule():
     elif request.form["step"] == "available_course":
         student_email = schedule_form.student_email.data
         session['student_email'] = student_email
-        student = db.session.query(Payment, Student, Course).join(Student, Course).filter(
+        student = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
-            or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-                Payment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
+            or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+                TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
 
         for data in student:
             if data.Student.gender is None:
@@ -58,33 +58,36 @@ def add_schedule():
         course_name = str(schedule_form.course_name.data)
         session['course_name'] = course_name
         student_email = session.get('student_email')
-        student_status = db.session.query(Payment, Student, Course).join(Student, Course).filter(
+        student_status = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
-            or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-                Payment.status_of_payment == PaymentStatus.COMPLETED.value)).filter(
+            or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+                TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value)).filter(
             Course.name == course_name).all()
 
         student_available_type_of_class = []
         for data in student_status:
-            student_available_type_of_class.append((data.Payment.type_of_class, data.Payment.type_of_class))
+            student_available_type_of_class.append(
+                (data.TemporaryPayment.type_of_class, data.TemporaryPayment.type_of_class))
         schedule_form.course_name.choices = set(student_available_type_of_class)
         schedule_form.type_of_class.choices = student_available_type_of_class
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
-                               schedule_day_form=schedule_day_form, step="type_of_class")
+                               time_schedule_form=time_schedule_form, step="type_of_class")
 
     elif request.form["step"] == "input_schedule":
         session['type_of_class'] = schedule_form.type_of_class.data
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
-                               schedule_day_form=schedule_day_form, step="input_schedule")
+                               time_schedule_form=time_schedule_form, step="input_schedule")
 
     elif request.form["step"] == "input_teacher_email":
-        schedule_day = schedule_day_form.schedule_day.data
-        schedule_day_2 = schedule_day_form.schedule_day_2.data
-        start_at = str(schedule_day_form.start_at.data)
-        start_at_2 = str(schedule_day_form.start_at_2.data)
-        end_at = str(schedule_day_form.end_at.data)
-        end_at_2 = str(schedule_day_form.end_at_2.data)
+        course_start_at = str(schedule_form.course_start_at.data)
+        schedule_day = time_schedule_form.schedule_day.data
+        schedule_day_2 = time_schedule_form.schedule_day_2.data
+        start_at = str(time_schedule_form.start_at.data)
+        start_at_2 = str(time_schedule_form.start_at_2.data)
+        end_at = str(time_schedule_form.end_at.data)
+        end_at_2 = str(time_schedule_form.end_at_2.data)
 
+        session['course_start_at'] = course_start_at
         session['schedule_day'] = schedule_day
         session['schedule_day_2'] = schedule_day_2
         session['start_at'] = start_at
@@ -99,7 +102,7 @@ def add_schedule():
         student_email = session.get('student_email')
         course_name = session.get('course_name')
         type_of_class = session.get('type_of_class')
-
+        course_start_at = datetime.datetime.strptime((session.get('course_start_at')), '%Y-%m-%d')
         schedule_day = session.get('schedule_day')
         start_at = datetime.datetime.strptime(session.get('start_at'), '%H:%M:%S')
         end_at = datetime.datetime.strptime(session.get('end_at'), '%H:%M:%S')
@@ -117,8 +120,9 @@ def add_schedule():
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="check_data",
                                student_email=student_email, course_name=course_name, type_of_class=type_of_class,
-                               schedule_day=schedule_day, schedule_day_2=schedule_day_2, start_at=start_at,
-                               start_at_2=start_at_2, end_at=end_at, end_at_2=end_at_2, teacher_email=teacher_email)
+                               course_start_at=course_start_at, schedule_day=schedule_day,
+                               schedule_day_2=schedule_day_2, start_at=start_at, start_at_2=start_at_2, end_at=end_at,
+                               end_at_2=end_at_2, teacher_email=teacher_email)
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
@@ -126,7 +130,7 @@ def add_schedule():
             course_name = session.get('course_name')
             type_of_class = session.get('type_of_class')
             teacher_email = session.get('teacher_email')
-
+            course_start_at = session.get('course_start_at')
             schedule_day = session.get('schedule_day')
             start_at = session.get('start_at')
             end_at = session.get('end_at')
@@ -146,30 +150,30 @@ def add_schedule():
             student = Student.query.filter_by(email=student_email).first()
             course = Course.query.filter_by(name=course_name).first()
             teacher = Teacher.query.filter_by(email=teacher_email).first()
-            payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
+            payment = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
                 Student.id == student.id).filter(Course.name == course_name).first()
 
-            schedule_day_and_time = ScheduleDayAndTime(
+            time_schedule = TimeSchedule(
                 day=schedule_day,
                 start_at=start_at,
                 end_at=end_at,
             )
 
-            schedule_day_and_time_2 = ScheduleDayAndTime(
+            time_schedule_2 = TimeSchedule(
                 day=schedule_day_2,
                 start_at=start_at_2,
                 end_at=end_at_2,
             )
 
             schedule = Schedule(
-                payment_id=payment.Payment.id,
+                payment_id=payment.TemporaryPayment.id,
                 student_id=student.id,
                 course_id=course.id,
                 teacher_id=teacher.id,
-                course_status=CourseStatus.PENDING.value
+                course_start_at=course_start_at
             )
-            schedule.schedule_day_and_time.append(schedule_day_and_time)
-            schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+            schedule.time_schedule.append(time_schedule)
+            schedule.time_schedule.append(time_schedule_2)
             db.session.add(schedule)
             db.session.commit()
 
@@ -186,14 +190,14 @@ def add_schedule():
 @operator_required
 def edit_schedule(schedule_id):
     """Edit a schedule's information."""
-    schedule_day_and_time = ScheduleDayAndTime.query.filter_by(schedule_id=schedule_id).first()
+    time_schedule = TimeSchedule.query.filter_by(schedule_id=schedule_id).first()
     schedule = Schedule.query.filter_by(id=schedule_id).first()
 
     if schedule is None:
         abort(404)
 
     list_prepopulate_schedule_form = []
-    for data in schedule.schedule_day_and_time:
+    for data in schedule.time_schedule:
         list_prepopulate_schedule_form.append(data.day)
         list_prepopulate_schedule_form.append(data.start_at)
         list_prepopulate_schedule_form.append(data.end_at)
@@ -217,9 +221,9 @@ def edit_schedule(schedule_id):
             'end_at_2': None,
         }]
 
-    schedule_form = ScheduleDayForm(obj=schedule)
+    schedule_form = TimeScheduleForm(obj=schedule)
     try:
-        schedule_form.course_name.data = schedule_day_and_time.requisition_schedule.course
+        schedule_form.course_name.data = time_schedule.requisition_schedule.course
     except Exception as e:
         schedule_form.course_name.data = None
 
@@ -227,11 +231,12 @@ def edit_schedule(schedule_id):
     schedule_form.schedule_day_2.data = prepopulate_schedule_form[0]['schedule_day_2']
 
     if request.method == "POST":
-        ScheduleDayAndTime.query.filter(ScheduleDayAndTime.schedule_id == schedule_id).delete()
+        TimeSchedule.query.filter(TimeSchedule.schedule_id == schedule_id).delete()
         db.session.commit()
 
-        schedule.course_status = request.form['course_status']
-        schedule_day_and_time_1 = ScheduleDayAndTime(
+        schedule.course_start_at = schedule_form.course_start_at.data
+
+        time_schedule_1 = TimeSchedule(
             day=request.form['schedule_day'],
             start_at=request.form['start_at'],
             end_at=request.form['end_at'],
@@ -248,13 +253,13 @@ def edit_schedule(schedule_id):
         if end_at_2 == '':
             end_at_2 = None
 
-        schedule_day_and_time_2 = ScheduleDayAndTime(
+        time_schedule_2 = TimeSchedule(
             day=schedule_day_2,
             start_at=start_at_2,
             end_at=end_at_2,
         )
-        schedule.schedule_day_and_time.append(schedule_day_and_time_1)
-        schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+        schedule.time_schedule.append(time_schedule_1)
+        schedule.time_schedule.append(time_schedule_2)
         db.session.add(schedule)
         try:
             db.session.commit()
@@ -275,10 +280,9 @@ def check_schedules():
     schedules = db.session.query(Schedule).all()
     form = CheckScheduleForm()
 
-    courses = Course.query.all()
     course_list = []
 
-    for data in courses:
+    for data in Course.query.all():
         course_list.append((data.name, data.name))
 
     if "step" not in request.form:
@@ -311,11 +315,10 @@ def check_schedules():
             list_of_teachers_id_by_gender.append(data.id)
         ###/#######################
 
-        # TODO | InsyaAllah will check the line bellow
-        not_available_teachers_by_schedule = db.session.query(Schedule, ScheduleDayAndTime).join(
-            ScheduleDayAndTime).filter(Schedule.teacher_id.in_(list_of_teachers_id_by_gender),
-                                       ScheduleDayAndTime.start_at == start_at).filter(
-            ScheduleDayAndTime.day == schedule_day).all()
+        not_available_teachers_by_schedule = db.session.query(Schedule, TimeSchedule).join(
+            TimeSchedule).filter(Schedule.teacher_id.in_(list_of_teachers_id_by_gender),
+                                 TimeSchedule.start_at == start_at).filter(
+            TimeSchedule.day == schedule_day).all()
 
         not_available_teachers = []
         for data in not_available_teachers_by_schedule:
@@ -358,7 +361,7 @@ def add_requisition_schedules():
             course_id=course.id,
             type_of_class=form.type_of_class.data,
         )
-        schedule_day_and_time_1 = ScheduleDayAndTime(
+        time_schedule_1 = TimeSchedule(
             day=form.schedule_day.data,
             start_at=form.start_at.data,
             end_at=form.end_at.data,
@@ -376,14 +379,14 @@ def add_requisition_schedules():
         if end_at_2 == '':
             end_at_2 = None
 
-        schedule_day_and_time_2 = ScheduleDayAndTime(
+        time_schedule_2 = TimeSchedule(
             day=schedule_day_2,
             start_at=start_at_2,
             end_at=end_at_2,
         )
 
-        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_1)
-        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+        requisition_schedule.time_schedule.append(time_schedule_1)
+        requisition_schedule.time_schedule.append(time_schedule_2)
         db.session.add(requisition_schedule)
         try:
             db.session.commit()
@@ -402,16 +405,16 @@ def add_requisition_schedules():
 @operator_required
 def edit_requisition_schedules(requisition_schedule_id):
     """Edit a requisition_schedule information."""
-    schedule_day_and_time = ScheduleDayAndTime.query.filter_by(requisition_schedule_id=requisition_schedule_id).first()
+    time_schedule = TimeSchedule.query.filter_by(requisition_schedule_id=requisition_schedule_id).first()
     requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
 
-    if schedule_day_and_time is None:
+    if time_schedule is None:
         abort(404)
     if requisition_schedule is None:
         abort(404)
 
     list_prepopulate_requisition_schedule_form = []
-    for data in requisition_schedule.schedule_day_and_time:
+    for data in requisition_schedule.time_schedule:
         list_prepopulate_requisition_schedule_form.append(data.day)
         list_prepopulate_requisition_schedule_form.append(data.start_at)
         list_prepopulate_requisition_schedule_form.append(data.end_at)
@@ -426,7 +429,7 @@ def edit_requisition_schedules(requisition_schedule_id):
     }]
 
     form = RequisitionScheduleForm(obj=requisition_schedule)
-    form.course_name.data = schedule_day_and_time.requisition_schedule.course
+    form.course_name.data = time_schedule.requisition_schedule.course
 
     form.schedule_day.data = prepopulate_requisition_schedule_form[0]['schedule_day']
     form.schedule_day_2.data = prepopulate_requisition_schedule_form[0]['schedule_day_2']
@@ -436,16 +439,17 @@ def edit_requisition_schedules(requisition_schedule_id):
         student = Student.query.filter_by(email=form.student_email.data).first()
         if student is None:
             flash(_('It seems the email is not registered as a student email!'), 'error')
-            return redirect(url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
+            return redirect(
+                url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
 
         requisition_schedule.student_id = student.id
         requisition_schedule.course_id = request.form['course_name']
         requisition_schedule.type_of_class = form.type_of_class.data
 
-        ScheduleDayAndTime.query.filter(ScheduleDayAndTime.requisition_schedule_id == requisition_schedule_id).delete()
+        TimeSchedule.query.filter(TimeSchedule.requisition_schedule_id == requisition_schedule_id).delete()
         db.session.commit()
 
-        schedule_day_and_time_1 = ScheduleDayAndTime(
+        time_schedule_1 = TimeSchedule(
             day=request.form['schedule_day'],
             start_at=request.form['start_at'],
             end_at=request.form['end_at'],
@@ -462,14 +466,14 @@ def edit_requisition_schedules(requisition_schedule_id):
         if end_at_2 == '':
             end_at_2 = None
 
-        schedule_day_and_time_2 = ScheduleDayAndTime(
+        time_schedule_2 = TimeSchedule(
             day=schedule_day_2,
             start_at=start_at_2,
             end_at=end_at_2,
         )
 
-        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_1)
-        requisition_schedule.schedule_day_and_time.append(schedule_day_and_time_2)
+        requisition_schedule.time_schedule.append(time_schedule_1)
+        requisition_schedule.time_schedule.append(time_schedule_2)
         db.session.add(requisition_schedule)
 
         try:

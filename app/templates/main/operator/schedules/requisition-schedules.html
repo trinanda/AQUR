@@ -50,7 +50,7 @@
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(data.student.gender|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ data.course.name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
-								{% for schedule in data.schedule_day_and_time %}
+								{% for schedule in data.time_schedule %}
 									{% if schedule.start_at.strftime and schedule.end_at.strftime %}
 										<td onclick="window.location='{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}'">{{ _(schedule.day|safe) }} {{ schedule.start_at.strftime('%H:%M') }}-{{ schedule.end_at.strftime('%H:%M') }}</td>
 									{% else %}

@@ -109,6 +109,7 @@
           <div class="form-row">
 	          {% if schedule %}
 	            {{ f.begin_form(schedule_form, flashes) }}
+								{{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12', value=schedule.course_start_at) }}
 								{{ f.render_form_field(schedule_form.schedule_day, extra_classes='form-group col-md-12') }}
 	              {% for data in prepopulate_schedule_form %}
 									{{ f.render_form_field(schedule_form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
@@ -119,7 +120,6 @@
 									{{ f.render_form_field(schedule_form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
 									{{ f.render_form_field(schedule_form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
 								{% endfor %}
-								{{ f.render_form_field(schedule_form.course_status, extra_classes='form-group col-md-12') }}
 			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Update') }}">
 	            {{ f.end_form() }}
 	          {% endif %}
@@ -136,14 +136,15 @@
 						   <input type=hidden name="step" value="input_schedule">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input schedule') }}">
 	             {{ f.end_form() }}
-	             {{ f.begin_form(schedule_day_form, flashes) }}
+	             {{ f.begin_form(time_schedule_form, flashes) }}
 		        {% elif step == "input_schedule" %}
-	            {{ f.render_form_field(schedule_day_form.schedule_day, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(schedule_day_form.start_at, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(schedule_day_form.end_at, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(schedule_day_form.schedule_day_2, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(schedule_day_form.start_at_2, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(schedule_day_form.end_at_2, extra_classes='form-group col-md-6') }}
+	            {{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(time_schedule_form.schedule_day, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(time_schedule_form.start_at, extra_classes='form-group col-md-6') }}
+							{{ f.render_form_field(time_schedule_form.end_at, extra_classes='form-group col-md-6') }}
+							{{ f.render_form_field(time_schedule_form.schedule_day_2, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(time_schedule_form.start_at_2, extra_classes='form-group col-md-6') }}
+							{{ f.render_form_field(time_schedule_form.end_at_2, extra_classes='form-group col-md-6') }}
 	            <input type=hidden name="step" value="input_teacher_email">
 	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input Teacher') }}">
 	            {{ f.end_form() }}
@@ -171,6 +172,10 @@
 		                <th>{{ _('Teacher email') }}</th>
 		                <td>{{ teacher_email }}</td>
 		              </tr>
+			            <tr>
+				            <th>{{ _('Course start at') }}</th>
+				            <td>{{ course_start_at.strftime('%d-%m-%Y') }}</td>
+			            </tr>
 			            <tr>
 				            <th colspan="2">{{ _('Schedule') }}</th>
 			            </tr>
