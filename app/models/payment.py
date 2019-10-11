@@ -1,5 +1,5 @@
 from app import db
-from app.models import MonthNameList, TypeOfClass, PaymentStatus, RegistrationPaymentStatus
+from app.models import MonthNameList, TypeOfClass, PaymentStatus
 
 
 class Payment(db.Model):
@@ -21,18 +21,19 @@ class Payment(db.Model):
         return str(self.status_of_payment)
 
 
-class RegistrationPayment(db.Model):
+class RegistrationPayment(Payment):
     __tablename__ = 'registration_payment'
     id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer(), db.ForeignKey('student.id'))
-    total = db.Column(db.Integer)
-    course_id = db.Column(db.Integer(), db.ForeignKey('course.id'))
-    status_of_payment = db.Column(db.Enum(RegistrationPaymentStatus, name='status_of_payment'))
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    payment_id = db.Column(db.Integer(), db.ForeignKey('payment.id'))
 
-    course = db.relationship("Course", foreign_keys=[course_id])
-    student = db.relationship("Student", foreign_keys=[student_id])
 
-    def __str__(self):
-        return str(self.status_of_payment)
+class TemporaryPayment(Payment):
+    __tablename__ = 'temporary_payment'
+    id = db.Column(db.Integer, primary_key=True)
+    payment_id = db.Column(db.Integer(), db.ForeignKey('payment.id'))
+
+
+class FixedPayment(Payment):
+    __tablename__ = 'fixed_payment'
+    id = db.Column(db.Integer, primary_key=True)
+    payment_id = db.Column(db.Integer(), db.ForeignKey('payment.id'))
