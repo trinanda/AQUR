@@ -42,6 +42,9 @@
 	      <h2 class="c-grey-900">{{ _('Add new Schedule') }}</h2>
 	    {% endif %}
 	    <div class="bgc-white p-70 bd">
+		    <div style="display: flex;justify-content:flex-end;">
+			    <a href="{{ url_for('operator.edit_schedule_add_day', schedule_id=schedule.id) }}" class="btn btn-info d-flex justify-content-center d-md-table">{{ _('Edit number of days') }}</a>
+		    </div>
 		    {% if step == "input_student_email" %}
 			    <div style="text-align:center;">
 				    <span class="step active"></span>
@@ -122,7 +125,11 @@
           <div class="form-row">
 	          {% if schedule %}
 	            {{ f.begin_form(form, flashes) }}
-								{{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12') }}
+	              {% if schedule.course_start_at %}
+									{{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12', value=schedule.course_start_at) }}
+								{% else %}
+									{{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12') }}
+								{% endif %}
 								{{ f.begin_form(local_time_form, flashes) }}
 	                {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
 					      {{ f.end_form() }}

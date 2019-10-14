@@ -79,7 +79,7 @@ def add_schedule():
 
         for data in schedules:
             if course_name == data.course.name and (
-            str(data.payment.type_of_class), str(data.payment.type_of_class)) in student_available_type_of_class:
+                str(data.payment.type_of_class), str(data.payment.type_of_class)) in student_available_type_of_class:
                 student_available_type_of_class.remove(
                     (str(data.payment.type_of_class), str(str(data.payment.type_of_class))))
 
@@ -182,9 +182,7 @@ def add_schedule():
 @operator_required
 def edit_schedule(schedule_id):
     """Edit a schedule's information."""
-    time_schedule = TimeSchedule.query.filter_by(schedule_id=schedule_id).first()
     schedule = Schedule.query.filter_by(id=schedule_id).first()
-
     if schedule is None:
         abort(404)
     form = ScheduleForm(obj=schedule)
@@ -193,12 +191,23 @@ def edit_schedule(schedule_id):
         pass
 
     LocalTimeScheduleForm.time_schedule = FieldList(
-        FormField(TimeScheduleForm, label='------------------------------------------'), min_entries=1)
-    local_time_form = LocalTimeScheduleForm()
+        FormField(TimeScheduleForm, label='------------------------------------------'),
+        min_entries=schedule.how_many_times_in_a_week)
+
+    local_time_form = LocalTimeScheduleForm(obj=schedule)
 
     if request.method == "POST":
         TimeSchedule.query.filter(TimeSchedule.schedule_id == schedule_id).delete()
         db.session.commit()
+        schedule.course_start_at = form.course_start_at.data
+        list_of_dict_time_schedule = []
+        for entry in form.time_schedule:
+            list_of_dict_time_schedule.append(
+                {'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                 'end_at': entry.data['end_at'].strftime('%H:%M')})
+        for data in list_of_dict_time_schedule:
+            time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+            schedule.time_schedule.append(time_schedule)
         db.session.add(schedule)
         try:
             db.session.commit()
@@ -210,6 +219,60 @@ def edit_schedule(schedule_id):
         return redirect(url_for('operator.all_schedules'))
     return render_template('main/operator/schedules/manipulate-schedule.html', schedule=schedule,
                            form=form, local_time_form=local_time_form)
+
+
+@operator.route('/schedule/edit-schedule/add-day/<int:schedule_id>', methods=['GET', 'POST'])
+@login_required
+@operator_required
+def edit_schedule_add_day(schedule_id):
+    """Edit a schedule's information."""
+    schedule = Schedule.query.filter_by(id=schedule_id).first()
+    if schedule is None:
+        abort(404)
+    form = ScheduleForm(obj=schedule)
+
+    if "step" not in request.form:
+        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
+                               step="how_many_times_in_a_week")
+
+    elif request.form["step"] == "time_schedule":
+        how_many_times_in_a_week = form.how_many_times_in_a_week.data
+        session['how_many_times_in_a_week'] = how_many_times_in_a_week
+
+        class LocalTimeScheduleForm(ScheduleForm):
+            pass
+
+        LocalTimeScheduleForm.time_schedule = FieldList(
+            FormField(TimeScheduleForm, label='------------------------------------------'),
+            min_entries=how_many_times_in_a_week)
+        local_time_form = LocalTimeScheduleForm()
+        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
+                               step="time_schedule", local_time_form=local_time_form)
+    elif request.form["step"] == "submit":
+        if request.method == "POST":
+            TimeSchedule.query.filter(TimeSchedule.schedule_id == schedule_id).delete()
+            db.session.commit()
+            how_many_times_in_a_week = session.get('how_many_times_in_a_week')
+            schedule.how_many_times_in_a_week = how_many_times_in_a_week
+            list_of_dict_time_schedule = []
+            for entry in form.time_schedule:
+                list_of_dict_time_schedule.append(
+                    {'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                     'end_at': entry.data['end_at'].strftime('%H:%M')})
+            for data in list_of_dict_time_schedule:
+                time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+                schedule.time_schedule.append(time_schedule)
+
+            try:
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash(str(e), 'error')
+                return redirect(url_for('operator.edit_schedule', schedule_id=schedule_id))
+            flash(_('Successfully edit schedule.'), 'success')
+            return redirect(url_for('operator.all_schedules'))
+        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form, step="submit")
+    return render_template('main/operator/schedules/edit-schedule-add-day.html', schedule=schedule, form=form)
 
 
 @operator.route('/schedule/check-schedules', methods=['GET', 'POST'])

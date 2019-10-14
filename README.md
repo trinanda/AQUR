@@ -1,30 +1,30 @@
 ### TODO LIST
 
 #### most important feature for now
-1. List of Student in table mode.
+1.  set starting course date on schedule
+    - set payment status to expired automatically after pay_at pass the current date
+    - if status payment == expired transfer payment data to fixed_payment table
+2. List of Student in table mode.
     - List of Student that didn't tuition payment
         - show the payment status in the current month
         - all months payment status since student has registered
-2. set payment status to expired if the payment for month has ended. 
+3. set payment status to expired if the payment for month has ended. 
     - if that ended, then make a marking to student profile which course has ended.
-3. prevent add new schedule if teacher gender is different with student gender
-4. prevent add new schedule if teacher email is none
+4. prevent add new schedule if teacher gender is different with student gender
+5. prevent add new schedule if teacher email is none
 
-5. List of Teacher in table mode.
-6. manipulate data with phone number
+6. List of Teacher in table mode.
+7. manipulate data with phone number
     - login with phone number
-7. which student has expired tuition payment course..?
-8. what if operator add more than 2 course in one payment..?
-    - prevent to input multiple student schedule course in one payment
-9. expired course time = 4x or 8x per month..?
+8. which student has expired tuition payment course..?
+10. expired course time = 4x or 8x per month..?
     - private class = 240 minutes per months | regular class = 960 minutes/month
         - by attedance from teacher..?
         - by time..?
         - count time by when student did the payment..?
     - regular class = 1:30m
-10. prevent to input duplicate students schedule
-11. prevent to input duplicate teachers schedule
-12. add class durations to payment models
+11. prevent to input duplicate students schedule
+12. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------
 13. fix "Please input correct image format" when change user profile data
 14. student Taken courses details
@@ -34,11 +34,10 @@
 17. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
 18. autobackup to dropbox/google drive..?
 19. How we know if a student course or tuition has expired  ..?
-20. Kursus yang telah dibayar yang mana yang di ambil jadwal nya..?
-21. data dengan umur sekian
-22. deploy to a VPS
-23. set a domain for the app
-24. get current and last login user ip
+20. data dengan umur sekian
+21. deploy to a VPS
+22. set a domain for the app
+23. get current and last login user ip
 
 ##### TODO | 2 -
 1. batasi umur
