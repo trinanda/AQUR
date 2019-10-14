@@ -118,51 +118,44 @@
         'success': get_flashed_messages(category_filter=['form-success'])
         } %}
         <div class="mT-30">
-          {{ f.begin_form(schedule_form, flashes) }}
+          {{ f.begin_form(form, flashes) }}
           <div class="form-row">
 	          {% if schedule %}
-	            {{ f.begin_form(schedule_form, flashes) }}
-								{{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12', value=schedule.course_start_at) }}
-								{{ f.render_form_field(schedule_form.schedule_day, extra_classes='form-group col-md-12') }}
-	              {% for data in prepopulate_schedule_form %}
-									{{ f.render_form_field(schedule_form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
-									{{ f.render_form_field(schedule_form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
-								{% endfor %}
-	              {{ f.render_form_field(schedule_form.schedule_day_2, extra_classes='form-group col-md-12') }}
-	              {% for data in prepopulate_schedule_form %}
-									{{ f.render_form_field(schedule_form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
-									{{ f.render_form_field(schedule_form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
-								{% endfor %}
+	            {{ f.begin_form(form, flashes) }}
+								{{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12') }}
+								{{ f.begin_form(local_time_form, flashes) }}
+	                {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
+					      {{ f.end_form() }}
 			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Update') }}">
 	            {{ f.end_form() }}
 	          {% endif %}
 	          {% if step == "input_student_email" %}
-	            {{ f.render_form_field(schedule_form.student_email, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="available_course">
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check available course') }}">
 		        {% elif step == "available_course" %}
-							{{ f.render_form_field(schedule_form.course_name, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="type_of_class">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input type of class') }}">
 		        {% elif step == "type_of_class" %}
-							{{ f.render_form_field(schedule_form.type_of_class, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="how_many_times_in_a_week">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('How many times in a week') }}">
 		        {% elif step == "how_many_times_in_a_week" %}
-	            {{ f.render_form_field(schedule_form.how_many_times_in_a_week, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(form.how_many_times_in_a_week, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="input_schedule">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input schedule') }}">
 	          {% elif step == "input_schedule" %}
-	              {{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12') }}
-	          	  {{ f.begin_form(local_time_schedule_form, flashes) }}
-	                {{ f.render_form_field(local_time_schedule_form.time_schedule, extra_classes='form-group col-md-12') }}
+	              {{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12') }}
+	          	  {{ f.begin_form(local_time_form, flashes) }}
+	                {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
 					      {{ f.end_form() }}
 	            <input type=hidden name="step" value="input_teacher_email">
 	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input Teacher') }}">
 	            {{ f.end_form() }}
-	            {{ f.begin_form(schedule_form, flashes) }}
+	            {{ f.begin_form(form, flashes) }}
 		        {% elif step == "input_teacher_email" %}
-							{{ f.render_form_field(schedule_form.teacher_email, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.teacher_email, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="check_data">
 					    <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check all input') }}">
 		        {% elif step == "check_data" %}

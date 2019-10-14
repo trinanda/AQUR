@@ -44,7 +44,7 @@
 							{% if requisition_schedule %}
 									{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-6') }}
 									{{ f.render_form_field(form.schedule_day_2, extra_classes='form-group col-md-6') }}
-									{% for data in prepopulate_requisition_schedule_form %}
+									{% for data in prepopulate_requisition_form %}
 										{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
 										{{ f.render_form_field(form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
 										{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
