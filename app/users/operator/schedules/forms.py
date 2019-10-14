@@ -1,11 +1,18 @@
-from wtforms import SelectField, SubmitField
+from wtforms import SelectField, SubmitField, FieldList, FormField, StringField
 from flask_babel import _, lazy_gettext as _l
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.fields.html5 import EmailField, TimeField, DateField
+from wtforms.fields.html5 import EmailField, TimeField, DateField, IntegerField
 from wtforms.validators import required, ValidationError, Email, DataRequired
 from flask_wtf import FlaskForm
+from wtforms.widgets.html5 import NumberInput
 
 from app.models import Teacher, type_of_class, day_name_list, Student, gender, Course
+
+
+class TimeScheduleForm(FlaskForm):
+    day = SelectField(_l('Day'), validators=[required()], choices=day_name_list)
+    start_at = TimeField(_l('Start at'), validators=[required()])
+    end_at = TimeField(_l('End at'), validators=[required()])
 
 
 class ScheduleForm(FlaskForm):
@@ -15,6 +22,10 @@ class ScheduleForm(FlaskForm):
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
     teacher_email = EmailField(_l('Teacher email'), validators=[required()])
     course_start_at = DateField(_l('Course Start at'), validators=[DataRequired()], format='%Y-%m-%d')
+    how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
+
+    time_schedule = FieldList(FormField(TimeScheduleForm))
+
     submit = SubmitField()
 
     def validate_student_email(self, field):
@@ -24,15 +35,6 @@ class ScheduleForm(FlaskForm):
     def validate_teacher_email(self, field):
         if Teacher.query.filter_by(email=field.data).first() is None:
             raise ValidationError(_('It seems the email is not registered as a teacher email.'))
-
-
-class TimeScheduleForm(ScheduleForm):
-    schedule_day = SelectField(_l('Day #1'), validators=[required()], choices=day_name_list)
-    start_at = TimeField(_l('Start at #1'), validators=[required()])
-    end_at = TimeField(_l('End at #1'), validators=[required()])
-    schedule_day_2 = SelectField(_l('Day #2'), choices=day_name_list)
-    start_at_2 = TimeField(_l('Start at #2'))
-    end_at_2 = TimeField(_l('End at #2'))
 
 
 class CheckScheduleForm(TimeScheduleForm):

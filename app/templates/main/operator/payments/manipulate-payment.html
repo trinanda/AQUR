@@ -38,15 +38,14 @@
             {% else %}
               {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
             {% endif %}
-            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
+            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6') }}
             {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
-            {{ f.render_form_field(form.payment_for_month, extra_classes='form-group col-md-6') }}
             {% if payment %}
-            {{ f.render_form_field(form.total, extra_classes='form-group col-md-6', value=payment.total) }}
+            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12', value=payment.total) }}
             {% else %}
-            {{ f.render_form_field(form.total, extra_classes='form-group col-md-6') }}
+            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12') }}
             {% endif %}
-            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-6') }}
+            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

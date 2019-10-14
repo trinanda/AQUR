@@ -8,7 +8,7 @@ from flask_babel import _
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Teacher, Role, User, Course, Schedule, Payment, Gender, PaymentStatus
+from app.models import Teacher, Role, User, Course, Schedule, TemporaryPayment, Gender, PaymentStatus
 from app.users.operator import operator
 from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
 
@@ -28,10 +28,10 @@ def all_teachers():
 @login_required
 @operator_required
 def teacher_profile(teacher_id):
-    schedule = db.session.query(Schedule, Payment, Teacher).join(Payment, Teacher).filter(
+    schedule = db.session.query(Schedule, TemporaryPayment, Teacher).join(TemporaryPayment, Teacher).filter(
         Schedule.teacher_id == teacher_id).filter(
-        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
+        or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     list_number_of_students = []
     for data in schedule:

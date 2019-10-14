@@ -6,7 +6,7 @@ from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
-from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus
+from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus, FixedPayment
 from app.users.operator import operator
 
 from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
@@ -38,6 +38,12 @@ def add_course():
             return redirect(url_for('operator.add_course'))
         course = Course(
             name=course_name,
+            private_class_charge_per_minutes=form.private_class_charge_per_minutes.data,
+            regular_class_charge_per_minutes=form.regular_class_charge_per_minutes.data,
+            min_private_class_duration=form.min_private_class_duration.data,
+            min_regular_class_duration=form.min_regular_class_duration.data,
+            min_private_class_charge_per_meet=form.min_private_class_charge_per_meet.data,
+            min_regular_class_charge_per_meet=form.min_regular_class_charge_per_meet.data,
             image=filename)
         db.session.add(course)
         db.session.commit()
@@ -78,6 +84,14 @@ def edit_course(course_id):
     if form.validate_on_submit():
         course_name = form.name.data
         course.name = course_name
+
+        course.private_class_charge_per_minutes = form.private_class_charge_per_minutes.data
+        course.regular_class_charge_per_minutes = form.regular_class_charge_per_minutes.data
+        course.min_private_class_duration = form.min_private_class_duration.data
+        course.min_regular_class_duration = form.min_regular_class_duration.data
+        course.min_private_class_charge_per_meet = form.min_private_class_charge_per_meet.data
+        course.min_regular_class_charge_per_meet = form.min_regular_class_charge_per_meet.data
+
         try:
             filename = photos.save(request.files['image'], name="courses/" + course_name + "_course.")
             course.image = filename
@@ -100,10 +114,8 @@ def course_details(course_id):
     if course is None:
         abort(404)
 
-    students_payment = db.session.query(Payment, Student).join(Student).distinct(Payment.student_id).filter(
-        Payment.course_id == course_id).filter(
-        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
+    students_payment = db.session.query(FixedPayment, Student).join(Student).distinct(FixedPayment.student_id).filter(
+        FixedPayment.course_id == course_id)
 
     total_students = students_payment.count()
     total_private_students = students_payment.filter(Payment.type_of_class == TypeOfClass.PRIVATE.value).count()
@@ -119,13 +131,14 @@ def course_details(course_id):
     for data in MonthNameList:
         month_name_list.append(str(data))
 
-    total_male_students_per_month = []
-    total_female_students_per_month = []
-    for data in month_name_list:
-        total_male_students_per_month.append(
-            {data: students_payment_male.filter(Payment.payment_for_month == data).count()})
-        total_female_students_per_month.append(
-            {data: students_payment_female.filter(Payment.payment_for_month == data).count()})
+    total_male_students_per_month = [{'data': 5}] # test
+    total_female_students_per_month = [{'data': 4}] # test
+    # for data in month_name_list:
+    #     # TODO | InsyaAllah will change the "payment_for_month" filter bellow
+    #     total_male_students_per_month.append(
+    #         {data: students_payment_male.filter(Payment.payment_for_month == data).count()})
+    #     total_female_students_per_month.append(
+    #         {data: students_payment_female.filter(Payment.payment_for_month == data).count()})
 
     legend_male = Gender.Male.value
     legend_female = Gender.Female.value

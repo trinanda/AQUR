@@ -1,0 +1,65 @@
+{% extends "layouts/base-template.html" %}
+{% block content %}
+<style>
+	.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+	background-color: #C0D890;
+	}
+</style>
+<div class="">
+	<div class="clearfix"></div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>{{  _('Tuition Courses Details') }}</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>{{ _('Course Name') }}</th>
+								<th>{{ _('Payment Status') }}</th>
+								<th>{{ _('Used Payment') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for data in student_tuitions %}
+							<tr>
+								<td>{{ data.course }}</td>
+								{% if data.status_of_payment|safe == "INSTALLMENT" or data.status_of_payment|safe == "PENDING" %}
+									<td>
+										{{ _(data.status_of_payment|safe) }}
+										<div style="float: right;">
+											<button type="button" class="btn btn-info" title="Select Financial Instrument">Edit Payment</button>
+										</div>
+									</td>
+								{% elif data.status_of_payment|safe == "EXPIRED" %}
+									<td>
+										{{ _(data.status_of_payment|safe) }}
+										<div style="float: right;">
+<!--											TODO | InsyaAllah will work in the line bellow | add new payment..?, delete the old data and add the new one or what should I do here..? -->
+											<button type="button" class="btn btn-primary" title="Select Financial Instrument">Add new payment</button>
+										</div>
+									</td>
+								{% else %}
+									<td>{{ _(data.status_of_payment|safe) }}</td>
+								{% endif %}
+								<td>-</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>{{ _('Course Name') }}</th>
+								<th>{{ _('Payment Status') }}</th>
+								<th>{{ _('Used Payment') }}</th>
+							</tr>
+		        </tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

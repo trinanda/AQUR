@@ -33,20 +33,15 @@
 					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover display" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th rowspan="2">{{ _('Student') }}</th>
-								<th rowspan="2">{{ _('Student email') }}</th>
-								<th rowspan="2">{{ _('Course') }}</th>
-								<th rowspan="2">{{ _('Type of class') }}</th>
-								<th rowspan="2">{{ _('Teacher') }}</th>
-								<th rowspan="2">{{ _('Teacher email') }}</th>
-								<th rowspan="2">{{ _('Course start at') }}</th>
-								<th colspan="3">{{ _('Schedule') }}</th>
-								<th rowspan="2">{{ _('Payment status') }}</th>
-							</tr>
-							<tr>
-								<th>{{ _('Month') }}</th>
-								<th>{{ _('Day') }}</th>
-								<th>{{ _('Day 2') }}</th>
+								<th>{{ _('Student') }}</th>
+								<th>{{ _('Student email') }}</th>
+								<th>{{ _('Course') }}</th>
+								<th>{{ _('Type of class') }}</th>
+								<th>{{ _('Teacher') }}</th>
+								<th>{{ _('Teacher email') }}</th>
+								<th>{{ _('Payment status') }}</th>
+								<th>{{ _('Course start at') }}</th>
+								<th>{{ _('Schedule') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,19 +53,6 @@
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
-								{% if data.course_start_at %}
-									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at.strftime('%d-%m-%Y') }}</td>
-								{% else %}
-									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at }}</td>
-								{% endif %}
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.payment_for_month|safe) }}</td>
-								{% for day in data.time_schedule %}
-									{% if day.start_at.strftime and day.end_at.strftime %}
-										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(day.day|safe) }} {{ day.start_at.strftime('%H:%M') }}-{{ day.end_at.strftime('%H:%M') }}</td>
-									{% else %}
-										<td></td>
-									{% endif %}
-								{% endfor%}
 								{% if data.time_schedule %}
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.status_of_payment|safe) }}</td>
 								{% else %}
@@ -78,6 +60,24 @@
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">None</td>
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.status_of_payment|safe) }}</td>
 								{% endif %}
+								{% if data.course_start_at %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at.strftime('%d-%m-%Y') }}</td>
+								{% else %}
+									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at }}</td>
+								{% endif %}
+								<td>
+									<table>
+										<tr>
+											{% for schedule_data in data.time_schedule %}
+												<td>
+													{{ schedule_data.day }}
+													<br>
+													{{ schedule_data.start_at.strftime('%H:%M') }} - {{ schedule_data.end_at.strftime('%H:%M') }}
+												</td>
+											{% endfor %}
+										</tr>
+									</table>
+								</td>
 							</tr>
 						{% endfor %}
 						</tbody>
@@ -89,9 +89,9 @@
 									<th>{{ _('Type of class') }}</th>
 									<th>{{ _('Teacher') }}</th>
 									<th>{{ _('Teacher email') }}</th>
-									<th>{{ _('Course start at') }}</th>
-									<th colspan="3">{{ _('Schedule') }}</th>
 									<th>{{ _('Payment status') }}</th>
+									<th>{{ _('Course start at') }}</th>
+									<th>{{ _('Schedule') }}</th>
 								</tr>
 		        </tfoot>
 					</table>

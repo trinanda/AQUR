@@ -11,10 +11,10 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>{{ _('Payments') }}</h2>
+					<h2>{{ _('Temporary Payments') }}</h2>
 					<div class="d-flex justify-content-end">
 						<div class="p-2" style="margin-top: 10px;">
-							<a href="{{ url_for('operator.add_payment') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Payment') }}</a>
+							<a href="{{ url_for('operator.add_payment') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Tuition Payment') }}</a>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -28,21 +28,19 @@
 							<th>{{ _('Course') }}</th>
 							<th>{{ _('Type of Class') }}</th>
 							<th>{{ _('Total') }}</th>
-							<th>{{ _('Month') }}</th>
 							<th>{{ _('Status') }}</th>
 							<th>{{ _('Pay at') }}</th>
 							<th>{{ _('Update at') }}</th>
 						</tr>
 						</thead>
 						<tbody>
-						{% for data in payments %}
+						{% for data in temporary_payments %}
 							<tr>
 								<td>{{ data.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.total }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.payment_for_month|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ _(data.status_of_payment|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.created_at.strftime('%d-%m-%Y') }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.id) }}'">{{ data.updated_at.strftime('%d-%m-%Y') }}</td>
@@ -56,7 +54,6 @@
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of Class') }}</th>
 								<th>{{ _('Total') }}</th>
-								<th>{{ _('Month') }}</th>
 								<th>{{ _('Status') }}</th>
 								<th>{{ _('Pay at') }}</th>
 								<th>{{ _('Update at') }}</th>

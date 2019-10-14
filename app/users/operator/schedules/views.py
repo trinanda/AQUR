@@ -6,11 +6,12 @@ from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 from sqlalchemy import or_
 from flask_babel import _
+from wtforms import FieldList, FormField
 
 from app import db
 from app.decorators import operator_required
 from app.models import TemporaryPayment, Student, Course, Schedule, Teacher, taught_courses, TimeSchedule, \
-    RequisitionSchedule, PaymentStatus
+    RequisitionSchedule, PaymentStatus, DayNameList
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, TimeScheduleForm, \
     RequisitionScheduleForm
@@ -29,7 +30,7 @@ def all_schedules():
 @operator_required
 def add_schedule():
     schedule_form = ScheduleForm()
-    time_schedule_form = TimeScheduleForm()
+
     if "step" not in request.form:
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="input_student_email")
@@ -71,58 +72,91 @@ def add_schedule():
         schedule_form.course_name.choices = set(student_available_type_of_class)
         schedule_form.type_of_class.choices = student_available_type_of_class
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
-                               time_schedule_form=time_schedule_form, step="type_of_class")
+                               step="type_of_class")
 
-    elif request.form["step"] == "input_schedule":
+    elif request.form["step"] == "how_many_times_in_a_week":
         session['type_of_class'] = schedule_form.type_of_class.data
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
-                               time_schedule_form=time_schedule_form, step="input_schedule")
+                               step="how_many_times_in_a_week")
+
+    # TODO | InsyaAllah will working in the feature bellow | use the real value from database
+    elif request.form["step"] == "input_schedule":
+        student_email = session.get('student_email')
+        student = Student.query.filter_by(email=student_email).first()
+        course_name = session.get('course_name')
+        course = Course.query.filter_by(name=course_name).first()
+        type_of_class = session.get('type_of_class')
+
+        student_temporary_payment = db.session.query(TemporaryPayment).filter_by(student_id=student.id).filter_by(course_id=course.id).filter_by(type_of_class=type_of_class).first()
+
+        tahsin_private_class_charge_per_minutes = 833  # Rp. per minutes
+        tahsin_regular_class_charge_per_minutes = 104  # Rp. per minutes
+
+        tahsin_min_private_class_duration = 30  # minutes
+        tahsin_min_regular_class_duration = 90  # minutes
+
+        tahsin_min_private_class_charge_per_meet = 25000  # minutes
+        tahsin_regular_class_charge_per_meet = 9375.00000003  # minutes
+
+        tahsin_student_wallet_on_this_course = student_temporary_payment.total  # Rp.
+        tahsin_student_remaining_duration_in_minutes = tahsin_student_wallet_on_this_course / tahsin_private_class_charge_per_minutes
+
+        how_many_times_in_a_week = schedule_form.how_many_times_in_a_week.data
+
+        class_duration = tahsin_student_remaining_duration_in_minutes / how_many_times_in_a_week  # in this case = 60 minutes
+        max_student_meet_duration = tahsin_student_wallet_on_this_course / tahsin_min_private_class_charge_per_meet
+
+        session['tahsin_private_class_duration_per_minutes'] = tahsin_private_class_charge_per_minutes
+        session['tahsin_min_private_class_duration'] = tahsin_min_private_class_duration
+        session['tahsin_min_private_class_charge_per_meet'] = tahsin_min_private_class_charge_per_meet
+        session['tahsin_student_wallet_on_this_course'] = tahsin_student_wallet_on_this_course
+        session['tahsin_student_remaining_duration_in_minutes'] = tahsin_student_remaining_duration_in_minutes
+        session['how_many_times_in_a_week'] = how_many_times_in_a_week
+        session['class_duration'] = class_duration
+        session['max_student_meet_duration'] = max_student_meet_duration
+
+        class LocalTimeScheduleForm(ScheduleForm):
+            pass
+
+        LocalTimeScheduleForm.time_schedule = FieldList(FormField(TimeScheduleForm),
+                                                        min_entries=how_many_times_in_a_week)
+        local_time_schedule_form = LocalTimeScheduleForm()
+
+        return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
+                               step="input_schedule", how_many_times_in_a_week=how_many_times_in_a_week,
+                               local_time_schedule_form=local_time_schedule_form)
 
     elif request.form["step"] == "input_teacher_email":
+
+        time_schedule = []
+        for entry in schedule_form.time_schedule:
+            time_schedule.append({'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                                  'end_at': entry.data['end_at'].strftime('%H:%M')})
+
         course_start_at = str(schedule_form.course_start_at.data)
-        schedule_day = time_schedule_form.schedule_day.data
-        schedule_day_2 = time_schedule_form.schedule_day_2.data
-        start_at = str(time_schedule_form.start_at.data)
-        start_at_2 = str(time_schedule_form.start_at_2.data)
-        end_at = str(time_schedule_form.end_at.data)
-        end_at_2 = str(time_schedule_form.end_at_2.data)
 
         session['course_start_at'] = course_start_at
-        session['schedule_day'] = schedule_day
-        session['schedule_day_2'] = schedule_day_2
-        session['start_at'] = start_at
-        session['start_at_2'] = start_at_2
-        session['end_at'] = end_at
-        session['end_at_2'] = end_at_2
+        session['time_schedule'] = time_schedule
 
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
                                step="input_teacher_email")
 
     elif request.form["step"] == "check_data":
+
+        time_schedule = session.get('time_schedule')
         student_email = session.get('student_email')
         course_name = session.get('course_name')
         type_of_class = session.get('type_of_class')
-        course_start_at = datetime.datetime.strptime((session.get('course_start_at')), '%Y-%m-%d')
-        schedule_day = session.get('schedule_day')
-        start_at = datetime.datetime.strptime(session.get('start_at'), '%H:%M:%S')
-        end_at = datetime.datetime.strptime(session.get('end_at'), '%H:%M:%S')
 
-        schedule_day_2 = session.get('schedule_day_2')
-        try:
-            start_at_2 = datetime.datetime.strptime(session.get('start_at_2'), '%H:%M:%S')
-            end_at_2 = datetime.datetime.strptime(session.get('end_at_2'), '%H:%M:%S')
-        except ValueError:
-            start_at_2 = ''
-            end_at_2 = ''
+        course_start_at = datetime.datetime.strptime((session.get('course_start_at')), '%Y-%m-%d')
 
         teacher_email = schedule_form.teacher_email.data
         session['teacher_email'] = teacher_email
+
         return render_template('main/operator/schedules/manipulate-schedule.html', schedule_form=schedule_form,
-                               step="check_data",
-                               student_email=student_email, course_name=course_name, type_of_class=type_of_class,
-                               course_start_at=course_start_at, schedule_day=schedule_day,
-                               schedule_day_2=schedule_day_2, start_at=start_at, start_at_2=start_at_2, end_at=end_at,
-                               end_at_2=end_at_2, teacher_email=teacher_email)
+                               step="check_data", student_email=student_email, course_name=course_name,
+                               type_of_class=type_of_class, course_start_at=course_start_at,
+                               time_schedule=time_schedule, teacher_email=teacher_email)
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
@@ -130,40 +164,14 @@ def add_schedule():
             course_name = session.get('course_name')
             type_of_class = session.get('type_of_class')
             teacher_email = session.get('teacher_email')
+            list_of_dict_time_schedule = session.get('time_schedule')
             course_start_at = session.get('course_start_at')
-            schedule_day = session.get('schedule_day')
-            start_at = session.get('start_at')
-            end_at = session.get('end_at')
-
-            schedule_day_2 = session.get('schedule_day_2')
-            if schedule_day_2 == '':
-                schedule_day_2 = None
-
-            start_at_2 = session.get('start_at_2')
-            if start_at_2 == 'None':
-                start_at_2 = None
-
-            end_at_2 = session.get('end_at_2')
-            if end_at_2 == 'None':
-                end_at_2 = None
 
             student = Student.query.filter_by(email=student_email).first()
             course = Course.query.filter_by(name=course_name).first()
             teacher = Teacher.query.filter_by(email=teacher_email).first()
             payment = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
                 Student.id == student.id).filter(Course.name == course_name).first()
-
-            time_schedule = TimeSchedule(
-                day=schedule_day,
-                start_at=start_at,
-                end_at=end_at,
-            )
-
-            time_schedule_2 = TimeSchedule(
-                day=schedule_day_2,
-                start_at=start_at_2,
-                end_at=end_at_2,
-            )
 
             schedule = Schedule(
                 payment_id=payment.TemporaryPayment.id,
@@ -172,8 +180,10 @@ def add_schedule():
                 teacher_id=teacher.id,
                 course_start_at=course_start_at
             )
-            schedule.time_schedule.append(time_schedule)
-            schedule.time_schedule.append(time_schedule_2)
+
+            for data in list_of_dict_time_schedule:
+                time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+                schedule.time_schedule.append(time_schedule)
             db.session.add(schedule)
             db.session.commit()
 

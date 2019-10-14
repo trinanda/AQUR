@@ -13,7 +13,6 @@ class AddPaymentForm(FlaskForm):
     total = IntegerField(_l('Total'), validators=[required()])
     course_name = QuerySelectField(_l('Course name'), validators=[required()], query_factory=lambda: Course.query.all())
     type_of_class = SelectField(_l('Type of class'), choices=type_of_class)
-    payment_for_month = SelectField(_l('Payment for'), choices=month_name_list)
     status_of_payment = SelectField(_l('Payment Status'), choices=payment_status)
     submit = SubmitField()
 

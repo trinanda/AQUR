@@ -137,13 +137,14 @@
         </div>
         <ul class="sidebar-menu scrollable pos-r">
           {% if current_user.is_operator() %}
-            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.operator_dashboard') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">{{ _('Dashboard') }}</span></a></li>
+            <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.index') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">{{ _('Dashboard') }}</span></a></li>
             <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">{{ _('Teachers') }}</span></a></li>
             <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_students') }}"><span class="icon-holder"><i class="c-green-500 ti-user"></i> </span><span class="title">{{ _('Students') }}</span></a></li>
             <li class="nav-item"><a class="sidebar-link" href="{{ url_for('operator.all_courses') }}"><span class="icon-holder"><i class="c-purple-500 ti-book"></i> </span><span class="title">{{ _('Courses') }}</span></a></li>
             <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-yellow-900 ti-money"></i> </span><span class="title">{{ _('Payments') }}</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
               <ul class="dropdown-menu">
-                <li class="nav-item dropdown"><a href="{{ url_for('operator.all_payments') }}"><span class="icon-holder"><i class="c-gold-500 fa fa-money"></i> </span><span>{{ _('Tuition Payments') }}</span></a></li>
+                <li class="nav-item dropdown"><a href="{{ url_for('operator.fixed_payments') }}"><span class="icon-holder"><i class="c-green-500 fa fa-money"></i> </span><span>{{ _('Fixed Payments') }}</span></a></li>
+                <li class="nav-item dropdown"><a href="{{ url_for('operator.temporary_payments') }}"><span class="icon-holder"><i class="c-gold-500 fa fa-money"></i> </span><span>{{ _('Temporary Payments') }}</span></a></li>
                 <li class="nav-item dropdown"><a href="{{ url_for('operator.registration_payments') }}"><span class="icon-holder"><i class="c-blue-500 fa fa-book"></i> </span><span>{{ _('Registration Payments') }}</span></a></li>
               </ul>
             </li>

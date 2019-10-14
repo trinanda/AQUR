@@ -10,6 +10,9 @@ class Schedule(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     course_start_at = db.Column(db.Date())
+
+    how_many_times_in_a_week = db.Column(db.Integer)
+
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     time_schedule = db.relationship('TimeSchedule', backref='schedule', lazy=True)

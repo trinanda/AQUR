@@ -1,6 +1,7 @@
 import os
 import sys
 
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from raygun4py.middleware import flask as flask_raygun
 
 PYTHON_VERSION = sys.version_info[0]
@@ -82,6 +83,36 @@ class Config:
         pass
 
     LANGUAGES = ['en', 'id']
+
+    # Flask-apscheduler
+    JOBS = [
+        {
+            'id': 'job1',
+            'func': 'app.scheduler_task:transfer_to_fixed_payment',
+            'replace_existing': True,
+            # 'trigger': 'cron',    # Cron: For example, every day at 5 am
+            'trigger': 'interval', # Interval: For example, perform a task every 5 minutes.
+            'misfire_grace_time': 600,
+            'max_instances': 1,
+            # 'hour': 22,  # every day at 22:05
+            # 'minute': 5,
+            'seconds': 3,
+            'replace_existing': True
+        }
+    ]
+    SCHEDULER_JOBSTORES = {
+        'default': SQLAlchemyJobStore(url='sqlite:///flask_context.db')
+    }
+    SCHEDULER_API_ENABLED = True
+
+    SCHEDULER_JOB_DEFAULTS = {
+        'coalesce': False,
+        'max_instances': 3
+    }
+
+    SCHEDULER_EXECUTORS = {
+        'default': {'type': 'threadpool', 'max_workers': 20}
+    }
 
 
 class DevelopmentConfig(Config):

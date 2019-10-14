@@ -69,8 +69,19 @@
 			      <span class="step"></span>
 			      <span class="step"></span>
 		      </div>
+		    {% elif step == "how_many_times_in_a_week" %}
+		      <div style="text-align:center;">
+			      <span class="step finish"></span>
+			      <span class="step finish"></span>
+			      <span class="step finish"></span>
+			      <span class="step active"></span>
+			      <span class="step"></span>
+			      <span class="step"></span>
+			      <span class="step"></span>
+		      </div>
 		    {% elif step == "input_schedule" %}
 		      <div style="text-align:center;">
+			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
@@ -84,11 +95,13 @@
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
+			      <span class="step finish"></span>
 			      <span class="step active"></span>
 			      <span class="step"></span>
 		      </div>
 		    {% elif step == "check_data" %}
 		      <div style="text-align:center;">
+			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
@@ -133,18 +146,17 @@
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input type of class') }}">
 		        {% elif step == "type_of_class" %}
 							{{ f.render_form_field(schedule_form.type_of_class, extra_classes='form-group col-md-12') }}
+						   <input type=hidden name="step" value="how_many_times_in_a_week">
+						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('How many times in a week') }}">
+		        {% elif step == "how_many_times_in_a_week" %}
+	            {{ f.render_form_field(schedule_form.how_many_times_in_a_week, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="input_schedule">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input schedule') }}">
-	             {{ f.end_form() }}
-	             {{ f.begin_form(time_schedule_form, flashes) }}
-		        {% elif step == "input_schedule" %}
-	            {{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12') }}
-	            {{ f.render_form_field(time_schedule_form.schedule_day, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(time_schedule_form.start_at, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(time_schedule_form.end_at, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(time_schedule_form.schedule_day_2, extra_classes='form-group col-md-12') }}
-							{{ f.render_form_field(time_schedule_form.start_at_2, extra_classes='form-group col-md-6') }}
-							{{ f.render_form_field(time_schedule_form.end_at_2, extra_classes='form-group col-md-6') }}
+	          {% elif step == "input_schedule" %}
+	              {{ f.render_form_field(schedule_form.course_start_at, extra_classes='form-group col-md-12') }}
+	          	  {{ f.begin_form(local_time_schedule_form, flashes) }}
+	                {{ f.render_form_field(local_time_schedule_form.time_schedule, extra_classes='form-group col-md-12') }}
+					      {{ f.end_form() }}
 	            <input type=hidden name="step" value="input_teacher_email">
 	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input Teacher') }}">
 	            {{ f.end_form() }}
@@ -179,27 +191,15 @@
 			            <tr>
 				            <th colspan="2">{{ _('Schedule') }}</th>
 			            </tr>
-			            <tr>
-				            <td>{{ _('Day-1') }}</td>
-				            <td>{{ _('Day-2') }}</td>
-			            </tr>
-			            <tr>
-		                <td>{{ schedule_day }}</td>
-				            {% if schedule_day_2 == "None_choice" %}
-					            <td>-</td>
-				            {% elif schedule_day_2 %}
-			                <td>{{ schedule_day_2 }}</td>
-			              {% else %}
-					            <td>-</td>
-			              {% endif %}
-		              <tr>
-		                <td>{{ start_at.strftime('%H:%M') }} - {{ end_at.strftime('%H:%M') }}</td>
-			              {% if start_at_2.strftime and end_at.strftime %}
-				              <td>{{ start_at_2.strftime('%H:%M') }} - {{ end_at_2.strftime('%H:%M') }}</td>
-			              {% else %}
-			                <td>-</td>
-			              {% endif %}
-		              </tr>
+	                {% for data in time_schedule %}
+				            <tr>
+					            <td colspan="2">{{ _('Day') }}-{{ loop.index }}</td>
+				            </tr>
+			              <tr>
+				              <td>{{ _(data['day']) }}</td>
+				              <td>{{ data['start_at'] }} - {{ data['end_at'] }}</td>
+			              </tr>
+									{% endfor %}
 		            </table>
 		          </div>
 	            <form action="#" method="post">

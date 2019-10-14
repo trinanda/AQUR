@@ -99,8 +99,13 @@ def register_extensions(app):
     configure_uploads(app, photos)
     babel.init_app(app)
     cli.register(app)
+    scheduler.init_app(app)
+    # scheduler.start()
 
 
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
+
+
+from app.scheduler_task import scheduler

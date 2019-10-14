@@ -100,16 +100,18 @@
               {{ f.render_form_field(form.password, extra_classes='form-group col-md-6') }}
               {{ f.render_form_field(form.password2, extra_classes='form-group col-md-6') }}
             {% endif %}
-            <div style="margin:0 auto; display: flex;justify-content: center;">
-              <div style="color:#222;">
-                {% if user.confirmed == true %}
-                  <input type="checkbox" name="confirmed" checked id="confirmed" class="css-checkbox" />
-                {% else %}
-                  <input type="checkbox" name="confirmed" id="confirmed" class="css-checkbox" />
-                {% endif %}
-                <label for="confirmed" class="css-label">{{ _('Activate user') }}</label>
+            {% if user %}
+              <div style="margin:0 auto; display: flex;justify-content: center;">
+                <div style="color:#222;">
+                  {% if user.confirmed == true %}
+                    <input type="checkbox" name="confirmed" checked id="confirmed" class="css-checkbox" />
+                  {% else %}
+                    <input type="checkbox" name="confirmed" id="confirmed" class="css-checkbox" />
+                  {% endif %}
+                  <label for="confirmed" class="css-label">{{ _('Activate user') }}</label>
+                </div>
               </div>
-            </div>
+            {% endif %}
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

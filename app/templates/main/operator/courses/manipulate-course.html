@@ -37,6 +37,43 @@
               {% else %}
                 {{ f.render_form_field(form.name) }}
               {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.private_class_charge_per_minutes, value=course.private_class_charge_per_minutes) }}
+              {% else %}
+                {{ f.render_form_field(form.private_class_charge_per_minutes) }}
+              {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.regular_class_charge_per_minutes, value=course.regular_class_charge_per_minutes) }}
+              {% else %}
+                {{ f.render_form_field(form.regular_class_charge_per_minutes) }}
+              {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.min_private_class_duration, value=course.min_private_class_duration) }}
+              {% else %}
+                {{ f.render_form_field(form.min_private_class_duration) }}
+              {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.min_regular_class_duration, value=course.min_regular_class_duration) }}
+              {% else %}
+                {{ f.render_form_field(form.min_regular_class_duration) }}
+              {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.min_private_class_charge_per_meet, value=course.min_private_class_charge_per_meet) }}
+              {% else %}
+                {{ f.render_form_field(form.min_private_class_charge_per_meet) }}
+              {% endif %}
+
+              {% if course %}
+                {{ f.render_form_field(form.min_regular_class_charge_per_meet, value=course.min_regular_class_charge_per_meet) }}
+              {% else %}
+                {{ f.render_form_field(form.min_regular_class_charge_per_meet) }}
+              {% endif %}
+
               {{ f.render_form_field(form.image) }}
               {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
               {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
