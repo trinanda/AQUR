@@ -92,12 +92,11 @@ class Config:
             'replace_existing': True,
             # 'trigger': 'cron',    # Cron: For example, every day at 5 am
             'trigger': 'interval', # Interval: For example, perform a task every 5 minutes.
-            'misfire_grace_time': 600,
-            'max_instances': 1,
+            # 'misfire_grace_time': 600,
+            # 'max_instances': 1,
             # 'hour': 22,  # every day at 22:05
             # 'minute': 5,
-            'seconds': 3,
-            'replace_existing': True
+            'seconds': 5,
         }
     ]
     SCHEDULER_JOBSTORES = {
@@ -105,14 +104,14 @@ class Config:
     }
     SCHEDULER_API_ENABLED = True
 
-    SCHEDULER_JOB_DEFAULTS = {
-        'coalesce': False,
-        'max_instances': 3
-    }
+    # SCHEDULER_JOB_DEFAULTS = {
+    #     'coalesce': False,
+    #     'max_instances': 3
+    # }
 
-    SCHEDULER_EXECUTORS = {
-        'default': {'type': 'threadpool', 'max_workers': 20}
-    }
+    # SCHEDULER_EXECUTORS = {
+    #     'default': {'type': 'threadpool', 'max_workers': 20}
+    # }
 
 
 class DevelopmentConfig(Config):

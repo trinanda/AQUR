@@ -69,7 +69,9 @@ def add_schedule():
         student_available_type_of_class = []
         for data in student_status:
             student_available_type_of_class.append(
-                (str(data.TemporaryPayment.type_of_class), str(data.TemporaryPayment.type_of_class)))
+                # TODO | InsyaAllah will check the two's line bellow
+                # (str(data.TemporaryPayment.type_of_class), str(data.TemporaryPayment.type_of_class)))
+                (data.TemporaryPayment.type_of_class, data.TemporaryPayment.type_of_class))
 
         schedules = db.session.query(Schedule).filter(Student.email == student_email).filter(
             Course.name == course_name).all()

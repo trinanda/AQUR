@@ -1,3 +1,5 @@
+from sqlalchemy.dialects.postgresql import TIME
+
 from app import db
 
 taught_courses = db.Table(
@@ -13,8 +15,10 @@ class Course(db.Model):
     name = db.Column(db.String(100), unique=True)
     private_class_charge_per_minutes = db.Column(db.Integer())
     regular_class_charge_per_minutes = db.Column(db.Integer())
-    min_private_class_duration = db.Column(db.Integer())
-    min_regular_class_duration = db.Column(db.Integer())
+
+    min_private_class_duration = db.Column(TIME())
+    min_regular_class_duration = db.Column(TIME())
+
     min_private_class_charge_per_meet = db.Column(db.Integer())
     min_regular_class_charge_per_meet = db.Column(db.Integer())
     image = db.Column(db.Unicode(128))

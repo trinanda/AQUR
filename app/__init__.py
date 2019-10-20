@@ -100,7 +100,7 @@ def register_extensions(app):
     babel.init_app(app)
     cli.register(app)
     scheduler.init_app(app)
-    # scheduler.start()
+    scheduler.start()
 
 
 @babel.localeselector
