@@ -33,27 +33,62 @@
         <div class="mT-30">
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
-            {% if payment %}
-              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=payment.student) }}
-            {% else %}
-              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+            {% if step == "input_student_email" %}
+	            {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+						  <input type=hidden name="step" value="taking_course">
+						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check Schedules') }}">
+		        {% elif step == "taking_course" %}
+              <table class="table">
+                <tr>
+                  <th>{{ _('Taking course') }}</th>
+                  <th>{{ _('Type of class') }}</th>
+                  <th>{{ _('Payment Status') }}</th>
+                  <th>{{ _('Action') }}</th>
+                </tr>
+                {% for data in taking_courses %}
+                <tr>
+                  <td>{{ data.course.name }}</td>
+                  <td>{{ data.type_of_class }}</td>
+                  {% if data.payment == [] %}
+                    <td style="display: none;"><input type="text" name="schedule_id" value="{{ data.id }}"></td>
+                    <td>-</td>
+                    <td><input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Pay the tuition') }}"></td>
+                  {% else %}
+                    {% for data_payment in data.payment %}
+                      {% if data_payment|safe != "COMPLETED" %}
+                        <td>{{ data_payment }}</td>
+                        <td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data_payment.id) }}'">
+                          <a class="btn btn-primary d-flex justify-content-center mx-auto" href="{{ url_for('operator.edit_payment', payment_id=data_payment.id) }}">{{ _('Edit the tuition') }}</a>
+                        </td>
+                      {% else %}
+                        <td>{{ data_payment }}</td>
+                        <td>-</td>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </table>
+						  <input type=hidden name="step" value="pay_the_tuition">
+		        {% elif step == "pay_the_tuition" %}
+              <h6>The student must pay {{ total_charge_per_month }}/month for this schedule</h6>
+	            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
+						  <input type=hidden name="step" value="submit">
+						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Submit">
+		        {% elif step == "submit" %}
             {% endif %}
-            {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6') }}
-            {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
             {% if payment %}
-            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12', value=payment.total) }}
-            {% else %}
-            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12') }}
+              {{ f.render_form_field(form.total, extra_classes='form-group col-md-12', value=payment.total) }}
+              {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
+              <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Submit">
             {% endif %}
-            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
           {{ f.form_message(flashes['info'], header='Information', class='info') }}
           {{ f.form_message(flashes['success'], header='Success!', class='success') }}
           <br>
-          {#{{ f.render_form_field(form.submit) }}#}
-          <button type="submit" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">Submit</button>
           {{ f.end_form() }}
         </div>
       </div>

@@ -1,5 +1,3 @@
-import datetime
-
 from flask import render_template, flash, url_for, request, session
 from flask_login import login_required
 from werkzeug.exceptions import abort
@@ -10,8 +8,8 @@ from wtforms import FieldList, FormField
 
 from app import db
 from app.decorators import operator_required
-from app.models import TemporaryPayment, Student, Course, Schedule, Teacher, taught_courses, TimeSchedule, \
-    RequisitionSchedule, PaymentStatus, DayNameList
+from app.models import Student, Course, Schedule, Teacher, taught_courses, TimeSchedule, \
+    RequisitionSchedule, PaymentStatus, RegistrationPayment
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, TimeScheduleForm, \
     RequisitionScheduleForm
@@ -34,14 +32,13 @@ def add_schedule():
     if "step" not in request.form:
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
                                step="input_student_email")
-
     elif request.form["step"] == "available_course":
         student_email = form.student_email.data
         session['student_email'] = student_email
-        student = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
+        student = db.session.query(RegistrationPayment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
-            or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-                TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
+            or_(RegistrationPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+                RegistrationPayment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
 
         for data in student:
             if data.Student.gender is None:
@@ -52,49 +49,17 @@ def add_schedule():
         for data in student:
             student_available_course.append((data.Course.name, data.Course.name))
         form.course_name.choices = set(student_available_course)
+
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
                                step="available_course")
 
-    elif request.form["step"] == "type_of_class":
-        course_name = str(form.course_name.data)
-        session['course_name'] = course_name
-        student_email = session.get('student_email')
-
-        student_status = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
-            Student.email == student_email).filter(
-            or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-                TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value)).filter(
-            Course.name == course_name).all()
-
-        student_available_type_of_class = []
-        for data in student_status:
-            student_available_type_of_class.append(
-                # TODO | InsyaAllah will check the two's line bellow
-                # (str(data.TemporaryPayment.type_of_class), str(data.TemporaryPayment.type_of_class)))
-                (data.TemporaryPayment.type_of_class, data.TemporaryPayment.type_of_class))
-
-        schedules = db.session.query(Schedule).filter(Student.email == student_email).filter(
-            Course.name == course_name).all()
-
-        form.course_name.choices = set(student_available_type_of_class)
-        form.type_of_class.choices = student_available_type_of_class
-
-        for data in schedules:
-            if course_name == data.course.name and (
-                str(data.payment.type_of_class), str(data.payment.type_of_class)) in student_available_type_of_class:
-                student_available_type_of_class.remove(
-                    (str(data.payment.type_of_class), str(str(data.payment.type_of_class))))
-
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="type_of_class")
-
-    elif request.form["step"] == "how_many_times_in_a_week":
-        session['type_of_class'] = form.type_of_class.data
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="how_many_times_in_a_week")
-
     elif request.form["step"] == "input_schedule":
+        course_name = form.course_name.data
+        type_of_class = form.type_of_class.data
         how_many_times_in_a_week = form.how_many_times_in_a_week.data
+
+        session['course_name'] = course_name
+        session['type_of_class'] = type_of_class
         session['how_many_times_in_a_week'] = how_many_times_in_a_week
 
         class LocalTimeScheduleForm(ScheduleForm):
@@ -104,42 +69,31 @@ def add_schedule():
             FormField(TimeScheduleForm, label='------------------------------------------'),
             min_entries=how_many_times_in_a_week)
         local_time_form = LocalTimeScheduleForm()
+
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
                                step="input_schedule", how_many_times_in_a_week=how_many_times_in_a_week,
                                local_time_form=local_time_form)
 
-    elif request.form["step"] == "input_teacher_email":
+
+    elif request.form["step"] == "check_data":
+        student_email = session.get('student_email')
+        course_name = session.get('course_name')
+        type_of_class = session.get('type_of_class')
+        teacher_email = form.teacher_email.data
+        course_start_at = form.course_start_at.data
+        session['teacher_email'] = teacher_email
+        session['course_start_at'] = course_start_at
 
         time_schedule = []
         for entry in form.time_schedule:
             time_schedule.append({'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
                                   'end_at': entry.data['end_at'].strftime('%H:%M')})
 
-        course_start_at = str(form.course_start_at.data)
-
-        session['course_start_at'] = course_start_at
         session['time_schedule'] = time_schedule
-
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="input_teacher_email")
-
-    elif request.form["step"] == "check_data":
-
-        time_schedule = session.get('time_schedule')
-        student_email = session.get('student_email')
-        course_name = session.get('course_name')
-        type_of_class = session.get('type_of_class')
-
-        course_start_at = datetime.datetime.strptime((session.get('course_start_at')), '%Y-%m-%d')
-
-        teacher_email = form.teacher_email.data
-        session['teacher_email'] = teacher_email
-
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
                                step="check_data", student_email=student_email, course_name=course_name,
                                type_of_class=type_of_class, course_start_at=course_start_at,
                                time_schedule=time_schedule, teacher_email=teacher_email)
-
     elif request.form["step"] == "submit":
         if request.method == "POST":
             student_email = session.get('student_email')
@@ -149,33 +103,27 @@ def add_schedule():
             list_of_dict_time_schedule = session.get('time_schedule')
             course_start_at = session.get('course_start_at')
             how_many_times_in_a_week = session.get('how_many_times_in_a_week')
-
             student = Student.query.filter_by(email=student_email).first()
             course = Course.query.filter_by(name=course_name).first()
             teacher = Teacher.query.filter_by(email=teacher_email).first()
-            payment = db.session.query(TemporaryPayment, Student, Course).join(Student, Course).filter(
-                Student.id == student.id).filter(Course.name == course_name).first()
 
             schedule = Schedule(
-                payment_id=payment.TemporaryPayment.id,
                 student_id=student.id,
                 course_id=course.id,
                 teacher_id=teacher.id,
                 course_start_at=course_start_at,
-                how_many_times_in_a_week=how_many_times_in_a_week
+                how_many_times_in_a_week=how_many_times_in_a_week,
+                type_of_class=type_of_class
             )
-
             for data in list_of_dict_time_schedule:
                 time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
                 schedule.time_schedule.append(time_schedule)
             db.session.add(schedule)
             db.session.commit()
-
             flash(_('Successfully added new schedule for %(student_full_name)s.', student_full_name=student.full_name),
                   'success')
             return redirect(url_for('operator.all_schedules'))
-        return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="submit")
+        return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="submit")
     return render_template('main/operator/schedules/manipulate-schedule.html', form=form)
 
 
@@ -234,9 +182,7 @@ def edit_schedule_add_day(schedule_id):
     form = ScheduleForm(obj=schedule)
 
     if "step" not in request.form:
-        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
-                               step="how_many_times_in_a_week")
-
+        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form, step="how_many_times_in_a_week")
     elif request.form["step"] == "time_schedule":
         how_many_times_in_a_week = form.how_many_times_in_a_week.data
         session['how_many_times_in_a_week'] = how_many_times_in_a_week
@@ -285,7 +231,6 @@ def check_schedules():
     form = CheckScheduleForm()
 
     course_list = []
-
     for data in Course.query.all():
         course_list.append((data.name, data.name))
 
@@ -293,7 +238,6 @@ def check_schedules():
         form.course_name.choices = course_list
         return render_template('main/operator/schedules/check-schedules.html', form=form,
                                step="input_schedule")
-
     elif request.form["step"] == "available_teacher":
         course_name = form.course_name.data
         gender = form.gender.data

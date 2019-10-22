@@ -4,7 +4,7 @@ from sqlalchemy import or_
 
 from app import db
 from app.decorators import operator_required
-from app.models import Student, MonthNameList, Course, PaymentStatus, FixedPayment
+from app.models import Student, MonthNameList, Course, PaymentStatus, Payment
 from app.users.operator import operator
 
 
@@ -14,9 +14,9 @@ from app.users.operator import operator
 def index():
     title = "AQUR"
 
-    students_payment = db.session.query(FixedPayment, Student, Course).join(Student, Course).filter(
-        or_(FixedPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            FixedPayment.status_of_payment == PaymentStatus.COMPLETED.value))
+    students_payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     ###### total students widgets ################
     total_students = students_payment.count()
@@ -44,7 +44,7 @@ def index():
     courses_value = [{"Tahsin": Tahsin_value_per_month, "Bahasa Arab": Arabic_language_value_per_month}]
     for data in month_name_list:
         # TODO | InsyaAllah will change the "payment_for_month" filter bellow
-        data_per_month = students_payment.filter(FixedPayment.payment_for_month == data)
+        data_per_month = students_payment.filter(Payment.pay_at == data)
 
         Tahsin_value_per_month.append(data_per_month.filter(Course.name == "Tahsin").count())
         Arabic_language_value_per_month.append(data_per_month.filter(Course.name == "Bahasa Arab").count())

@@ -7,7 +7,7 @@ from flask_babel import _
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Role, Student, User, Schedule, TemporaryPayment
+from app.models import Role, Student, User, Schedule, Payment
 from app.users.operator import operator
 from app.users.operator.students.forms import InviteStudentForm, EditStudentForm, NewStudentForm
 
@@ -18,7 +18,6 @@ from app.users.operator.students.forms import InviteStudentForm, EditStudentForm
 def all_students():
     page = request.args.get('page', 1, type=int)
     per_page = 100
-
     students = Student.query.order_by(Student.created_at.desc()).paginate(page, per_page, error_out=False)
     return render_template('main/operator/students/all-students.html', students=students)
 
@@ -155,12 +154,11 @@ def all_students_table_mode():
     return render_template('main/operator/students/all-students-table-mode.html', list_of_students=list_of_students)
 
 
-
 @operator.route('/tuition-courses-details/<int:student_id>')
 @login_required
 @operator_required
 def tuition_courses_details(student_id):
-    student_tuitions = TemporaryPayment.query.filter_by(student_id=student_id).all()
+    student_tuitions = Payment.query.filter_by(student_id=student_id).all()
     print('student_tuitions', student_tuitions)
     if student_tuitions is None:
         abort(404)

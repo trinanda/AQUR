@@ -8,7 +8,7 @@ from flask_babel import _
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Teacher, Role, User, Course, Schedule, TemporaryPayment, Gender, PaymentStatus
+from app.models import Teacher, Role, User, Course, Schedule, Gender, PaymentStatus, Payment
 from app.users.operator import operator
 from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
 
@@ -19,7 +19,6 @@ from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm
 def all_teachers():
     page = request.args.get('page', 1, type=int)
     per_page = 100
-
     teachers = Teacher.query.order_by(Teacher.created_at.desc()).paginate(page, per_page, error_out=False)
     return render_template('main/operator/teachers/all-teachers.html', teachers=teachers)
 
@@ -28,10 +27,10 @@ def all_teachers():
 @login_required
 @operator_required
 def teacher_profile(teacher_id):
-    schedule = db.session.query(Schedule, TemporaryPayment, Teacher).join(TemporaryPayment, Teacher).filter(
+    schedule = db.session.query(Schedule, Payment, Teacher).join(Payment, Teacher).filter(
         Schedule.teacher_id == teacher_id).filter(
-        or_(TemporaryPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            TemporaryPayment.status_of_payment == PaymentStatus.COMPLETED.value))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
 
     list_number_of_students = []
     for data in schedule:
@@ -180,8 +179,7 @@ def new_teacher():
             course.courses.append(teacher)
             db.session.add(course)
             db.session.commit()
-
-        flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name), 'success')
-
+        flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name),
+              'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)

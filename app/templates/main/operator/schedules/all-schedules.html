@@ -17,7 +17,6 @@
 			<div class="x_panel">
 				<div class="x_title">
 					<h2>{{ _('Schedule') }}</h2>
-
 					<div class="d-flex justify-content-end">
 						<div class="p-2" style="margin-top: 10px;">
 							<a href="{{ url_for('operator.check_schedules') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">{{ _('Check Schedule') }}</a>
@@ -26,7 +25,6 @@
 							<a href="{{ url_for('operator.add_schedule') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Schedule') }}</a>
 						</div>
 					</div>
-
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
@@ -50,10 +48,15 @@
 								<td>{{ data.student.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.student.email }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course.name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.type_of_class|safe) }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment.status_of_payment|safe) }}</td>
+								{% for data_payment in data.payment %}
+										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data_payment) }}</td>
+								{% endfor %}
+								{% if data.payment == [] %}
+										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">-</td>
+								{% endif %}
 								{% if data.course_start_at %}
 									<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course_start_at.strftime('%d-%m-%Y') }}</td>
 								{% else %}

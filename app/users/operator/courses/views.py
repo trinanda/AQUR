@@ -6,7 +6,7 @@ from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
-from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus, FixedPayment
+from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus
 from app.users.operator import operator
 
 from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
@@ -114,25 +114,25 @@ def course_details(course_id):
     if course is None:
         abort(404)
 
-    students_payment = db.session.query(FixedPayment, Student).join(Student).distinct(FixedPayment.student_id).filter(
-        FixedPayment.course_id == course_id)
+    # students_payment = db.session.query(Payment, Student).join(Student).distinct(Payment.student_id).filter(
+    #     Payment.course_id == course_id)
 
-    total_students = students_payment.count()
-    total_private_students = students_payment.filter(Payment.type_of_class == TypeOfClass.PRIVATE.value).count()
-    total_regular_students = students_payment.filter(Payment.type_of_class == TypeOfClass.REGULAR.value).count()
+    # total_students = students_payment.count()
+    # total_private_students = students_payment.filter(Payment.type_of_class == TypeOfClass.PRIVATE.value).count()
+    # total_regular_students = students_payment.filter(Payment.type_of_class == TypeOfClass.REGULAR.value).count()
+    #
+    # students_payment_male = students_payment.filter(Student.gender == Gender.Male.value)
+    # students_payment_female = students_payment.filter(Student.gender == Gender.Female.value)
+    #
+    # total_male_student = students_payment_male.count()
+    # total_female_student = students_payment_female.count()
+    #
+    # month_name_list = []
+    # for data in MonthNameList:
+    #     month_name_list.append(str(data))
 
-    students_payment_male = students_payment.filter(Student.gender == Gender.Male.value)
-    students_payment_female = students_payment.filter(Student.gender == Gender.Female.value)
-
-    total_male_student = students_payment_male.count()
-    total_female_student = students_payment_female.count()
-
-    month_name_list = []
-    for data in MonthNameList:
-        month_name_list.append(str(data))
-
-    total_male_students_per_month = [{'data': 5}] # test
-    total_female_students_per_month = [{'data': 4}] # test
+    total_male_students_per_month = [{'data': 5}]  # test
+    total_female_students_per_month = [{'data': 4}]  # test
     # for data in month_name_list:
     #     # TODO | InsyaAllah will change the "payment_for_month" filter bellow
     #     total_male_students_per_month.append(
@@ -154,8 +154,11 @@ def course_details(course_id):
         for value in data.values():
             female_values.append(value)
 
-    return render_template('main/operator/courses/course-details.html', total_students=total_students,
-                           total_private_students=total_private_students, total_regular_students=total_regular_students,
-                           total_male_student=total_male_student, total_female_student=total_female_student,
-                           male_values=male_values, female_values=female_values, month_name_list=month_name_list,
+    # return render_template('main/operator/courses/course-details.html', total_students=total_students,
+    #                        total_private_students=total_private_students, total_regular_students=total_regular_students,
+    #                        total_male_student=total_male_student, total_female_student=total_female_student,
+    #                        male_values=male_values, female_values=female_values, month_name_list=month_name_list,
+    #                        legend_male=legend_male, legend_female=legend_female, course=course)
+    return render_template('main/operator/courses/course-details.html',
+                           male_values=male_values, female_values=female_values,
                            legend_male=legend_male, legend_female=legend_female, course=course)

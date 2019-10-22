@@ -144,27 +144,16 @@
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check available course') }}">
 		        {% elif step == "available_course" %}
 							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
-						   <input type=hidden name="step" value="type_of_class">
-						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input type of class') }}">
-		        {% elif step == "type_of_class" %}
 							{{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-12') }}
-						   <input type=hidden name="step" value="how_many_times_in_a_week">
-						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('How many times in a week') }}">
-		        {% elif step == "how_many_times_in_a_week" %}
 	            {{ f.render_form_field(form.how_many_times_in_a_week, extra_classes='form-group col-md-12') }}
 						   <input type=hidden name="step" value="input_schedule">
 						   <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input schedule') }}">
 	          {% elif step == "input_schedule" %}
+							{{ f.render_form_field(form.teacher_email, extra_classes='form-group col-md-12') }}
 	              {{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12') }}
 	          	  {{ f.begin_form(local_time_form, flashes) }}
 	                {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
 					      {{ f.end_form() }}
-	            <input type=hidden name="step" value="input_teacher_email">
-	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Input Teacher') }}">
-	            {{ f.end_form() }}
-	            {{ f.begin_form(form, flashes) }}
-		        {% elif step == "input_teacher_email" %}
-							{{ f.render_form_field(form.teacher_email, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="check_data">
 					    <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check all input') }}">
 		        {% elif step == "check_data" %}

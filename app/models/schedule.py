@@ -6,20 +6,18 @@ class Schedule(db.Model):
     __tablename__ = 'schedule'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
-    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     course_start_at = db.Column(db.Date())
-
     how_many_times_in_a_week = db.Column(db.Integer)
-
+    type_of_class = db.Column(db.Enum(TypeOfClass, name='type_of_class'))
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     time_schedule = db.relationship('TimeSchedule', backref='schedule', lazy=True)
     student = db.relationship("Student", foreign_keys=[student_id])
     teacher = db.relationship("Teacher", foreign_keys=[teacher_id])
     course = db.relationship("Course", foreign_keys=[course_id])
-    payment = db.relationship("Payment", foreign_keys=[payment_id])
+    payment = db.relationship('Payment', backref=db.backref('schedule', lazy=True))
 
 
 class TimeSchedule(db.Model):
