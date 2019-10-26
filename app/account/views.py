@@ -31,7 +31,7 @@ def login():
             if user_role.index == 'admin':
                 return redirect(request.args.get('next') or url_for('admin.index'))
             elif user_role.index == 'operator':
-                return redirect(request.args.get('next') or url_for('operator.index'))
+                return redirect(request.args.get('next') or url_for('operator.all_schedules'))
             elif user_role.index == 'teacher':
                 return redirect(request.args.get('next') or url_for('teacher.index'))
             elif user_role.index == 'student':
@@ -73,7 +73,8 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    # return redirect(url_for('main.index'))
+    return redirect(url_for('account.login'))
 
 
 @account.route('/manage', methods=['GET', 'POST'])
@@ -198,7 +199,8 @@ def confirm_request():
         # current_user is a LocalProxy, we want the underlying user object
         user=current_user._get_current_object(),
         confirm_link=confirm_link)
-    flash(_('A new confirmation link has been sent to %(current_user_email)s.', current_user_email=current_user.email), 'warning')
+    flash(_('A new confirmation link has been sent to %(current_user_email)s.', current_user_email=current_user.email),
+          'warning')
 
     return redirect(url_for('main.index'))
 
@@ -241,11 +243,15 @@ def join_from_invite(user_id, token):
             new_user.password = form.password.data
             db.session.add(new_user)
             db.session.commit()
-            flash(_('Your password has been set. After you log in, you can go to the "Your Account" page to review your account information and settings.'), 'success')
+            flash(_(
+                'Your password has been set. After you log in, you can go to the "Your Account" page to review your account information and settings.'),
+                'success')
             return redirect(url_for('account.login'))
         return render_template('account/join_invite.html', form=form)
     else:
-        flash(_('The confirmation link is invalid or has expired. Another invite email with a new link has been sent to you.'), 'error')
+        flash(_(
+            'The confirmation link is invalid or has expired. Another invite email with a new link has been sent to you.'),
+            'error')
         token = new_user.generate_confirmation_token()
         invite_link = url_for(
             'account.join_from_invite',
