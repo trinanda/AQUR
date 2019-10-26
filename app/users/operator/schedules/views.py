@@ -149,6 +149,8 @@ def edit_schedule(schedule_id):
     if request.method == "POST":
         TimeSchedule.query.filter(TimeSchedule.schedule_id == schedule_id).delete()
         db.session.commit()
+        teacher = Teacher.query.filter_by(email=form.teacher_email.data).first()
+        schedule.teacher_id = teacher.id
         schedule.course_start_at = form.course_start_at.data
         list_of_dict_time_schedule = []
         for entry in form.time_schedule:
@@ -182,7 +184,8 @@ def edit_schedule_add_day(schedule_id):
     form = ScheduleForm(obj=schedule)
 
     if "step" not in request.form:
-        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form, step="how_many_times_in_a_week")
+        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
+                               step="how_many_times_in_a_week")
     elif request.form["step"] == "time_schedule":
         how_many_times_in_a_week = form.how_many_times_in_a_week.data
         session['how_many_times_in_a_week'] = how_many_times_in_a_week

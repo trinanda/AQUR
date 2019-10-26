@@ -127,6 +127,11 @@
           <div class="form-row">
 	          {% if schedule %}
 	            {{ f.begin_form(form, flashes) }}
+	              {% if schedule.teacher.email %}
+									{{ f.render_form_field(form.teacher_email, extra_classes='form-group col-md-12', value=schedule.teacher.email) }}
+								{% else %}
+									{{ f.render_form_field(form.teacher_email, extra_classes='form-group col-md-12') }}
+								{% endif %}
 	              {% if schedule.course_start_at %}
 									{{ f.render_form_field(form.course_start_at, extra_classes='form-group col-md-12', value=schedule.course_start_at) }}
 								{% else %}
