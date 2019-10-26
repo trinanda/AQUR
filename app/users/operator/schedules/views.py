@@ -173,10 +173,10 @@ def edit_schedule(schedule_id):
                            form=form, local_time_form=local_time_form)
 
 
-@operator.route('/schedule/edit-schedule/add-day/<int:schedule_id>', methods=['GET', 'POST'])
+@operator.route('/schedule/edit-schedule-schedule-number-of-day/<int:schedule_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
-def edit_schedule_add_day(schedule_id):
+def edit_schedule_number_of_day(schedule_id):
     """Edit a schedule's information."""
     schedule = Schedule.query.filter_by(id=schedule_id).first()
     if schedule is None:
@@ -184,7 +184,7 @@ def edit_schedule_add_day(schedule_id):
     form = ScheduleForm(obj=schedule)
 
     if "step" not in request.form:
-        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html.html', form=form,
                                step="how_many_times_in_a_week")
     elif request.form["step"] == "time_schedule":
         how_many_times_in_a_week = form.how_many_times_in_a_week.data
@@ -197,7 +197,7 @@ def edit_schedule_add_day(schedule_id):
             FormField(TimeScheduleForm, label='------------------------------------------'),
             min_entries=how_many_times_in_a_week)
         local_time_form = LocalTimeScheduleForm()
-        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form,
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
                                step="time_schedule", local_time_form=local_time_form)
     elif request.form["step"] == "submit":
         if request.method == "POST":
@@ -222,8 +222,10 @@ def edit_schedule_add_day(schedule_id):
                 return redirect(url_for('operator.edit_schedule', schedule_id=schedule_id))
             flash(_('Successfully edit schedule.'), 'success')
             return redirect(url_for('operator.all_schedules'))
-        return render_template('main/operator/schedules/edit-schedule-add-day.html', form=form, step="submit")
-    return render_template('main/operator/schedules/edit-schedule-add-day.html', schedule=schedule, form=form)
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
+                               step="submit")
+    return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', schedule=schedule,
+                           form=form)
 
 
 @operator.route('/schedule/check-schedules', methods=['GET', 'POST'])
@@ -297,57 +299,60 @@ def requisition_schedules():
 @operator_required
 def add_requisition_schedules():
     form = RequisitionScheduleForm()
-    if request.method == "POST":
-        # TODO | InsyaAllah will check the line bellow | why we can't use validate_on_submit..?
-        # if form.validate_on_submit():
-        student = Student.query.filter_by(email=form.student_email.data).first()
-        if student is None:
-            flash(_('It seems the email is not registered as a student email!'), 'error')
-            return redirect(url_for('operator.add_requisition_schedules'))
 
-        course = Course.query.filter_by(name=str(form.course_name.data)).first()
+    if "step" not in request.form:
+        return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form,
+                               step="how_many_times_in_a_week")
+    elif request.form["step"] == "input_student":
+        how_many_times_in_a_week = form.how_many_times_in_a_week.data
+        session['how_many_times_in_a_week'] = how_many_times_in_a_week
 
-        requisition_schedule = RequisitionSchedule(
-            student_id=student.id,
-            course_id=course.id,
-            type_of_class=form.type_of_class.data,
-        )
-        time_schedule_1 = TimeSchedule(
-            day=form.schedule_day.data,
-            start_at=form.start_at.data,
-            end_at=form.end_at.data,
-        )
+        class LocalTimeScheduleForm(ScheduleForm):
+            pass
 
-        schedule_day_2 = request.form['schedule_day_2']
-        if schedule_day_2 == ' ':
-            schedule_day_2 = None
+        LocalTimeScheduleForm.time_schedule = FieldList(
+            FormField(TimeScheduleForm, label='------------------------------------------'),
+            min_entries=how_many_times_in_a_week)
+        local_time_form = LocalTimeScheduleForm()
+        return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form,
+                               step="input_student", local_time_form=local_time_form)
 
-        start_at_2 = request.form['start_at_2']
-        if start_at_2 == '':
-            start_at_2 = None
+    elif request.form["step"] == "submit":
+        if request.method == "POST":
+            student_email = form.student_email.data
+            course_name = form.course_name.data
+            type_of_class = form.type_of_class.data
+            how_many_times_in_a_week = session.get('how_many_times_in_a_week')
+            student = Student.query.filter_by(email=student_email).first()
 
-        end_at_2 = request.form['end_at_2']
-        if end_at_2 == '':
-            end_at_2 = None
+            if student is None:
+                flash(_('It seems the email is not registered as a student email!'), 'error')
+                return redirect(url_for('operator.add_requisition_schedules'))
 
-        time_schedule_2 = TimeSchedule(
-            day=schedule_day_2,
-            start_at=start_at_2,
-            end_at=end_at_2,
-        )
+            course = Course.query.filter_by(name=str(course_name)).first()
 
-        requisition_schedule.time_schedule.append(time_schedule_1)
-        requisition_schedule.time_schedule.append(time_schedule_2)
-        db.session.add(requisition_schedule)
-        try:
+            list_of_dict_time_schedule = []
+            for entry in form.time_schedule:
+                list_of_dict_time_schedule.append(
+                    {'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                     'end_at': entry.data['end_at'].strftime('%H:%M')})
+
+            requisition_schedule = RequisitionSchedule(
+                student_id=student.id,
+                course_id=course.id,
+                type_of_class=type_of_class,
+                how_many_times_in_a_week=how_many_times_in_a_week,
+            )
+            for data in list_of_dict_time_schedule:
+                time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+                requisition_schedule.time_schedule.append(time_schedule)
+            db.session.add(requisition_schedule)
             db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            flash(str(e), 'error')
-            return redirect(url_for('operator.add_requisition_schedules'))
-        flash(_('Successfully added new requisition schedule for %(student_full_name)s.',
-                student_full_name=student.full_name), 'success')
-        return redirect(url_for('operator.requisition_schedules'))
+            flash(_('Successfully added new requistion schedule for %(student_full_name)s.',
+                    student_full_name=student.full_name), 'success')
+            return redirect(url_for('operator.requisition_schedules'))
+        return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form,
+                               step="submit")
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form)
 
 
@@ -355,78 +360,33 @@ def add_requisition_schedules():
 @login_required
 @operator_required
 def edit_requisition_schedules(requisition_schedule_id):
-    """Edit a requisition_schedule information."""
-    time_schedule = TimeSchedule.query.filter_by(requisition_schedule_id=requisition_schedule_id).first()
+    """Edit a schedule's information."""
     requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
-
-    if time_schedule is None:
-        abort(404)
     if requisition_schedule is None:
         abort(404)
-
-    list_prepopulate_requisition_form = []
-    for data in requisition_schedule.time_schedule:
-        list_prepopulate_requisition_form.append(data.day)
-        list_prepopulate_requisition_form.append(data.start_at)
-        list_prepopulate_requisition_form.append(data.end_at)
-
-    prepopulate_requisition_form = [{
-        'schedule_day': str(list_prepopulate_requisition_form[0]),
-        'start_at': list_prepopulate_requisition_form[1],
-        'end_at': list_prepopulate_requisition_form[2],
-        'schedule_day_2': str(list_prepopulate_requisition_form[3]),
-        'start_at_2': list_prepopulate_requisition_form[4],
-        'end_at_2': list_prepopulate_requisition_form[5],
-    }]
-
     form = RequisitionScheduleForm(obj=requisition_schedule)
-    form.course_name.data = time_schedule.requisition_schedule.course
 
-    form.schedule_day.data = prepopulate_requisition_form[0]['schedule_day']
-    form.schedule_day_2.data = prepopulate_requisition_form[0]['schedule_day_2']
+    class LocalTimeScheduleForm(ScheduleForm):
+        pass
+
+    LocalTimeScheduleForm.time_schedule = FieldList(
+        FormField(TimeScheduleForm, label='------------------------------------------'),
+        min_entries=requisition_schedule.how_many_times_in_a_week)
+
+    local_time_form = LocalTimeScheduleForm(obj=requisition_schedule)
 
     if request.method == "POST":
-
-        student = Student.query.filter_by(email=form.student_email.data).first()
-        if student is None:
-            flash(_('It seems the email is not registered as a student email!'), 'error')
-            return redirect(
-                url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-
-        requisition_schedule.student_id = student.id
-        requisition_schedule.course_id = request.form['course_name']
-        requisition_schedule.type_of_class = form.type_of_class.data
-
         TimeSchedule.query.filter(TimeSchedule.requisition_schedule_id == requisition_schedule_id).delete()
         db.session.commit()
-
-        time_schedule_1 = TimeSchedule(
-            day=request.form['schedule_day'],
-            start_at=request.form['start_at'],
-            end_at=request.form['end_at'],
-        )
-        schedule_day_2 = request.form['schedule_day_2']
-        if schedule_day_2 == '':
-            schedule_day_2 = None
-
-        start_at_2 = request.form['start_at_2']
-        if start_at_2 == '':
-            start_at_2 = None
-
-        end_at_2 = request.form['end_at_2']
-        if end_at_2 == '':
-            end_at_2 = None
-
-        time_schedule_2 = TimeSchedule(
-            day=schedule_day_2,
-            start_at=start_at_2,
-            end_at=end_at_2,
-        )
-
-        requisition_schedule.time_schedule.append(time_schedule_1)
-        requisition_schedule.time_schedule.append(time_schedule_2)
+        list_of_dict_time_schedule = []
+        for entry in form.time_schedule:
+            list_of_dict_time_schedule.append(
+                {'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                 'end_at': entry.data['end_at'].strftime('%H:%M')})
+        for data in list_of_dict_time_schedule:
+            time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+            requisition_schedule.time_schedule.append(time_schedule)
         db.session.add(requisition_schedule)
-
         try:
             db.session.commit()
         except Exception as e:
@@ -434,8 +394,64 @@ def edit_requisition_schedules(requisition_schedule_id):
             flash(str(e), 'error')
             return redirect(
                 url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-        flash(_('Successfully edit requisition schedule.'), 'success')
+        flash(_('Successfully edit schedule.'), 'success')
         return redirect(url_for('operator.requisition_schedules'))
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html',
-                           requisition_schedule=requisition_schedule, form=form,
-                           prepopulate_requisition_form=prepopulate_requisition_form)
+                           requisition_schedule=requisition_schedule, form=form, local_time_form=local_time_form)
+
+
+@operator.route('/schedule/edit-requisition-schedule-number-of-day/<int:requisition_schedule_id>',
+                methods=['GET', 'POST'])
+@login_required
+@operator_required
+def edit_requisition_schedule_number_of_day(requisition_schedule_id):
+    """Edit a schedule's information."""
+    requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
+    if requisition_schedule is None:
+        abort(404)
+    form = RequisitionScheduleForm(obj=requisition_schedule)
+
+    if "step" not in request.form:
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
+                               step="how_many_times_in_a_week")
+    elif request.form["step"] == "time_schedule":
+        how_many_times_in_a_week = form.how_many_times_in_a_week.data
+        session['how_many_times_in_a_week'] = how_many_times_in_a_week
+
+        class LocalTimeScheduleForm(ScheduleForm):
+            pass
+
+        LocalTimeScheduleForm.time_schedule = FieldList(
+            FormField(TimeScheduleForm, label='------------------------------------------'),
+            min_entries=how_many_times_in_a_week)
+        local_time_form = LocalTimeScheduleForm()
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
+                               step="time_schedule", local_time_form=local_time_form)
+    elif request.form["step"] == "submit":
+        if request.method == "POST":
+            TimeSchedule.query.filter(TimeSchedule.requisition_schedule_id == requisition_schedule_id).delete()
+            db.session.commit()
+            how_many_times_in_a_week = session.get('how_many_times_in_a_week')
+            requisition_schedule.how_many_times_in_a_week = how_many_times_in_a_week
+            list_of_dict_time_schedule = []
+            for entry in form.time_schedule:
+                list_of_dict_time_schedule.append(
+                    {'day': entry.data['day'], 'start_at': entry.data['start_at'].strftime('%H:%M'),
+                     'end_at': entry.data['end_at'].strftime('%H:%M')})
+            for data in list_of_dict_time_schedule:
+                time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
+                requisition_schedule.time_schedule.append(time_schedule)
+
+            try:
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash(str(e), 'error')
+                return redirect(
+                    url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
+            flash(_('Successfully edit schedule.'), 'success')
+            return redirect(url_for('operator.requisition_schedules'))
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
+                               step="submit")
+    return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html',
+                           requisition_schedule=requisition_schedule, form=form)

@@ -25,6 +25,11 @@
         {% else %}
         <h2 class="c-grey-900">{{ _('Add new Requisition Schedule') }}</h2>
         {% endif %}
+				{% if requisition_schedule %}
+			    <div style="display: flex;justify-content:flex-end;">
+				    <a href="{{ url_for('operator.edit_requisition_schedule_number_of_day', requisition_schedule_id=requisition_schedule.id) }}" class="btn btn-info d-flex justify-content-center d-md-table">{{ _('Edit number of days') }}</a>
+			    </div>
+		    {% endif %}
 				{% set flashes = {
 				'error': get_flashed_messages(category_filter=['form-error']),
 				'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -34,31 +39,29 @@
 				<div class="mT-30">
 					{{ f.begin_form(form, flashes) }}
 					<div class="form-row">
-							{% if requisition_schedule %}
-								{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=requisition_schedule.student.email) }}
-							{% else %}
-								{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
-							{% endif %}
+						{% if requisition_schedule %}
+	            {{ f.begin_form(form, flashes) }}
+								{{ f.begin_form(local_time_form, flashes) }}
+	                {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
+					      {{ f.end_form() }}
+			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Update') }}">
+	            {{ f.end_form() }}
+	          {% endif %}
+						{% if step == "how_many_times_in_a_week" %}
+							{{ f.render_form_field(form.how_many_times_in_a_week, extra_classes='form-group col-md-12') }}
+						  <input type=hidden name="step" value="input_student">
+						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Next') }}">
+		        {% elif step == "input_student" %}
+							{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-12') }}
-							{% if requisition_schedule %}
-									{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-6') }}
-									{{ f.render_form_field(form.schedule_day_2, extra_classes='form-group col-md-6') }}
-									{% for data in prepopulate_requisition_form %}
-										{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6', value=data.start_at) }}
-										{{ f.render_form_field(form.start_at_2, extra_classes='form-group col-md-6', value=data.start_at_2) }}
-										{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6', value=data.end_at) }}
-										{{ f.render_form_field(form.end_at_2, extra_classes='form-group col-md-6', value=data.end_at_2) }}
-									{% endfor %}
-							{% else %}
-								{{ f.render_form_field(form.schedule_day, extra_classes='form-group col-md-12') }}
-								{{ f.render_form_field(form.start_at, extra_classes='form-group col-md-6') }}
-								{{ f.render_form_field(form.end_at, extra_classes='form-group col-md-6') }}
-								{{ f.render_form_field(form.schedule_day_2, extra_classes='form-group col-md-12') }}
-								{{ f.render_form_field(form.start_at_2, extra_classes='form-group col-md-6') }}
-								{{ f.render_form_field(form.end_at_2, extra_classes='form-group col-md-6') }}
-							{% endif %}
+							{{ f.begin_form(local_time_form, flashes) }}
+								{{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
+							{{ f.end_form() }}
+						  <input type=hidden name="step" value="submit">
 							<input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit">
+		        {% elif step == "submit" %}
+						{% endif %}
 						{{ f.end_form() }}
 					</div>
 				</div>

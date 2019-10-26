@@ -1,4 +1,4 @@
-from wtforms import SelectField, SubmitField, FieldList, FormField, StringField
+from wtforms import SelectField, SubmitField, FieldList, FormField
 from flask_babel import _, lazy_gettext as _l
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField, TimeField, DateField, IntegerField
@@ -23,9 +23,7 @@ class ScheduleForm(FlaskForm):
     teacher_email = EmailField(_l('Teacher email'), validators=[required()])
     course_start_at = DateField(_l('Course Start at'), validators=[DataRequired()], format='%Y-%m-%d')
     how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
-
     time_schedule = FieldList(FormField(TimeScheduleForm))
-
     submit = SubmitField()
 
     def validate_student_email(self, field):
@@ -51,6 +49,8 @@ class RequisitionScheduleForm(TimeScheduleForm):
                                    validators=[required('It seems the student didn\' pay any course ')],
                                    query_factory=lambda: Course.query.all())
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
+    how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
+    time_schedule = FieldList(FormField(TimeScheduleForm))
     submit = SubmitField()
 
     def validate_student_email(self, field):

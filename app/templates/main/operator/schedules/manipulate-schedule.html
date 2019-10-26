@@ -44,7 +44,7 @@
 	    <div class="bgc-white p-70 bd">
 		    {% if schedule %}
 			    <div style="display: flex;justify-content:flex-end;">
-				    <a href="{{ url_for('operator.edit_schedule_add_day', schedule_id=schedule.id) }}" class="btn btn-info d-flex justify-content-center d-md-table">{{ _('Edit number of days') }}</a>
+				    <a href="{{ url_for('operator.edit_schedule_number_of_day', schedule_id=schedule.id) }}" class="btn btn-info d-flex justify-content-center d-md-table">{{ _('Edit number of days') }}</a>
 			    </div>
 		    {% endif %}
 		    {% if step == "input_student_email" %}
