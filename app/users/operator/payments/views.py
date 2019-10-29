@@ -8,7 +8,6 @@ from flask_babel import _
 from app import db
 from app.decorators import operator_required
 from app.models import Student, Course, RegistrationPayment, Payment, Schedule, TypeOfClass
-from app.scheduler_task import transfer_to_fixed_payment
 from app.users.operator import operator
 from app.users.operator.payments.forms import ManipulatePaymentForm, edit_registration_payment_form_factory, \
     AddRegistrationPaymentForm
@@ -33,6 +32,9 @@ def add_payment():
     elif request.form["step"] == "taking_course":
         student_email = form.student_email.data
         student = Student.query.filter_by(email=student_email).first()
+        if student is None:
+            flash(_('It seems the email is not registered as a student email!'), 'error')
+            return redirect(url_for('operator.add_payment'))
         session['student_id'] = student.id
         taking_courses = db.session.query(Schedule).filter(Schedule.student_id == student.id).all()
         return render_template('main/operator/payments/manipulate-payment.html', form=form, step="taking_course",
@@ -41,6 +43,8 @@ def add_payment():
         schedule_id = request.form.get("schedule_id")
         session['schedule_id'] = schedule_id
         schedule = Schedule.query.filter_by(id=schedule_id).first()
+        if schedule is None:
+            return 'schedule is none'
         total_duration_each_month = 0
         for data_time in schedule.time_schedule:
             time_delta = datetime.datetime.strptime(str(data_time.end_at), '%H:%M:%S') - datetime.datetime.strptime(
@@ -48,14 +52,13 @@ def add_payment():
             total_duration_in_minutes = time_delta.total_seconds() / 60
             total_duration_each_month += total_duration_in_minutes * 4
 
-        if schedule.type_of_class == TypeOfClass.PRIVATE.value:
+        if str(schedule.type_of_class) == TypeOfClass.PRIVATE.value:
             total_charge_per_month = total_duration_each_month * schedule.course.private_class_charge_per_minutes
         else:
             total_charge_per_month = total_duration_each_month * schedule.course.regular_class_charge_per_minutes
 
-        return render_template('main/operator/payments/manipulate-payment.html', form=form,
-                               step="pay_the_tuition", schedule=schedule,
-                               total_charge_per_month=int(total_charge_per_month))
+        return render_template('main/operator/payments/manipulate-payment.html', form=form, step="pay_the_tuition",
+                               schedule=schedule, total_charge_per_month=int(total_charge_per_month))
 
     elif request.form["step"] == "submit":
         if request.method == "POST":

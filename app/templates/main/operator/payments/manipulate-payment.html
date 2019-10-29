@@ -54,17 +54,22 @@
                     <td>-</td>
                     <td><input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Pay the tuition') }}"></td>
                   {% else %}
-                    {% for data_payment in data.payment %}
-                      {% if data_payment|safe != "COMPLETED" %}
-                        <td>{{ data_payment }}</td>
-                        <td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data_payment.id) }}'">
-                          <a class="btn btn-primary d-flex justify-content-center mx-auto" href="{{ url_for('operator.edit_payment', payment_id=data_payment.id) }}">{{ _('Edit the tuition') }}</a>
-                        </td>
-                      {% else %}
-                        <td>{{ data_payment }}</td>
-                        <td>-</td>
-                      {% endif %}
-                    {% endfor %}
+                    {% if data.payment[-1]|safe == "EXPIRED" %}
+                      <td>{{ _(data.payment[-1]|safe) }}</td>
+                      <td>
+                        <input type="hidden" name="schedule_id" value="{{ data.id }}">
+                        <input type=hidden name="step" value="pay_the_tuition">
+                        <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Add new tuition') }}">
+                      </td>
+                    {% elif data.payment[-1]|safe != "COMPLETED" %}
+                      <td>{{ _(data.payment[-1]|safe) }}</td>
+                      <td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}'">
+                        <a class="btn btn-primary d-flex justify-content-center mx-auto" href="{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}">{{ _('Edit the tuition') }}</a>
+                      </td>
+                    {% else %}
+                      <td>{{ _(data.payment[-1]|safe) }}</td>
+                      <td>-</td>
+                    {% endif %}
                   {% endif %}
                 </tr>
                 {% endfor %}

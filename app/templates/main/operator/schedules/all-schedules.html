@@ -51,9 +51,7 @@
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
-								{% for data_payment in data.payment %}
-										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data_payment) }}</td>
-								{% endfor %}
+								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment[-1]|safe) }}</td>
 								{% if data.payment == [] %}
 										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">-</td>
 								{% endif %}
