@@ -1,10 +1,10 @@
 ### TODO LIST
 
 #### most important feature for now
-1. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
+1. add "note" column to Payment models | the purpose is for "if the student want to pay double payment"
+2. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
     - sp1, sp2, sp3=nonaktivkan
-2. deploy to vps for demonstrations
-3. set payment timeout every month by course payment pay at
+3. deploy to vps for demonstrations
 
 4. List of Student in table mode.
     - List of Student that didn't tuition payment

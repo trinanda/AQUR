@@ -88,15 +88,12 @@ class Config:
     JOBS = [
         {
             'id': 'job1',
-            'func': 'app.scheduler_task:transfer_to_fixed_payment',
+            'func': 'app.scheduler_task:update_tuition_payment_status',
             'replace_existing': True,
-            # 'trigger': 'cron',    # Cron: For example, every day at 5 am
-            'trigger': 'interval', # Interval: For example, perform a task every 5 minutes.
-            # 'misfire_grace_time': 600,
-            # 'max_instances': 1,
-            # 'hour': 22,  # every day at 22:05
-            # 'minute': 5,
-            'seconds': 5,
+            'trigger': 'cron',  # Cron: For example, every day at 5 am
+            'misfire_grace_time': 600,
+            'hour': 00,  # every day at 00:05
+            'minute': 5,
         }
     ]
     SCHEDULER_JOBSTORES = {
@@ -104,14 +101,14 @@ class Config:
     }
     SCHEDULER_API_ENABLED = True
 
-    # SCHEDULER_JOB_DEFAULTS = {
-    #     'coalesce': False,
-    #     'max_instances': 3
-    # }
+    SCHEDULER_JOB_DEFAULTS = {
+        'coalesce': False,
+        'max_instances': 1
+    }
 
-    # SCHEDULER_EXECUTORS = {
-    #     'default': {'type': 'threadpool', 'max_workers': 20}
-    # }
+    SCHEDULER_EXECUTORS = {
+        'default': {'type': 'threadpool', 'max_workers': 8}
+    }
 
 
 class DevelopmentConfig(Config):
