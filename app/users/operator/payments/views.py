@@ -66,11 +66,13 @@ def add_payment():
             schedule_id = session.get('schedule_id')
             total = form.total.data
             status_of_payment = form.status_of_payment.data
+            note = form.note.data
             schedule = Payment(
                 student_id=student_id,
                 schedule_id=schedule_id,
                 total=total,
                 status_of_payment=status_of_payment,
+                note=note,
             )
             db.session.add(schedule)
             db.session.commit()
@@ -93,6 +95,11 @@ def edit_payment(payment_id):
     if request.method == "POST":
         payment.total = form.total.data
         payment.status_of_payment = form.status_of_payment.data
+
+        if len(form.note.data) > 100:
+            flash(_('The maximum character on note not more than 100!'), 'error')
+            return redirect(url_for('operator.edit_payment', payment_id=payment_id))
+        payment.note = form.note.data
         try:
             db.session.commit()
         except Exception as e:

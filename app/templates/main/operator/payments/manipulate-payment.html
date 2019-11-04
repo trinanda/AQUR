@@ -43,6 +43,7 @@
                   <th>{{ _('Taking course') }}</th>
                   <th>{{ _('Type of class') }}</th>
                   <th>{{ _('Payment Status') }}</th>
+                  <th>{{ _('Note') }}</th>
                   <th>{{ _('Action') }}</th>
                 </tr>
                 {% for data in taking_courses %}
@@ -56,6 +57,7 @@
                   {% else %}
                     {% if data.payment[-1]|safe == "EXPIRED" %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
+	                    <td>{{ _(data.payment[-1].note) }}</td>
                       <td>
                         <input type="hidden" name="schedule_id" value="{{ data.id }}">
                         <input type=hidden name="step" value="pay_the_tuition">
@@ -63,11 +65,13 @@
                       </td>
                     {% elif data.payment[-1]|safe != "COMPLETED" %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
+	                    <td>{{ _(data.payment[-1].note) }}</td>
                       <td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}'">
                         <a class="btn btn-primary d-flex justify-content-center mx-auto" href="{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}">{{ _('Edit the tuition') }}</a>
                       </td>
                     {% else %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
+	                    <td>{{ _(data.payment[-1].note) }}</td>
                       <td>-</td>
                     {% endif %}
                   {% endif %}
@@ -79,6 +83,7 @@
               <h6>The student must pay {{ total_charge_per_month }}/month for this schedule</h6>
 	            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12') }}
 	            {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(form.note, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="submit">
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Submit">
 		        {% elif step == "submit" %}
@@ -86,6 +91,7 @@
             {% if payment %}
               {{ f.render_form_field(form.total, extra_classes='form-group col-md-12', value=payment.total) }}
               {{ f.render_form_field(form.status_of_payment, extra_classes='form-group col-md-12') }}
+	            {{ f.render_form_field(form.note, extra_classes='form-group col-md-12', value=payment.note) }}
               <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="Submit">
             {% endif %}
           </div>

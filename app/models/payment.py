@@ -8,6 +8,7 @@ class Payment(db.Model):
     student_id = db.Column(db.Integer(), db.ForeignKey('student.id'))
     schedule_id = db.Column(db.Integer, db.ForeignKey('schedule.id'), nullable=True)
     total = db.Column(db.Integer)
+    note = db.Column(db.String(100))
     status_of_payment = db.Column(db.Enum(PaymentStatus, name='status_of_payment'))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())

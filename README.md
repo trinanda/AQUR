@@ -1,7 +1,8 @@
 ### TODO LIST
 
 #### most important feature for now
-1. add "note" column to Payment models | the purpose is for "if the student want to pay double payment"
+1. manipulate data with phone number
+    - login with phone number
 2. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
     - sp1, sp2, sp3=nonaktivkan
 3. deploy to vps for demonstrations
@@ -15,21 +16,19 @@
 6. prevent add new schedule if teacher gender is different with student gender
 7. prevent add new schedule if teacher email is none
 8. List of Teacher in table mode.
-9. manipulate data with phone number
-    - login with phone number
-10. prevent to input duplicate students schedule
-11. prevent to input duplicate teachers schedule
+9. prevent to input duplicate students schedule
+10. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------
-12. delete profile photo feature
-13. student Taken courses details
-14. total teacher included gender on course_details route
-15. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
-16. autobackup to dropbox/google drive..?
-17. data dengan umur sekian
-18. deploy to a VPS
-19. set a domain for the app
-20. get current and last login user ip
-21. batasi umur
+11. delete profile photo feature
+12. student Taken courses details
+13. total teacher included gender on course_details route
+14. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
+15. autobackup to dropbox/google drive..?
+16. data dengan umur sekian
+17. deploy to a VPS
+18. set a domain for the app
+29. get current and last login user ip
+20. batasi umur
 
 ##### Important feature
 1. Murid

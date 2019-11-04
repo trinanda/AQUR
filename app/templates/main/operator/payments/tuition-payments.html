@@ -29,6 +29,7 @@
 							<th>{{ _('Type of Class') }}</th>
 							<th>{{ _('Total') }}</th>
 							<th>{{ _('Status') }}</th>
+							<th>{{ _('Note') }}</th>
 							<th>{{ _('Pay at') }}</th>
 							<th>{{ _('Update at') }}</th>
 						</tr>
@@ -46,6 +47,11 @@
 								{% endif %}
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.total }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ _(data.Payment.status_of_payment|safe) }}</td>
+								{% if data.Payment.note != none %}
+									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.note }}</td>
+								{% else %}
+									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">-</td>
+								{% endif %}
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.created_at.strftime('%d-%m-%Y') }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.updated_at.strftime('%d-%m-%Y') }}</td>
 							</tr>
@@ -59,6 +65,7 @@
 								<th>{{ _('Type of Class') }}</th>
 								<th>{{ _('Total') }}</th>
 								<th>{{ _('Status') }}</th>
+								<th>{{ _('Note') }}</th>
 								<th>{{ _('Pay at') }}</th>
 								<th>{{ _('Update at') }}</th>
 							</tr>
