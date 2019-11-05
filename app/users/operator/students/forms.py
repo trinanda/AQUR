@@ -20,10 +20,18 @@ class InviteStudentForm(FlaskForm):
 
 
 class NewStudentForm(InviteStudentForm):
+    phone_number = StringField(_l('Phone number'), validators=[InputRequired(), Length(1, 12)],
+                               render_kw={'placeholder': 'e.g: 081234567890'})
     gender = SelectField(_l('Gender'), choices=gender)
-    password = PasswordField(_l('Password'), validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
+    password = PasswordField(_l('Password'),
+                             validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField(_l('Confirm password'), validators=[InputRequired()])
     submit = SubmitField(_l('Create'))
+
+    def validate_phone_number(self, field):
+        if User.query.filter_by(phone_number=field.data).first():
+            raise ValidationError(_('Duplicate phone number with the other users in this system, '
+                                    'please input different phone number!'))
 
 
 class EditStudentForm(FlaskForm):

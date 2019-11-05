@@ -33,10 +33,12 @@
 							<tr>
 								<th>{{ _('Student') }}</th>
 								<th>{{ _('Student email') }}</th>
+								<th>{{ _('Student phone number') }}</th>
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of class') }}</th>
 								<th>{{ _('Teacher') }}</th>
 								<th>{{ _('Teacher email') }}</th>
+								<th>{{ _('Teacher phone number') }}</th>
 								<th>{{ _('Payment status') }}</th>
 								<th>{{ _('Course start at') }}</th>
 								<th>{{ _('Schedule') }}</th>
@@ -47,10 +49,12 @@
 							<tr>
 								<td>{{ data.student.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.student.email }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.student.phone_number }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.course.name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.type_of_class|safe) }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.full_name }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.email }}</td>
+								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ data.teacher.phone_number }}</td>
 								<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">{{ _(data.payment[-1]|safe) }}</td>
 								{% if data.payment == [] %}
 										<td onclick="window.location='{{ url_for('operator.edit_schedule', schedule_id=data.id) }}'">-</td>
@@ -80,10 +84,12 @@
 								<tr>
 									<th>{{ _('Student') }}</th>
 									<th>{{ _('Student email') }}</th>
+									<th>{{ _('Student phone number') }}</th>
 									<th>{{ _('Course') }}</th>
 									<th>{{ _('Type of class') }}</th>
 									<th>{{ _('Teacher') }}</th>
 									<th>{{ _('Teacher email') }}</th>
+									<th>{{ _('Teacher phone number') }}</th>
 									<th>{{ _('Payment status') }}</th>
 									<th>{{ _('Course start at') }}</th>
 									<th>{{ _('Schedule') }}</th>

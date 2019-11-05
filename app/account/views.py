@@ -19,10 +19,15 @@ def login():
     if form.validate_on_submit():
         # TODO | flash message if user is None
         try:
-            user, user_role = db.session.query(User, Role).join(Role).filter(User.email == form.email.data).first()
+            user, user_role = db.session.query(User, Role).join(Role).filter(
+                User.email == form.email_or_phone_number.data).first()
         except Exception as e:
-            flash(_('Please create a user'), 'form-check-email')
-            return redirect(url_for('account.register'))
+            try:
+                user, user_role = db.session.query(User, Role).join(Role).filter(
+                    User.phone_number == form.email_or_phone_number.data).first()
+            except Exception as e:
+                flash(_('Please create a user'), 'form-check-email')
+                return redirect(url_for('account.register'))
 
         if user is not None and user.password_hash is not None and \
             user.verify_password(form.password.data):
@@ -199,8 +204,8 @@ def confirm_request():
         # current_user is a LocalProxy, we want the underlying user object
         user=current_user._get_current_object(),
         confirm_link=confirm_link)
-    flash(_('A new confirmation link has been sent to %(current_user_email)s.', current_user_email=current_user.email),
-          'warning')
+    flash(_('A new confirmation link has been sent to %(current_user_email)s.',
+            current_user_email=current_user.email), 'warning')
 
     return redirect(url_for('main.index'))
 
@@ -243,15 +248,14 @@ def join_from_invite(user_id, token):
             new_user.password = form.password.data
             db.session.add(new_user)
             db.session.commit()
-            flash(_(
-                'Your password has been set. After you log in, you can go to the "Your Account" page to review your account information and settings.'),
-                'success')
+            flash(_('Your password has been set. After you log in, you can go to the "Your Account" '
+                    'page to review your account information and settings.'), 'success')
             return redirect(url_for('account.login'))
         return render_template('account/join_invite.html', form=form)
     else:
         flash(_(
-            'The confirmation link is invalid or has expired. Another invite email with a new link has been sent to you.'),
-            'error')
+            'The confirmation link is invalid or has expired. '
+            'Another invite email with a new link has been sent to you.'), 'error')
         token = new_user.generate_confirmation_token()
         invite_link = url_for(
             'account.join_from_invite',

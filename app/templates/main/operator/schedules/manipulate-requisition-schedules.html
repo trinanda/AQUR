@@ -52,7 +52,7 @@
 						  <input type=hidden name="step" value="input_student">
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Next') }}">
 		        {% elif step == "input_student" %}
-							{{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+							{{ f.render_form_field(form.student_email_or_phone_number, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
 							{{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-12') }}
 							{{ f.begin_form(local_time_form, flashes) }}

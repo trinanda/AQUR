@@ -129,10 +129,15 @@ def new_student():
             last_name=form.last_name.data,
             gender=form.gender.data,
             email=form.email.data,
+            phone_number=form.phone_number.data,
             password=form.password.data)
         db.session.add(student)
-        db.session.commit()
-
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), 'error')
+            return redirect(url_for('operator.new_student'))
         flash(_('Successfully added %(student_full_name)s as a Student.', student_full_name=student.full_name),
               'success')
         return redirect(url_for('operator.all_students'))
@@ -150,7 +155,6 @@ def all_students_table_mode():
         list_of_students.append(
             {'id': data.id, 'full_name': data.full_name, 'email': data.email, 'phone_number': data.phone_number,
              'course_tuition': db.session.query(Schedule).filter(Schedule.student_id == data.id).all()})
-
     return render_template('main/operator/students/all-students-table-mode.html', list_of_students=list_of_students)
 
 

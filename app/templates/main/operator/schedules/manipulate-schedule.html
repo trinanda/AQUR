@@ -47,11 +47,9 @@
 				    <a href="{{ url_for('operator.edit_schedule_number_of_day', schedule_id=schedule.id) }}" class="btn btn-info d-flex justify-content-center d-md-table">{{ _('Edit number of days') }}</a>
 			    </div>
 		    {% endif %}
-		    {% if step == "input_student_email" %}
+		    {% if step == "input_student_email_or_phone_number" %}
 			    <div style="text-align:center;">
 				    <span class="step active"></span>
-				    <span class="step"></span>
-				    <span class="step"></span>
 				    <span class="step"></span>
 				    <span class="step"></span>
 				    <span class="step"></span>
@@ -62,43 +60,9 @@
 			      <span class="step active"></span>
 			      <span class="step"></span>
 			      <span class="step"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
-		      </div>
-		    {% elif step == "type_of_class" %}
-		      <div style="text-align:center;">
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step active"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
-		      </div>
-		    {% elif step == "how_many_times_in_a_week" %}
-		      <div style="text-align:center;">
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step active"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
 		      </div>
 		    {% elif step == "input_schedule" %}
 		      <div style="text-align:center;">
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step active"></span>
-			      <span class="step"></span>
-			      <span class="step"></span>
-		      </div>
-		    {% elif step == "input_teacher_email" %}
-		      <div style="text-align:center;">
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step active"></span>
@@ -109,13 +73,9 @@
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
 			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
-			      <span class="step finish"></span>
 			      <span class="step active"></span>
 		      </div>
 		    {% endif %}
-
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
         'warning': get_flashed_messages(category_filter=['form-check-email']),
@@ -143,8 +103,8 @@
 			          <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Update') }}">
 	            {{ f.end_form() }}
 	          {% endif %}
-	          {% if step == "input_student_email" %}
-	            {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+	          {% if step == "input_student_email_or_phone_number" %}
+	            {{ f.render_form_field(form.student_email_or_phone_number, extra_classes='form-group col-md-12') }}
 						  <input type=hidden name="step" value="available_course">
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check available course') }}">
 		        {% elif step == "available_course" %}

@@ -1,12 +1,10 @@
 ### TODO LIST
 
 #### most important feature for now
-1. manipulate data with phone number
-    - login with phone number
+1. prevent to book duplicate schedule on same course with same type of class
 2. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
     - sp1, sp2, sp3=nonaktivkan
 3. deploy to vps for demonstrations
-
 4. List of Student in table mode.
     - List of Student that didn't tuition payment
         - show the payment status in the current month

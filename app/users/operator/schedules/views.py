@@ -28,12 +28,16 @@ def all_schedules():
 @operator_required
 def add_schedule():
     form = ScheduleForm()
-
     if "step" not in request.form:
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="input_student_email")
+                               step="input_student_email_or_phone_number")
     elif request.form["step"] == "available_course":
-        student_email = form.student_email.data
+        student_email_or_phone_number = form.student_email_or_phone_number.data
+        student_email = str(Student.query.filter_by(email=student_email_or_phone_number).first())
+        student_phone_number = str(Student.query.filter_by(phone_number=student_email_or_phone_number).first())
+        if student_email is None and student_phone_number is None:
+            flash(_('It seems the email or phone number is not registered as a student.'), 'error')
+            return redirect(url_for('operator.add_schedule'))
         session['student_email'] = student_email
         student = db.session.query(RegistrationPayment, Student, Course).join(Student, Course).filter(
             Student.email == student_email).filter(
@@ -319,17 +323,19 @@ def add_requisition_schedules():
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
-            student_email = form.student_email.data
-            course_name = form.course_name.data
-            type_of_class = form.type_of_class.data
-            how_many_times_in_a_week = session.get('how_many_times_in_a_week')
-            student = Student.query.filter_by(email=student_email).first()
+            student_email_or_phone_number = form.student_email_or_phone_number.data
+            student = Student.query.filter_by(email=student_email_or_phone_number).first()
+            if student is None:
+                student = Student.query.filter_by(phone_number=student_email_or_phone_number).first()
 
             if student is None:
                 flash(_('It seems the email is not registered as a student email!'), 'error')
                 return redirect(url_for('operator.add_requisition_schedules'))
 
+            course_name = form.course_name.data
             course = Course.query.filter_by(name=str(course_name)).first()
+            type_of_class = form.type_of_class.data
+            how_many_times_in_a_week = session.get('how_many_times_in_a_week')
 
             list_of_dict_time_schedule = []
             for entry in form.time_schedule:
@@ -346,8 +352,15 @@ def add_requisition_schedules():
             for data in list_of_dict_time_schedule:
                 time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
                 requisition_schedule.time_schedule.append(time_schedule)
+
             db.session.add(requisition_schedule)
-            db.session.commit()
+            try:
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash(str(e), 'error')
+                return redirect(url_for('operator.add_requisition_schedules'))
+
             flash(_('Successfully added new requistion schedule for %(student_full_name)s.',
                     student_full_name=student.full_name), 'success')
             return redirect(url_for('operator.requisition_schedules'))

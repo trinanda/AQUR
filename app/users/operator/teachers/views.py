@@ -164,9 +164,9 @@ def new_teacher():
             last_name=form.last_name.data,
             gender=form.gender.data,
             email=form.email.data,
+            phone_number=form.phone_number.data,
             password=form.password.data)
         db.session.add(teacher)
-
         form_taught_courses = form.taught_courses.data
         taught_courses = []
         for data in form_taught_courses:
@@ -178,7 +178,12 @@ def new_teacher():
             course = Course.query.filter_by(id=data).first()
             course.courses.append(teacher)
             db.session.add(course)
-            db.session.commit()
+            try:
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash(str(e), 'error')
+                return redirect(url_for('operator.new_teacher'))
         flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name),
               'success')
         return redirect(url_for('operator.all_teachers'))

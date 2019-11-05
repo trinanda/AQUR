@@ -9,8 +9,9 @@ from wtforms.validators import Email, EqualTo, InputRequired, Length
 
 from app.models import User
 
+
 class LoginForm(FlaskForm):
-    email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
+    email_or_phone_number = StringField(_l('Email or phone number'), validators=[InputRequired()])
     password = PasswordField(_l('Password'), validators=[InputRequired()])
     remember_me = BooleanField(_l('Keep me logged in'))
     submit = SubmitField(_l('Log in'))
@@ -40,7 +41,8 @@ class RequestResetPasswordForm(FlaskForm):
 
 class ResetPasswordForm(FlaskForm):
     email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
-    new_password = PasswordField(_l('New password'), validators=[InputRequired(), EqualTo('new_password2', 'Passwords must match.')])
+    new_password = PasswordField(_l('New password'),
+                                 validators=[InputRequired(), EqualTo('new_password2', 'Passwords must match.')])
     new_password2 = PasswordField(_l('Confirm new password'), validators=[InputRequired()])
     submit = SubmitField(_l('Reset password'))
 
@@ -50,14 +52,16 @@ class ResetPasswordForm(FlaskForm):
 
 
 class CreatePasswordForm(FlaskForm):
-    password = PasswordField(_l('Password'), validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
+    password = PasswordField(_l('Password'),
+                             validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField(_l('Confirm new password'), validators=[InputRequired()])
     submit = SubmitField(_l('Set password'))
 
 
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField(_l('Old password'), validators=[InputRequired()])
-    new_password = PasswordField(_l('New password'), validators=[InputRequired(), EqualTo('new_password2', 'Passwords must match.')])
+    new_password = PasswordField(_l('New password'),
+                                 validators=[InputRequired(), EqualTo('new_password2', 'Passwords must match.')])
     new_password2 = PasswordField(_l('Confirm new password'), validators=[InputRequired()])
     submit = SubmitField(_l('Update password'))
 

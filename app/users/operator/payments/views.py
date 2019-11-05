@@ -28,10 +28,12 @@ def add_payment():
     """Create a new payments."""
     form = ManipulatePaymentForm()
     if "step" not in request.form:
-        return render_template('main/operator/payments/manipulate-payment.html', form=form, step="input_student_email")
+        return render_template('main/operator/payments/manipulate-payment.html', form=form,
+                               step="input_student_email_or_phone_number")
     elif request.form["step"] == "taking_course":
-        student_email = form.student_email.data
-        student = Student.query.filter_by(email=student_email).first()
+        student = Student.query.filter_by(email=form.student_email_or_phone_number.data).first()
+        if student is None:
+            student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         if student is None:
             flash(_('It seems the email is not registered as a student email!'), 'error')
             return redirect(url_for('operator.add_payment'))
@@ -124,8 +126,16 @@ def registration_payments():
 def add_registration_payment():
     form = AddRegistrationPaymentForm()
     if form.validate_on_submit():
-        student = Student.query.filter_by(email=form.student_email.data).first()
+        student = Student.query.filter_by(email=form.student_email_or_phone_number.data).first()
+        if student is None:
+            student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         course = Course.query.filter_by(name=str(form.course_name.data)).first()
+
+        check_registered_courses = db.session.query(RegistrationPayment).all()
+        for data in check_registered_courses:
+            if course.id == data.course.id:
+                flash(_('The student already registered on this course'), 'error')
+                return redirect(url_for('operator.add_registration_payment'))
 
         registration_payment = RegistrationPayment(
             student_id=student.id,
@@ -158,7 +168,9 @@ def edit_registration_payment(registration_payment_id):
         abort(404)
 
     if form.validate_on_submit():
-        student = Student.query.filter_by(email=form.student_email.data).first()
+        student = Student.query.filter_by(email=form.student_email_or_phone_number.data).first()
+        if student is None:
+            student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         course = Course.query.filter_by(name=str(form.course_name.data)).first()
 
         registration_payment.student_id = student.id

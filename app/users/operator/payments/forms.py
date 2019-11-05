@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
-from wtforms import SelectField, SubmitField, TextAreaField
+from wtforms import SelectField, SubmitField, TextAreaField, StringField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import required, ValidationError
 
@@ -9,7 +9,7 @@ from wtforms.fields.html5 import EmailField, IntegerField
 
 
 class ManipulatePaymentForm(FlaskForm):
-    student_email = EmailField(_l('Student email'), validators=[required()])
+    student_email_or_phone_number = StringField(_l('Student email or phone number'), validators=[required()])
     total = IntegerField(_l('Total'), validators=[required()])
     status_of_payment = SelectField(_l('Payment Status'), choices=payment_status)
     note = TextAreaField(_l('Note'))
@@ -21,7 +21,7 @@ class ManipulatePaymentForm(FlaskForm):
 
 
 class AddRegistrationPaymentForm(FlaskForm):
-    student_email = EmailField(_l('Student email'), validators=[required()])
+    student_email_or_phone_number = StringField(_l('Student email or phone number'), validators=[required()])
     total = IntegerField(_l('Total'), validators=[required()])
     course_name = QuerySelectField(_l('Course name'), validators=[required()], query_factory=lambda: Course.query.all())
     status_of_payment = SelectField(_l('Payment Status'), choices=registration_payment_status)

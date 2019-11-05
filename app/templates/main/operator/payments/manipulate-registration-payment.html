@@ -20,9 +20,9 @@
     <div class="masonry-item col-md-6">
       <div class="bgc-white p-20 bd">
         {% if registration_payment %}
-        <h2 class="c-grey-900">{{ _('Edit Registration Payment') }}</h2>
+          <h2 class="c-grey-900">{{ _('Edit') }} {{ registration_payment.student.full_name }} {{ _('Registration Payment') }}</h2>
         {% else %}
-        <h2 class="c-grey-900">{{ _('Add new Registration Payment') }}</h2>
+          <h2 class="c-grey-900">{{ _('Add new Registration Payment') }}</h2>
         {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
@@ -34,9 +34,13 @@
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
             {% if registration_payment %}
-              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12', value=registration_payment.student) }}
+              {% if registration_payment.student.phone_number %}
+                {{ f.render_form_field(form.student_email_or_phone_number, extra_classes='form-group col-md-12', value=registration_payment.student.phone_number) }}
+              {% elif registration_payment.student.email %}
+                {{ f.render_form_field(form.student_email_or_phone_number, extra_classes='form-group col-md-12', value=registration_payment.student.email) }}
+              {% endif %}
             {% else %}
-              {{ f.render_form_field(form.student_email, extra_classes='form-group col-md-12') }}
+                {{ f.render_form_field(form.student_email_or_phone_number, extra_classes='form-group col-md-12') }}
             {% endif %}
             {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-12') }}
             {% if registration_payment %}

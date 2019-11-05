@@ -1,8 +1,8 @@
-from wtforms import SelectField, SubmitField, FieldList, FormField
+from wtforms import SelectField, SubmitField, FieldList, FormField, StringField
 from flask_babel import _, lazy_gettext as _l
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField, TimeField, DateField, IntegerField
-from wtforms.validators import required, ValidationError, Email, DataRequired
+from wtforms.validators import required, ValidationError, DataRequired
 from flask_wtf import FlaskForm
 from wtforms.widgets.html5 import NumberInput
 
@@ -16,7 +16,7 @@ class TimeScheduleForm(FlaskForm):
 
 
 class ScheduleForm(FlaskForm):
-    student_email = EmailField(_l('Student email'), validators=[required()])
+    student_email_or_phone_number = StringField(_l('Student email or phone number'), validators=[required()])
     course_name = SelectField(_l('Course name'), validators=[required('It seems the student didn\' pay any course ')],
                               choices=[()])
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
@@ -25,10 +25,6 @@ class ScheduleForm(FlaskForm):
     how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
     time_schedule = FieldList(FormField(TimeScheduleForm))
     submit = SubmitField()
-
-    def validate_student_email(self, field):
-        if Student.query.filter_by(email=field.data).first() is None:
-            raise ValidationError(_('It seems the email is not registered as a student email.'))
 
     def validate_teacher_email(self, field):
         if Teacher.query.filter_by(email=field.data).first() is None:
@@ -44,7 +40,7 @@ class CheckScheduleForm(TimeScheduleForm):
 
 
 class RequisitionScheduleForm(TimeScheduleForm):
-    student_email = EmailField(_l('Student email'), validators=[required(), Email()])
+    student_email_or_phone_number = StringField(_l('Student email or phone number'), validators=[required()])
     course_name = QuerySelectField(_l('Course name'),
                                    validators=[required('It seems the student didn\' pay any course ')],
                                    query_factory=lambda: Course.query.all())
