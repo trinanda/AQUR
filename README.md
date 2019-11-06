@@ -1,32 +1,31 @@
 ### TODO LIST
 
 #### most important feature for now
-1. prevent to book duplicate schedule on same course with same type of class
-2. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
+1. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
     - sp1, sp2, sp3=nonaktivkan
-3. deploy to vps for demonstrations
-4. List of Student in table mode.
+2. deploy to vps for demonstrations
+3. List of Student in table mode.
     - List of Student that didn't tuition payment
         - show the payment status in the current month
         - all months payment status since student has registered
-5. set payment status to expired if the payment for month has ended. 
+4. set payment status to expired if the payment for month has ended. 
     - if that ended, then make a marking to student profile which course has ended.
-6. prevent add new schedule if teacher gender is different with student gender
-7. prevent add new schedule if teacher email is none
-8. List of Teacher in table mode.
-9. prevent to input duplicate students schedule
-10. prevent to input duplicate teachers schedule
+5. prevent add new schedule if teacher gender is different with student gender
+6. prevent add new schedule if teacher email is none
+7. List of Teacher in table mode.
+8. prevent to input duplicate students schedule
+9. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------
-11. delete profile photo feature
-12. student Taken courses details
-13. total teacher included gender on course_details route
-14. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
-15. autobackup to dropbox/google drive..?
-16. data dengan umur sekian
-17. deploy to a VPS
-18. set a domain for the app
-29. get current and last login user ip
-20. batasi umur
+10. delete profile photo feature
+11. student Taken courses details
+12. total teacher included gender on course_details route
+13. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
+14. autobackup to dropbox/google drive..?
+15. data dengan umur sekian
+16. deploy to a VPS
+17. set a domain for the app
+18. get current and last login user ip
+19. batasi umur
 
 ##### Important feature
 1. Murid
