@@ -134,7 +134,7 @@ def add_registration_payment():
         check_registered_courses = db.session.query(RegistrationPayment).all()
         for data in check_registered_courses:
             if course.id == data.course.id:
-                flash(_('The student already registered on this course'), 'error')
+                flash(_('The student already registered on this course'), 'warning')
                 return redirect(url_for('operator.add_registration_payment'))
 
         registration_payment = RegistrationPayment(
