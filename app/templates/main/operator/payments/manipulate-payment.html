@@ -17,12 +17,12 @@
 <div id="mainContent">
   <div class="row gap-20 masonry pos-r">
     <div class="masonry-sizer col-md-6"></div>
-    <div class="masonry-item col-md-6">
+    <div class="masonry-item col-md-12">
       <div class="bgc-white p-20 bd">
         {% if payment %}
-        <h2 class="c-grey-900">{{ _('Edit') }} {{ payment.student.full_name }} {{ _('Payment') }}</h2>
+          <h2 class="c-grey-900">{{ _('Edit') }} {{ payment.student.full_name }} {{ _('Payment') }}</h2>
         {% else %}
-        <h2 class="c-grey-900">{{ _('Add new Payment') }}</h2>
+          <h2 class="c-grey-900">{{ _('Add new Payment') }}</h2>
         {% endif %}
         {% set flashes = {
         'error': get_flashed_messages(category_filter=['form-error']),
@@ -38,36 +38,42 @@
 						  <input type=hidden name="step" value="taking_course">
 						  <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Check Schedules') }}">
 		        {% elif step == "taking_course" %}
+            <div class="table-responsive">
               <table class="table">
-                <tr>
-                  <th>{{ _('Taking course') }}</th>
-                  <th>{{ _('Type of class') }}</th>
-                  <th>{{ _('Payment Status') }}</th>
-                  <th>{{ _('Note') }}</th>
-                  <th>{{ _('Action') }}</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>{{ _('Taking course') }}</th>
+                    <th>{{ _('Type of class') }}</th>
+                    <th>{{ _('Last payment') }}</th>
+                    <th>{{ _('Payment Status') }}</th>
+                    <th>{{ _('Note') }}</th>
+                    <th>{{ _('Action') }}</th>
+                  </tr>
+    						</thead>
+    						<tbody>
                 {% for data in taking_courses %}
                 <tr>
                   <td>{{ data.course.name }}</td>
                   <td>{{ data.type_of_class }}</td>
+                  <td>{{ data.payment[-1].created_at.strftime('%d-%m-%Y %H:%M') }}</td>
                   {% if data.payment == [] %}
                     <td style="display: none;"><input type="text" name="schedule_id" value="{{ data.id }}"></td>
                     <td>-</td>
                     <td><input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Pay the tuition') }}"></td>
                   {% else %}
-                    {% if data.payment[-1]|safe == "EXPIRED" %}
+                    {% if data.payment[-1]|safe == "WARNING-1" or data.payment[-1]|safe == "WARNING-2" %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
 	                    <td>{{ _(data.payment[-1].note) }}</td>
                       <td>
                         <input type="hidden" name="schedule_id" value="{{ data.id }}">
                         <input type=hidden name="step" value="pay_the_tuition">
-                        <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Add new tuition') }}">
+                        <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" style="width: 150px;" type="submit" value="{{ _('Add new tuition') }}">
                       </td>
                     {% elif data.payment[-1]|safe != "COMPLETED" %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
 	                    <td>{{ _(data.payment[-1].note) }}</td>
                       <td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}'">
-                        <a class="btn btn-primary d-flex justify-content-center mx-auto" href="{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}">{{ _('Edit the tuition') }}</a>
+                        <a class="btn btn-primary d-flex justify-content-center mx-auto" style="width: 150px;" href="{{ url_for('operator.edit_payment', payment_id=data.payment[-1].id) }}">{{ _('Edit the tuition') }}</a>
                       </td>
                     {% else %}
                       <td>{{ _(data.payment[-1]|safe) }}</td>
@@ -77,8 +83,10 @@
                   {% endif %}
                 </tr>
                 {% endfor %}
+    						</tbody>
               </table>
-						  <input type=hidden name="step" value="pay_the_tuition">
+						  </div>
+              <input type=hidden name="step" value="pay_the_tuition">
 		        {% elif step == "pay_the_tuition" %}
               <h6>The student must pay {{ total_charge_per_month }}/month for this schedule</h6>
 	            {{ f.render_form_field(form.total, extra_classes='form-group col-md-12') }}

@@ -70,7 +70,9 @@ class PaymentStatus(enum.Enum):
     INSTALLMENT = 'INSTALLMENT'
     REJECTED = 'REJECTED'
     COMPLETED = 'COMPLETED'
-    EXPIRED = 'EXPIRED'
+    WARNING_1 = 'WARNING-1'
+    WARNING_2 = 'WARNING-2'
+    WARNING_3 = 'WARNING-3'
 
     def __str__(self):
         return '{}'.format(self.value)
