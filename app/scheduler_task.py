@@ -18,13 +18,13 @@ def update_tuition_payment_status():
             three_month_later_after_pay_at = payment_created_at + relativedelta(months=3)
 
             if str(one_month_later_after_pay_at) == current_time and \
-                str(data.status_of_payment) == PaymentStatus.COMPLETED.value:
+                str(data.status_of_payment) == PaymentStatus.COMPLETED.name:
                 data.status_of_payment = PaymentStatus.WARNING_1.name
             elif str(two_month_later_after_pay_at) == current_time and \
-                str(data.status_of_payment) == PaymentStatus.WARNING_1.value:
+                str(data.status_of_payment) == PaymentStatus.WARNING_1.name:
                 data.status_of_payment = PaymentStatus.WARNING_2.name
             elif str(three_month_later_after_pay_at) == current_time and \
-                str(data.status_of_payment) == PaymentStatus.WARNING_2.value:
+                str(data.status_of_payment) == PaymentStatus.WARNING_2.name:
                 data.status_of_payment = PaymentStatus.WARNING_3.name
 
     return str('ok')

@@ -46,8 +46,8 @@ def add_schedule():
 
         student = db.session.query(RegistrationPayment, Student, Course).join(Student, Course).filter(
             Student.email == student_data.email).filter(
-            or_(RegistrationPayment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-                RegistrationPayment.status_of_payment == PaymentStatus.COMPLETED.value)).all()
+            or_(RegistrationPayment.status_of_payment == PaymentStatus.INSTALLMENT.name,
+                RegistrationPayment.status_of_payment == PaymentStatus.COMPLETED.name)).all()
 
         for data in student:
             if data.Student.gender is None:

@@ -20,7 +20,7 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 					<div class="profile-info-inner">
 						<div class="profile-img">
-							{% if student.photo and student.gender.value == "Male" %}
+							{% if student.photo and student.gender.name == "Male" %}
 							<div class="containerProfilePicture">
 								<img id="blah" src="{{ url_for('static', filename='images/app/'+student['photo']) }}" alt="Avatar"
 								     class="imageProfilePicture">
@@ -29,7 +29,7 @@
 									<input onchange="readURL(this);" id="files" name="photo" style="visibility:hidden;" type="file">
 								</div>
 							</div>
-							{% elif not student.photo and student.gender.value == "Male" %}
+							{% elif not student.photo and student.gender.name == "Male" %}
 							<div class="containerProfilePicture">
 								<img id="blah" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="Avatar"
 								     class="imageProfilePicture">

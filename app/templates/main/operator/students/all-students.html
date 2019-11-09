@@ -27,9 +27,9 @@
           <div class="student-inner-std res-mg-b-30">
             <div class="student-img">
               <a href="{{ url_for('operator.student_profile', student_id=data.id) }}">
-                {% if data.photo and data.gender.value == "Male" %}
+                {% if data.photo and data.gender.name == "Male" %}
                   <img class="studentsImg" src="{{ url_for('static', filename='images/app/'+data['photo']) }}" alt="{{data.photo}}" />
-                {% elif not data.photo and data.gender.value == "Male" %}
+                {% elif not data.photo and data.gender.name == "Male" %}
                   <img class="studentsImg" src="{{ url_for('static', filename='images/app/example/muslim-icon.png') }}" alt="{{data.photo}}" />
                 {% else %}
                   <img class="studentsImg" src="{{ url_for('static', filename='images/app/example/muslimah-icon.png') }}" alt="{{data.photo}}" />

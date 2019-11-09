@@ -140,8 +140,8 @@ def course_details(course_id):
     #     total_female_students_per_month.append(
     #         {data: students_payment_female.filter(Payment.payment_for_month == data).count()})
 
-    legend_male = Gender.Male.value
-    legend_female = Gender.Female.value
+    legend_male = Gender.Male.name
+    legend_female = Gender.Female.name
 
     male_values = []
     female_values = []

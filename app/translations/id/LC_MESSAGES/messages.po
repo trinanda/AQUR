@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-05 22:34+0700\n"
-"PO-Revision-Date: 2019-10-05 22:37+0700\n"
+"POT-Creation-Date: 2019-11-09 17:23+0700\n"
+"PO-Revision-Date: 2019-11-09 17:37+0700\n"
 "Last-Translator: \n"
 "Language: id\n"
 "Language-Team: id <LL@li.org>\n"
@@ -19,179 +19,186 @@ msgstr ""
 "Generated-By: Babel 2.7.0\n"
 "X-Generator: Poedit 2.2.4\n"
 
-#: app/account/forms.py:13 app/account/forms.py:22 app/account/forms.py:34
-#: app/account/forms.py:42
-#: app/templates/main/operator/payments/all-payments.html:27
-#: app/templates/main/operator/payments/all-payments.html:55
+#: app/account/forms.py:14
+msgid "Email or phone number"
+msgstr "Email atau nomor telepon"
+
+#: app/account/forms.py:15 app/account/forms.py:24 app/account/forms.py:55
+#: app/account/forms.py:71 app/users/admin/forms.py:42
+#: app/users/operator/students/forms.py:26
+#: app/users/operator/teachers/forms.py:32
+msgid "Password"
+msgstr ""
+
+#: app/account/forms.py:16
+msgid "Keep me logged in"
+msgstr ""
+
+#: app/account/forms.py:17
+msgid "Log in"
+msgstr ""
+
+#: app/account/forms.py:21 app/templates/admin/index.html:34
+#: app/templates/admin/index.html:60 app/users/admin/forms.py:31
+#: app/users/admin/forms.py:51 app/users/operator/students/forms.py:12
+#: app/users/operator/students/forms.py:38
+#: app/users/operator/teachers/forms.py:17
+#: app/users/operator/teachers/forms.py:44
+msgid "First name"
+msgstr "Nama depan"
+
+#: app/account/forms.py:22 app/templates/admin/index.html:35
+#: app/templates/admin/index.html:61 app/users/admin/forms.py:32
+#: app/users/admin/forms.py:52 app/users/operator/students/forms.py:13
+#: app/users/operator/students/forms.py:39
+#: app/users/operator/teachers/forms.py:18
+#: app/users/operator/teachers/forms.py:45
+msgid "Last name"
+msgstr "Nama belakang"
+
+#: app/account/forms.py:23 app/account/forms.py:35 app/account/forms.py:43
+#: app/templates/main/operator/payments/registration-payments.html:27
+#: app/templates/main/operator/payments/registration-payments.html:51
+#: app/templates/main/operator/payments/tuition-payments.html:27
+#: app/templates/main/operator/payments/tuition-payments.html:63
+#: app/templates/main/operator/students/all-students-table-mode.html:34
+#: app/templates/main/operator/students/all-students-table-mode.html:85
 #: app/templates/main/operator/students/student-profile.html:88
 #: app/templates/main/operator/teachers/teacher-profile.html:88
 #: app/users/admin/forms.py:33 app/users/admin/forms.py:53
 #: app/users/operator/students/forms.py:14
-#: app/users/operator/students/forms.py:32
+#: app/users/operator/students/forms.py:40
 #: app/users/operator/teachers/forms.py:19
-#: app/users/operator/teachers/forms.py:38
+#: app/users/operator/teachers/forms.py:46
 msgid "Email"
 msgstr ""
 
-#: app/account/forms.py:14 app/account/forms.py:23 app/account/forms.py:53
-#: app/account/forms.py:67 app/users/admin/forms.py:42
-#: app/users/operator/students/forms.py:24
-#: app/users/operator/teachers/forms.py:30
-msgid "Password"
-msgstr ""
-
-#: app/account/forms.py:15
-msgid "Keep me logged in"
-msgstr ""
-
-#: app/account/forms.py:16
-msgid "Log in"
-msgstr ""
-
-#: app/account/forms.py:20 app/templates/admin/index.html:34
-#: app/templates/admin/index.html:60 app/users/admin/forms.py:31
-#: app/users/admin/forms.py:51 app/users/operator/students/forms.py:12
-#: app/users/operator/students/forms.py:30
-#: app/users/operator/teachers/forms.py:17
-#: app/users/operator/teachers/forms.py:36
-msgid "First name"
-msgstr "Nama depan"
-
-#: app/account/forms.py:21 app/templates/admin/index.html:35
-#: app/templates/admin/index.html:61 app/users/admin/forms.py:32
-#: app/users/admin/forms.py:52 app/users/operator/students/forms.py:13
-#: app/users/operator/students/forms.py:31
-#: app/users/operator/teachers/forms.py:18
-#: app/users/operator/teachers/forms.py:37
-msgid "Last name"
-msgstr "Nama belakang"
-
-#: app/account/forms.py:24 app/users/admin/forms.py:43
-#: app/users/operator/students/forms.py:25
-#: app/users/operator/teachers/forms.py:31
+#: app/account/forms.py:25 app/users/admin/forms.py:43
+#: app/users/operator/students/forms.py:28
+#: app/users/operator/teachers/forms.py:34
 msgid "Confirm password"
 msgstr "Konfirmasikan password"
 
-#: app/account/forms.py:25
+#: app/account/forms.py:26
 msgid "Register"
 msgstr "Daftar"
 
-#: app/account/forms.py:35 app/account/forms.py:45
+#: app/account/forms.py:36 app/account/forms.py:47
 msgid "Reset password"
 msgstr "Reset password"
 
-#: app/account/forms.py:43 app/account/forms.py:60
+#: app/account/forms.py:44 app/account/forms.py:63
 msgid "New password"
 msgstr "Password baru"
 
-#: app/account/forms.py:44 app/account/forms.py:54 app/account/forms.py:61
+#: app/account/forms.py:46 app/account/forms.py:57 app/account/forms.py:65
 msgid "Confirm new password"
 msgstr "Konfirmasi password baru"
 
-#: app/account/forms.py:49
+#: app/account/forms.py:51
 msgid "Unknown email address."
 msgstr "Email tidak terdaftar."
 
-#: app/account/forms.py:55
+#: app/account/forms.py:58
 msgid "Set password"
 msgstr "Setting password"
 
-#: app/account/forms.py:59
+#: app/account/forms.py:62
 msgid "Old password"
 msgstr "Password lama"
 
-#: app/account/forms.py:62
+#: app/account/forms.py:66
 msgid "Update password"
 msgstr "Perbarui password"
 
-#: app/account/forms.py:66 app/users/admin/forms.py:14
+#: app/account/forms.py:70 app/users/admin/forms.py:14
 msgid "New email"
 msgstr "Email baru"
 
-#: app/account/forms.py:68 app/users/admin/forms.py:15
+#: app/account/forms.py:72 app/users/admin/forms.py:15
 msgid "Update email"
 msgstr "Perbarui email"
 
-#: app/account/forms.py:72 app/users/admin/forms.py:19
+#: app/account/forms.py:76 app/users/admin/forms.py:19
 #: app/users/admin/forms.py:38 app/users/operator/students/forms.py:19
 #: app/users/operator/teachers/forms.py:24
 msgid "Email already registered."
 msgstr "Email sudah terdaftar."
 
-#: app/account/views.py:24
+#: app/account/views.py:29
 msgid "Please create a user"
 msgstr ""
 
-#: app/account/views.py:30
+#: app/account/views.py:35
 msgid "You are now logged in. Welcome back!"
 msgstr "Berhasil login"
 
-#: app/account/views.py:42 app/account/views.py:172
+#: app/account/views.py:47 app/account/views.py:178
 msgid "Invalid email or password!"
-msgstr ""
+msgstr "Email atau password salah!"
 
-#: app/account/views.py:67
+#: app/account/views.py:72
 msgid "A confirmation link has been sent to your email"
 msgstr "Link konfirmasi telah di kirim ke email Anda."
 
-#: app/account/views.py:107
+#: app/account/views.py:113
 #, python-format
 msgid "A password reset link has been sent to %(email)s."
 msgstr "Link reset password telah dikirim ke %(email)s."
 
-#: app/account/views.py:121
+#: app/account/views.py:127
 msgid "Invalid email address!"
 msgstr ""
 
-#: app/account/views.py:124 app/account/views.py:142
+#: app/account/views.py:130 app/account/views.py:148
 msgid "Your password has been updated."
 msgstr "Password Anda berhasil diperbarui."
 
-#: app/account/views.py:127
+#: app/account/views.py:133
 msgid "The password reset link is invalid or has expired."
 msgstr "Link reset password telah kadaluwarsa."
 
-#: app/account/views.py:145
+#: app/account/views.py:151
 msgid "Original password is invalid!"
 msgstr ""
 
-#: app/account/views.py:169
+#: app/account/views.py:175
 #, python-format
 msgid "A confirmation link has been sent to %(new_email)s."
 msgstr "Link reset konfirmasi telah dikirim ke %(new_email)s."
 
-#: app/account/views.py:181
+#: app/account/views.py:187
 msgid "Your email address has been updated."
 msgstr "Email Anda berhasil diperbarui."
 
-#: app/account/views.py:183 app/account/views.py:216
+#: app/account/views.py:189 app/account/views.py:223
 msgid "The confirmation link is invalid or has expired!"
 msgstr "Link konfirmasi tidak valid atau telah kadaluwarsa."
 
-#: app/account/views.py:201
+#: app/account/views.py:207
 #, python-format
 msgid "A new confirmation link has been sent to %(current_user_email)s."
 msgstr "Link konfirmasi yang baru telah di kirim ke %(current_user_email)s."
 
-#: app/account/views.py:213
+#: app/account/views.py:220
 msgid "Your account has been confirmed."
 msgstr "Akun Anda telah di konfirmasi."
 
-#: app/account/views.py:227
+#: app/account/views.py:234
 msgid "You are already logged in."
 msgstr "Anda telah login."
 
-#: app/account/views.py:235
+#: app/account/views.py:242
 msgid "You have already joined."
 msgstr "Anda telah bergabung."
 
-#: app/account/views.py:244
+#: app/account/views.py:251
 msgid ""
 "Your password has been set. After you log in, you can go to the \"Your Account"
 "\" page to review your account information and settings."
 msgstr ""
 
-#: app/account/views.py:248
+#: app/account/views.py:256
 msgid ""
 "The confirmation link is invalid or has expired. Another invite email with a "
 "new link has been sent to you."
@@ -206,50 +213,6 @@ msgstr "Laki-laki"
 #: app/models/selectfield_properties.py:7
 msgid "Female"
 msgstr "Perempuan"
-
-#: app/models/selectfield_properties.py:14
-msgid "SD"
-msgstr ""
-
-#: app/models/selectfield_properties.py:15
-msgid "SMP"
-msgstr ""
-
-#: app/models/selectfield_properties.py:16
-msgid "SMA"
-msgstr ""
-
-#: app/models/selectfield_properties.py:17
-msgid "D1"
-msgstr ""
-
-#: app/models/selectfield_properties.py:18
-msgid "D2"
-msgstr ""
-
-#: app/models/selectfield_properties.py:19
-msgid "D3"
-msgstr ""
-
-#: app/models/selectfield_properties.py:20
-msgid "S1"
-msgstr ""
-
-#: app/models/selectfield_properties.py:21
-msgid "S2"
-msgstr ""
-
-#: app/models/selectfield_properties.py:22
-msgid "S3"
-msgstr ""
-
-#: app/models/selectfield_properties.py:29
-msgid "REGULAR"
-msgstr ""
-
-#: app/models/selectfield_properties.py:30
-msgid "PRIVATE"
-msgstr ""
 
 #: app/models/selectfield_properties.py:38
 msgid "Sunday"
@@ -328,11 +291,14 @@ msgid "December"
 msgstr "Desember"
 
 #: app/models/selectfield_properties.py:69
-#: app/models/selectfield_properties.py:80
+#: app/models/selectfield_properties.py:82
 msgid "PENDING"
 msgstr "Menunggu"
 
 #: app/models/selectfield_properties.py:70
+#: app/models/selectfield_properties.py:83
+#: app/templates/main/operator/students/all-students-table-mode.html:40
+#: app/templates/main/operator/students/all-students-table-mode.html:70
 msgid "INSTALLMENT"
 msgstr "Cicilan"
 
@@ -341,22 +307,25 @@ msgid "REJECTED"
 msgstr "Ditolak"
 
 #: app/models/selectfield_properties.py:72
+#: app/models/selectfield_properties.py:84
+#: app/templates/main/operator/students/all-students-table-mode.html:39
+#: app/templates/main/operator/students/all-students-table-mode.html:65
 msgid "COMPLETED"
 msgstr "Komplit"
 
 #: app/models/selectfield_properties.py:73
-msgid "EXPIRED"
-msgstr "Kadaluwarsa"
+msgid "Warning-1"
+msgstr ""
 
-#: app/models/selectfield_properties.py:81
-msgid "RUNNING"
-msgstr "Sedang Berjalan"
+#: app/models/selectfield_properties.py:74
+msgid "Warning-2"
+msgstr ""
 
-#: app/models/selectfield_properties.py:82
-msgid "FINISHED"
-msgstr "Telah Berakhir"
+#: app/models/selectfield_properties.py:75
+msgid "Warning-3"
+msgstr ""
 
-#: app/templates/admin/index.html:19 app/templates/layouts/base-template.html:152
+#: app/templates/admin/index.html:19 app/templates/layouts/base-template.html:104
 msgid "Manage Users"
 msgstr "Kelola Pengguna"
 
@@ -381,8 +350,10 @@ msgid "Created at"
 msgstr "Dibuat pada"
 
 #: app/templates/admin/index.html:39 app/templates/admin/index.html:65
-#: app/templates/main/operator/payments/all-payments.html:32
-#: app/templates/main/operator/payments/all-payments.html:60
+#: app/templates/main/operator/payments/registration-payments.html:30
+#: app/templates/main/operator/payments/registration-payments.html:54
+#: app/templates/main/operator/payments/tuition-payments.html:31
+#: app/templates/main/operator/payments/tuition-payments.html:67
 msgid "Status"
 msgstr ""
 
@@ -394,43 +365,49 @@ msgstr "Aktiv"
 msgid "Inactive"
 msgstr "Tidak Aktiv"
 
-#: app/templates/admin/manipulate-user.html:110
+#: app/templates/admin/manipulate-user.html:111
 msgid "Activate user"
 msgstr "Aktivkan user"
 
-#: app/templates/layouts/base-template.html:140
-msgid "Dashboard"
-msgstr "Beranda"
-
-#: app/templates/layouts/base-template.html:141
+#: app/templates/layouts/base-template.html:88
 #: app/templates/main/operator/teachers/all-teachers.html:19
 msgid "Teachers"
 msgstr "Guru"
 
-#: app/templates/layouts/base-template.html:142
+#: app/templates/layouts/base-template.html:89
+#: app/templates/main/operator/students/all-students-table-mode.html:21
 #: app/templates/main/operator/students/all-students.html:14
 msgid "Students"
 msgstr "Murid"
 
-#: app/templates/layouts/base-template.html:143
+#: app/templates/layouts/base-template.html:90
 #: app/templates/main/operator/courses/all-courses.html:8
 msgid "Courses"
 msgstr "Kursus"
 
-#: app/templates/layouts/base-template.html:144
-#: app/templates/main/operator/payments/all-payments.html:14
+#: app/templates/layouts/base-template.html:91
 msgid "Payments"
 msgstr "Pembayaran"
 
-#: app/templates/layouts/base-template.html:145
+#: app/templates/layouts/base-template.html:93
+#: app/templates/main/operator/payments/tuition-payments.html:14
+msgid "Tuition Payments"
+msgstr "Pembayaran SPP"
+
+#: app/templates/layouts/base-template.html:94
+#: app/templates/main/operator/payments/registration-payments.html:14
+msgid "Registration Payments"
+msgstr "Uang pendaftaran"
+
+#: app/templates/layouts/base-template.html:97
 msgid "Schedules"
 msgstr "Jadwal"
 
-#: app/templates/layouts/base-template.html:147
+#: app/templates/layouts/base-template.html:99
 msgid "Schedules List"
 msgstr "Daftar Jadwal"
 
-#: app/templates/layouts/base-template.html:148
+#: app/templates/layouts/base-template.html:100
 msgid "Requisition Schedules"
 msgstr "Daftar Permintaan Jadwal"
 
@@ -445,7 +422,7 @@ msgid "Students Graph"
 msgstr "Grafik murid"
 
 #: app/templates/main/operator/courses/all-courses.html:11
-#: app/users/operator/courses/forms.py:13
+#: app/users/operator/courses/forms.py:20
 msgid "Add course"
 msgstr "Tambahkan kursus"
 
@@ -466,6 +443,8 @@ msgid "Female Students"
 msgstr "Murid perempuan"
 
 #: app/templates/main/operator/courses/course-details.html:98
+#: app/templates/main/operator/payments/manipulate-payment.html:23
+#: app/templates/main/operator/payments/manipulate-registration-payment.html:23
 #: app/templates/main/operator/schedules/manipulate-requisition-schedules.html:24
 #: app/templates/main/operator/schedules/manipulate-schedule.html:40
 #: app/users/admin/forms.py:55
@@ -477,7 +456,7 @@ msgid "Delete"
 msgstr "Hapus"
 
 #: app/templates/main/operator/courses/manipulate-course.html:23
-#: app/users/operator/courses/forms.py:23
+#: app/users/operator/courses/forms.py:36
 msgid "Edit course"
 msgstr "Edit kursus"
 
@@ -485,138 +464,195 @@ msgstr "Edit kursus"
 msgid "Add new course"
 msgstr "Tambah kursus baru"
 
-#: app/templates/main/operator/payments/all-payments.html:17
+#: app/templates/main/operator/payments/manipulate-payment.html:23
+msgid "Payment"
+msgstr "Pembayaran"
+
 #: app/templates/main/operator/payments/manipulate-payment.html:25
 msgid "Add new Payment"
 msgstr "Tambahkan pembayaran baru"
 
-#: app/templates/main/operator/payments/all-payments.html:26
-#: app/templates/main/operator/payments/all-payments.html:54
-#: app/templates/main/operator/schedules/all-schedules.html:36
-#: app/templates/main/operator/schedules/all-schedules.html:83
+#: app/templates/main/operator/payments/manipulate-payment.html:39
+msgid "Check Schedules"
+msgstr "Check Jadwal"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:45
+msgid "Taking course"
+msgstr "Kursus yang diambil"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:46
+#: app/templates/main/operator/schedules/all-schedules.html:38
+#: app/templates/main/operator/schedules/all-schedules.html:90
+#: app/templates/main/operator/schedules/manipulate-schedule.html:136
+#: app/templates/main/operator/schedules/requisition-schedules.html:36
+#: app/templates/main/operator/schedules/requisition-schedules.html:72
+#: app/users/operator/schedules/forms.py:22
+#: app/users/operator/schedules/forms.py:37
+#: app/users/operator/schedules/forms.py:47
+msgid "Type of class"
+msgstr "Tipe kelas"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:47
+msgid "Last payment at"
+msgstr "Terakhir dibayar pada"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:48
+#: app/templates/main/operator/students/tuition-courses-details.html:22
+#: app/templates/main/operator/students/tuition-courses-details.html:54
+#: app/users/operator/payments/forms.py:14
+#: app/users/operator/payments/forms.py:27
+msgid "Payment Status"
+msgstr "Status Pembayaran"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:49
+#: app/templates/main/operator/payments/tuition-payments.html:32
+#: app/templates/main/operator/payments/tuition-payments.html:68
+#: app/users/operator/payments/forms.py:15
+msgid "Note"
+msgstr "Catatan"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:50
+msgid "Action"
+msgstr ""
+
+#: app/templates/main/operator/payments/manipulate-payment.html:62
+msgid "Pay the tuition"
+msgstr "Bayar SPP"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:70
+msgid "Add new tuition"
+msgstr "Tambahkan pembayaran SPP baru"
+
+#: app/templates/main/operator/payments/manipulate-payment.html:76
+msgid "Edit the tuition"
+msgstr "Edit data SPP"
+
+#: app/templates/main/operator/payments/manipulate-registration-payment.html:23
+msgid "Registration Payment"
+msgstr "Uang pendaftaran"
+
+#: app/templates/main/operator/payments/manipulate-registration-payment.html:25
+#: app/templates/main/operator/payments/registration-payments.html:17
+msgid "Add new Registration Payment"
+msgstr "Tambahkan uang pendaftaran"
+
+#: app/templates/main/operator/payments/registration-payments.html:26
+#: app/templates/main/operator/payments/registration-payments.html:50
+#: app/templates/main/operator/payments/tuition-payments.html:26
+#: app/templates/main/operator/payments/tuition-payments.html:62
+#: app/templates/main/operator/schedules/all-schedules.html:34
+#: app/templates/main/operator/schedules/all-schedules.html:86
 #: app/templates/main/operator/schedules/requisition-schedules.html:31
-#: app/templates/main/operator/schedules/requisition-schedules.html:65
+#: app/templates/main/operator/schedules/requisition-schedules.html:67
+#: app/templates/main/operator/students/all-students-table-mode.html:33
+#: app/templates/main/operator/students/all-students-table-mode.html:84
 msgid "Student"
 msgstr "Murid"
 
-#: app/templates/main/operator/payments/all-payments.html:28
-#: app/templates/main/operator/payments/all-payments.html:56
-#: app/templates/main/operator/schedules/all-schedules.html:38
-#: app/templates/main/operator/schedules/all-schedules.html:85
+#: app/templates/main/operator/payments/registration-payments.html:28
+#: app/templates/main/operator/payments/registration-payments.html:52
+#: app/templates/main/operator/payments/tuition-payments.html:28
+#: app/templates/main/operator/payments/tuition-payments.html:64
+#: app/templates/main/operator/schedules/all-schedules.html:37
+#: app/templates/main/operator/schedules/all-schedules.html:89
 #: app/templates/main/operator/schedules/requisition-schedules.html:35
-#: app/templates/main/operator/schedules/requisition-schedules.html:69
+#: app/templates/main/operator/schedules/requisition-schedules.html:71
 msgid "Course"
 msgstr "Kursus"
 
-#: app/templates/main/operator/payments/all-payments.html:29
-#: app/templates/main/operator/payments/all-payments.html:57
-msgid "Type of Class"
-msgstr "Tipe kelas"
-
-#: app/templates/main/operator/payments/all-payments.html:30
-#: app/templates/main/operator/payments/all-payments.html:58
-#: app/users/operator/payments/forms.py:17
+#: app/templates/main/operator/payments/registration-payments.html:29
+#: app/templates/main/operator/payments/registration-payments.html:53
+#: app/templates/main/operator/payments/tuition-payments.html:30
+#: app/templates/main/operator/payments/tuition-payments.html:66
+#: app/users/operator/payments/forms.py:13
+#: app/users/operator/payments/forms.py:25
 msgid "Total"
 msgstr ""
 
-#: app/templates/main/operator/payments/all-payments.html:31
-#: app/templates/main/operator/payments/all-payments.html:59
-#: app/templates/main/operator/schedules/all-schedules.html:47
-msgid "Month"
-msgstr "Bulan"
-
-#: app/templates/main/operator/payments/all-payments.html:33
-#: app/templates/main/operator/payments/all-payments.html:61
+#: app/templates/main/operator/payments/registration-payments.html:31
+#: app/templates/main/operator/payments/registration-payments.html:55
+#: app/templates/main/operator/payments/tuition-payments.html:33
+#: app/templates/main/operator/payments/tuition-payments.html:69
 msgid "Pay at"
 msgstr "Dibayar pada"
 
-#: app/templates/main/operator/payments/all-payments.html:34
-#: app/templates/main/operator/payments/all-payments.html:62
+#: app/templates/main/operator/payments/registration-payments.html:32
+#: app/templates/main/operator/payments/registration-payments.html:56
+#: app/templates/main/operator/payments/tuition-payments.html:34
+#: app/templates/main/operator/payments/tuition-payments.html:70
 msgid "Update at"
 msgstr "Di perbarui pada"
 
-#: app/templates/main/operator/payments/manipulate-payment.html:23
-msgid "Edit Payment"
-msgstr "Edit Pembayaran"
+#: app/templates/main/operator/payments/tuition-payments.html:17
+msgid "Add new Tuition Payment"
+msgstr "Tambah pembayaran SPP baru"
+
+#: app/templates/main/operator/payments/tuition-payments.html:29
+#: app/templates/main/operator/payments/tuition-payments.html:65
+msgid "Type of Class"
+msgstr "Tipe kelas"
 
 #: app/templates/main/operator/schedules/all-schedules.html:19
-#: app/templates/main/operator/schedules/all-schedules.html:42
-#: app/templates/main/operator/schedules/all-schedules.html:89
+#: app/templates/main/operator/schedules/all-schedules.html:44
+#: app/templates/main/operator/schedules/all-schedules.html:96
 #: app/templates/main/operator/schedules/manipulate-schedule.html:40
-#: app/templates/main/operator/schedules/manipulate-schedule.html:175
+#: app/templates/main/operator/schedules/manipulate-schedule.html:148
 #: app/templates/main/operator/schedules/requisition-schedules.html:37
-#: app/templates/main/operator/schedules/requisition-schedules.html:71
+#: app/templates/main/operator/schedules/requisition-schedules.html:73
 msgid "Schedule"
 msgstr "Jadwal"
 
-#: app/templates/main/operator/schedules/all-schedules.html:23
+#: app/templates/main/operator/schedules/all-schedules.html:22
 #: app/templates/main/operator/schedules/check-schedules.html:24
 msgid "Check Schedule"
 msgstr "Cek jadwal"
 
-#: app/templates/main/operator/schedules/all-schedules.html:26
+#: app/templates/main/operator/schedules/all-schedules.html:25
 #: app/templates/main/operator/schedules/manipulate-schedule.html:42
 msgid "Add new Schedule"
 msgstr "Tambahkan jadwal baru"
 
-#: app/templates/main/operator/schedules/all-schedules.html:37
-#: app/templates/main/operator/schedules/all-schedules.html:84
-#: app/templates/main/operator/schedules/manipulate-schedule.html:159
+#: app/templates/main/operator/schedules/all-schedules.html:35
+#: app/templates/main/operator/schedules/all-schedules.html:87
+#: app/templates/main/operator/schedules/manipulate-schedule.html:128
 #: app/templates/main/operator/schedules/requisition-schedules.html:32
-#: app/templates/main/operator/schedules/requisition-schedules.html:66
-#: app/users/operator/payments/forms.py:16
-#: app/users/operator/schedules/forms.py:16
-#: app/users/operator/schedules/forms.py:52
+#: app/templates/main/operator/schedules/requisition-schedules.html:68
 msgid "Student email"
 msgstr "Email murid"
 
-#: app/templates/main/operator/schedules/all-schedules.html:39
-#: app/templates/main/operator/schedules/all-schedules.html:86
-#: app/templates/main/operator/schedules/manipulate-schedule.html:167
-#: app/templates/main/operator/schedules/requisition-schedules.html:36
-#: app/templates/main/operator/schedules/requisition-schedules.html:70
-#: app/users/operator/payments/forms.py:19
-#: app/users/operator/schedules/forms.py:19
-#: app/users/operator/schedules/forms.py:46
-#: app/users/operator/schedules/forms.py:56
-msgid "Type of class"
-msgstr "Tipe kelas"
+#: app/templates/main/operator/schedules/all-schedules.html:36
+#: app/templates/main/operator/schedules/all-schedules.html:88
+msgid "Student phone number"
+msgstr "Nomor HP Murid"
 
-#: app/templates/main/operator/schedules/all-schedules.html:40
-#: app/templates/main/operator/schedules/all-schedules.html:87
+#: app/templates/main/operator/schedules/all-schedules.html:39
+#: app/templates/main/operator/schedules/all-schedules.html:91
 msgid "Teacher"
 msgstr "Guru"
 
-#: app/templates/main/operator/schedules/all-schedules.html:41
-#: app/templates/main/operator/schedules/all-schedules.html:88
+#: app/templates/main/operator/schedules/all-schedules.html:40
+#: app/templates/main/operator/schedules/all-schedules.html:92
 #: app/templates/main/operator/schedules/check-schedules.html:54
-#: app/templates/main/operator/schedules/manipulate-schedule.html:171
-#: app/users/operator/schedules/forms.py:20
+#: app/templates/main/operator/schedules/manipulate-schedule.html:140
+#: app/users/operator/schedules/forms.py:23
 msgid "Teacher email"
 msgstr "Email guru"
 
-#: app/templates/main/operator/schedules/all-schedules.html:43
-#: app/templates/main/operator/schedules/all-schedules.html:90
-#: app/users/operator/schedules/forms.py:21
-msgid "Course status"
-msgstr "Status kursus"
+#: app/templates/main/operator/schedules/all-schedules.html:41
+#: app/templates/main/operator/schedules/all-schedules.html:93
+msgid "Teacher phone number"
+msgstr "Nomor HP Guru"
 
-#: app/templates/main/operator/schedules/all-schedules.html:44
-#: app/templates/main/operator/schedules/all-schedules.html:91
+#: app/templates/main/operator/schedules/all-schedules.html:42
+#: app/templates/main/operator/schedules/all-schedules.html:94
 msgid "Payment status"
 msgstr "Status Pembayaran"
 
-#: app/templates/main/operator/schedules/all-schedules.html:48
-#: app/templates/main/operator/schedules/requisition-schedules.html:40
-#: app/users/operator/schedules/forms.py:34
-msgid "Day"
-msgstr "Hari"
-
-#: app/templates/main/operator/schedules/all-schedules.html:49
-#: app/templates/main/operator/schedules/requisition-schedules.html:41
-#: app/users/operator/schedules/forms.py:38
-msgid "Day 2"
-msgstr "Hari-2"
+#: app/templates/main/operator/schedules/all-schedules.html:43
+#: app/templates/main/operator/schedules/all-schedules.html:95
+#: app/templates/main/operator/schedules/manipulate-schedule.html:144
+msgid "Course start at"
+msgstr "Kursus dimulai pada"
 
 #: app/templates/main/operator/schedules/check-schedules.html:26
 msgid "Available Teachers"
@@ -640,80 +676,103 @@ msgstr "Permintaan Jadwal"
 msgid "Add new Requisition Schedule"
 msgstr "Tambahkan Permintaan Jadwal Baru"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:123
-#: app/templates/main/operator/students/student-profile.html:286
-#: app/users/operator/students/forms.py:38
-#: app/users/operator/teachers/forms.py:45
+#: app/templates/main/operator/schedules/manipulate-requisition-schedules.html:30
+#: app/templates/main/operator/schedules/manipulate-schedule.html:47
+msgid "Edit number of days"
+msgstr "Edit jumlah hari"
+
+#: app/templates/main/operator/schedules/manipulate-requisition-schedules.html:47
+#: app/templates/main/operator/schedules/manipulate-schedule.html:103
+#: app/templates/main/operator/students/student-profile.html:279
+#: app/users/operator/students/forms.py:46
+#: app/users/operator/teachers/forms.py:53
 msgid "Update"
 msgstr "Perbarui"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:129
+#: app/templates/main/operator/schedules/manipulate-requisition-schedules.html:53
+#: app/templates/main/operator/schedules/manipulate-schedule-number-of-day.html:65
+msgid "Next"
+msgstr ""
+
+#: app/templates/main/operator/schedules/manipulate-schedule-number-of-day.html:39
+msgid "Number of days"
+msgstr "Jumlah hari"
+
+#: app/templates/main/operator/schedules/manipulate-schedule-number-of-day.html:71
+msgid "Submit"
+msgstr ""
+
+#: app/templates/main/operator/schedules/manipulate-schedule.html:109
 msgid "Check available course"
 msgstr "Cek kursus yang telah di ambil"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:133
-msgid "Input type of class"
-msgstr "Pilih tipe kelas"
-
-#: app/templates/main/operator/schedules/manipulate-schedule.html:137
+#: app/templates/main/operator/schedules/manipulate-schedule.html:115
 msgid "Input schedule"
 msgstr "Masukan jadwal"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:148
-msgid "Input Teacher"
-msgstr "Masukan email guru"
-
-#: app/templates/main/operator/schedules/manipulate-schedule.html:154
+#: app/templates/main/operator/schedules/manipulate-schedule.html:123
 msgid "Check all input"
 msgstr "Cek data"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:163
-#: app/users/operator/courses/forms.py:11 app/users/operator/courses/forms.py:21
-#: app/users/operator/payments/forms.py:18
-#: app/users/operator/schedules/forms.py:17
+#: app/templates/main/operator/schedules/manipulate-schedule.html:132
+#: app/users/operator/courses/forms.py:12 app/users/operator/courses/forms.py:28
+#: app/users/operator/payments/forms.py:26
+#: app/users/operator/schedules/forms.py:20
+#: app/users/operator/schedules/forms.py:35
 #: app/users/operator/schedules/forms.py:44
-#: app/users/operator/schedules/forms.py:53
 msgid "Course name"
 msgstr "Nama kursus"
 
-#: app/templates/main/operator/schedules/manipulate-schedule.html:178
-msgid "Day-1"
-msgstr "Hari-1"
-
-#: app/templates/main/operator/schedules/manipulate-schedule.html:179
-msgid "Day-2"
-msgstr "Hari-2"
+#: app/templates/main/operator/schedules/manipulate-schedule.html:152
+#: app/users/operator/schedules/forms.py:13
+msgid "Day"
+msgstr "Hari"
 
 #: app/templates/main/operator/schedules/requisition-schedules.html:33
-#: app/templates/main/operator/schedules/requisition-schedules.html:67
+#: app/templates/main/operator/schedules/requisition-schedules.html:69
+#: app/templates/main/operator/students/all-students-table-mode.html:35
+#: app/templates/main/operator/students/all-students-table-mode.html:86
 #: app/templates/main/operator/students/student-profile.html:92
 #: app/templates/main/operator/teachers/teacher-profile.html:92
-#: app/users/operator/students/forms.py:34
-#: app/users/operator/teachers/forms.py:43
+#: app/users/operator/students/forms.py:23
+#: app/users/operator/students/forms.py:42
+#: app/users/operator/teachers/forms.py:28
+#: app/users/operator/teachers/forms.py:51
 msgid "Phone number"
 msgstr "Nomor HP"
 
 #: app/templates/main/operator/schedules/requisition-schedules.html:34
-#: app/templates/main/operator/schedules/requisition-schedules.html:68
+#: app/templates/main/operator/schedules/requisition-schedules.html:70
 #: app/templates/main/operator/students/student-profile.html:76
 #: app/templates/main/operator/teachers/teacher-profile.html:84
-#: app/users/operator/schedules/forms.py:47
-#: app/users/operator/students/forms.py:23
-#: app/users/operator/students/forms.py:33
-#: app/users/operator/teachers/forms.py:28
-#: app/users/operator/teachers/forms.py:39
+#: app/users/operator/schedules/forms.py:38
+#: app/users/operator/students/forms.py:25
+#: app/users/operator/students/forms.py:41
+#: app/users/operator/teachers/forms.py:30
+#: app/users/operator/teachers/forms.py:47
 msgid "Gender"
 msgstr "Jenis kelamin"
+
+#: app/templates/main/operator/students/all-students-table-mode.html:24
+#: app/templates/main/operator/students/all-students.html:20
+#: app/templates/main/operator/students/manipulate-student.html:24
+msgid "Add new Student"
+msgstr "Tambahkan Murid Baru"
+
+#: app/templates/main/operator/students/all-students-table-mode.html:36
+#: app/templates/main/operator/students/all-students-table-mode.html:87
+msgid "Courses Tuition"
+msgstr "SPP kursus"
+
+#: app/templates/main/operator/students/all-students-table-mode.html:41
+#: app/templates/main/operator/students/all-students-table-mode.html:75
+msgid "EXPIRED"
+msgstr "Kadaluwarsa"
 
 #: app/templates/main/operator/students/all-students.html:17
 #: app/templates/main/operator/students/manipulate-student.html:28
 msgid "Invite new Student"
 msgstr "Undang Murid Baru Melalui Email"
-
-#: app/templates/main/operator/students/all-students.html:20
-#: app/templates/main/operator/students/manipulate-student.html:24
-msgid "Add new Student"
-msgstr "Tambahkan Murid Baru"
 
 #: app/templates/main/operator/students/manipulate-student.html:26
 msgid "Edit Student"
@@ -745,15 +804,15 @@ msgid "Name"
 msgstr "Nama"
 
 #: app/templates/main/operator/students/student-profile.html:80
-#: app/users/operator/students/forms.py:36
-#: app/users/operator/teachers/forms.py:40
+#: app/users/operator/students/forms.py:44
+#: app/users/operator/teachers/forms.py:48
 msgid "Date of birth"
 msgstr "Tanggal lahir"
 
 #: app/templates/main/operator/students/student-profile.html:84
 #: app/templates/main/operator/teachers/teacher-profile.html:96
-#: app/users/operator/students/forms.py:35
-#: app/users/operator/teachers/forms.py:41
+#: app/users/operator/students/forms.py:43
+#: app/users/operator/teachers/forms.py:49
 msgid "Address"
 msgstr "Alamat"
 
@@ -770,6 +829,20 @@ msgstr "Pendidikan"
 #: app/templates/main/operator/teachers/teacher-profile.html:150
 msgid "Experience"
 msgstr "Pengalaman"
+
+#: app/templates/main/operator/students/tuition-courses-details.html:14
+msgid "Tuition Courses Details"
+msgstr "Detail SPP kursus"
+
+#: app/templates/main/operator/students/tuition-courses-details.html:21
+#: app/templates/main/operator/students/tuition-courses-details.html:53
+msgid "Course Name"
+msgstr "Nama kursus"
+
+#: app/templates/main/operator/students/tuition-courses-details.html:23
+#: app/templates/main/operator/students/tuition-courses-details.html:55
+msgid "Used Payment"
+msgstr "Pembayaran yang telah digunakan"
 
 #: app/templates/main/operator/teachers/all-teachers.html:22
 #: app/templates/main/operator/teachers/manipulate-teacher.html:28
@@ -815,8 +888,8 @@ msgstr "Tipe akun"
 msgid "Invite"
 msgstr "Undang"
 
-#: app/users/admin/forms.py:45 app/users/operator/students/forms.py:26
-#: app/users/operator/teachers/forms.py:32
+#: app/users/admin/forms.py:45 app/users/operator/students/forms.py:29
+#: app/users/operator/teachers/forms.py:35
 msgid "Create"
 msgstr "Buat"
 
@@ -845,8 +918,8 @@ msgstr "Student %(student_full_name)s telah dibuat."
 msgid "User %(user_full_name)s successfully invited."
 msgstr "User %(user_full_name)s telah di invite."
 
-#: app/users/admin/views.py:144 app/users/operator/students/views.py:59
-#: app/users/operator/teachers/views.py:74
+#: app/users/admin/views.py:144 app/users/operator/students/views.py:58
+#: app/users/operator/teachers/views.py:73
 msgid "Duplicate email with the other users, please input different email!"
 msgstr "Duplikasi email dengan pengguna lain, mohon masukan email yang berbeda!"
 
@@ -882,158 +955,259 @@ msgstr ""
 msgid "Successfully deleted user %(user_full_name)s."
 msgstr "User %(user_full_name)s telah di hapus."
 
-#: app/users/operator/courses/forms.py:12 app/users/operator/courses/forms.py:22
-msgid "Image"
-msgstr "Gambar"
+#: app/users/operator/courses/forms.py:13 app/users/operator/courses/forms.py:29
+msgid "Course Image"
+msgstr ""
 
-#: app/users/operator/courses/forms.py:17
+#: app/users/operator/courses/forms.py:14 app/users/operator/courses/forms.py:30
+msgid "Private class charge per minutes"
+msgstr "Biaya kelas private per menit"
+
+#: app/users/operator/courses/forms.py:15 app/users/operator/courses/forms.py:31
+msgid "Regular class charge per minutes"
+msgstr "Biaya kelas reguler per menit"
+
+#: app/users/operator/courses/forms.py:16 app/users/operator/courses/forms.py:32
+msgid "Min private class duration"
+msgstr "Minimal durasi kelas private"
+
+#: app/users/operator/courses/forms.py:17 app/users/operator/courses/forms.py:33
+msgid "Min regular class duration"
+msgstr "Minimal durasi kelas reguler"
+
+#: app/users/operator/courses/forms.py:18 app/users/operator/courses/forms.py:34
+msgid "Min private class charge per meet"
+msgstr "Biaya minimal kelas private per pertemuan"
+
+#: app/users/operator/courses/forms.py:19 app/users/operator/courses/forms.py:35
+msgid "Min regular class charge per meet"
+msgstr "Biaya minimal kelas reguler per pertemuan"
+
+#: app/users/operator/courses/forms.py:24
 msgid "Course name already registered!"
 msgstr "Nama kursus sudah terdaftar!"
 
-#: app/users/operator/courses/views.py:37 app/users/operator/courses/views.py:85
+#: app/users/operator/courses/views.py:37 app/users/operator/courses/views.py:99
 msgid "Please input correct image format"
 msgstr "Mohon masukan format gambar yang benar!"
 
-#: app/users/operator/courses/views.py:44
+#: app/users/operator/courses/views.py:50
 #, python-format
 msgid "successfully added %(course_name)s course."
 msgstr "Berhasil menanambahkan kursus %(course_name)s."
 
-#: app/users/operator/courses/views.py:64
+#: app/users/operator/courses/views.py:70
 #, python-format
 msgid "successfully deleted %(course_name)s course."
 msgstr "Kursus %(course_name)s telah di hapus."
 
-#: app/users/operator/courses/views.py:90
+#: app/users/operator/courses/views.py:104
 msgid "Successfully edit course"
 msgstr "Berhasil edit data kursus"
 
+#: app/users/operator/payments/forms.py:12
+#: app/users/operator/payments/forms.py:24
+#: app/users/operator/schedules/forms.py:19
+#: app/users/operator/schedules/forms.py:43
+msgid "Student email or phone number"
+msgstr "Email atau nomor telepon Murid"
+
 #: app/users/operator/payments/forms.py:20
-msgid "Payment for"
-msgstr "Pembayaran untuk"
-
-#: app/users/operator/payments/forms.py:21
-msgid "Payment Status"
-msgstr "Status Pembayaran"
-
-#: app/users/operator/payments/forms.py:26
-#: app/users/operator/schedules/forms.py:26
-#: app/users/operator/schedules/forms.py:61
+#: app/users/operator/payments/forms.py:32
+#: app/users/operator/schedules/forms.py:54
 msgid "It seems the email is not registered as a student email."
 msgstr "Seperti nya email ini tidak terdaftar sebagai email murid."
 
-#: app/users/operator/payments/views.py:50
-msgid "Successfully added new payment."
-msgstr "Berhasil menambahkan pembayaran baru."
+#: app/users/operator/payments/views.py:38
+#: app/users/operator/schedules/views.py:343
+msgid "It seems the email is not registered as a student email!"
+msgstr "Seperti nya email tersebut tidak terdaftar sebagai email murid!"
 
-#: app/users/operator/payments/views.py:84
+#: app/users/operator/payments/views.py:81
+msgid "Successfully added payment"
+msgstr "Berhasil menambahkan pembayaran"
+
+#: app/users/operator/payments/views.py:102
+msgid "The maximum character on note not more than 100!"
+msgstr ""
+
+#: app/users/operator/payments/views.py:109
 msgid "Successfully edit payment."
 msgstr "Pembayaran berhasil di edit."
 
-#: app/users/operator/schedules/forms.py:30
-msgid "It seems the email is not registered as a teacher email."
-msgstr "Seperti nya email ini tidak terdaftar sebagai email guru."
+#: app/users/operator/payments/views.py:137
+msgid "The student already registered on this course"
+msgstr "Murid telah terdaftar pada kursus ini."
 
-#: app/users/operator/schedules/forms.py:35
+#: app/users/operator/payments/views.py:186
+msgid "Successfully edit registration payment."
+msgstr "Berhasul edit uang pendaftaran"
+
+#: app/users/operator/schedules/forms.py:14
 msgid "Start at"
 msgstr "Mulai jam"
 
-#: app/users/operator/schedules/forms.py:36
+#: app/users/operator/schedules/forms.py:15
 msgid "End at"
 msgstr "Berakhir jam"
 
-#: app/users/operator/schedules/forms.py:39
-msgid "Start at 2"
-msgstr "Mulai jam-2"
+#: app/users/operator/schedules/forms.py:24
+msgid "Course Start at"
+msgstr "Kursus dimulai pada"
 
-#: app/users/operator/schedules/forms.py:40
-msgid "End at 2"
-msgstr "Berakhir jam-2"
+#: app/users/operator/schedules/forms.py:31
+msgid "It seems the email is not registered as a teacher email."
+msgstr "Seperti nya email ini tidak terdaftar sebagai email guru."
 
-#: app/users/operator/schedules/views.py:47
+#: app/users/operator/schedules/views.py:41
+msgid "It seems the email or phone number is not registered as a student."
+msgstr ""
+
+#: app/users/operator/schedules/views.py:54
 msgid "It seems the student biodata not completed!"
 msgstr "Seperti nya biodata Murid belum lengkap!"
 
-#: app/users/operator/schedules/views.py:176
+#: app/users/operator/schedules/views.py:74
+msgid "The student already registered on that course with same type of class"
+msgstr "Murid telah terdaftar pada kursus dengan tipe kelas yang sama!"
+
+#: app/users/operator/schedules/views.py:139
 #, python-format
 msgid "Successfully added new schedule for %(student_full_name)s."
 msgstr "Berhasil menambahkan jadwal untuk %(student_full_name)s."
 
-#: app/users/operator/schedules/views.py:265
+#: app/users/operator/schedules/views.py:185
+#: app/users/operator/schedules/views.py:238
+#: app/users/operator/schedules/views.py:421
+#: app/users/operator/schedules/views.py:476
 msgid "Successfully edit schedule."
 msgstr "Jadwal telah diubah."
 
-#: app/users/operator/schedules/views.py:351
-#: app/users/operator/schedules/views.py:438
-msgid "It seems the email is not registered as a student email!"
-msgstr "Seperti nya email tersebut tidak terdaftar sebagai email murid!"
-
-#: app/users/operator/schedules/views.py:394
+#: app/users/operator/schedules/views.py:375
 #, python-format
-msgid "Successfully added new requisition schedule for %(student_full_name)s."
+msgid "Successfully added new requistion schedule for %(student_full_name)s."
 msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s."
 
-#: app/users/operator/schedules/views.py:482
-msgid "Successfully edit requisition schedule."
-msgstr "Berhasil edit permintaan jadwal."
+#: app/users/operator/students/forms.py:33
+#: app/users/operator/teachers/forms.py:39
+msgid ""
+"Duplicate phone number with the other users in this system, please input "
+"different phone number!"
+msgstr ""
+"Nomor telepon yang dimasukan telah digunakan oleh user lain pada system ini, "
+"mohon masukan nomor telepon yang berbeda!"
 
-#: app/users/operator/students/forms.py:37
-#: app/users/operator/teachers/forms.py:42
+#: app/users/operator/students/forms.py:45
+#: app/users/operator/teachers/forms.py:50
 msgid "Photo"
 msgstr "Photo"
 
-#: app/users/operator/students/forms.py:42
-#: app/users/operator/teachers/forms.py:49
+#: app/users/operator/students/forms.py:50
+#: app/users/operator/teachers/forms.py:57
 msgid "Please, set the phone number!"
 msgstr "Mohon, masukan nomor HP!"
 
-#: app/users/operator/students/views.py:55
-#: app/users/operator/teachers/views.py:70
+#: app/users/operator/students/views.py:54
+#: app/users/operator/teachers/views.py:69
 msgid ""
 "Duplicate phone number with the other users, please input different number!"
 msgstr ""
 "Seperti nya nomor HP tersebut sudah digunakan oleh user lain, mohon masukan "
 "nomor HP yang berbeda!"
 
-#: app/users/operator/students/views.py:72
-#: app/users/operator/teachers/views.py:86
+#: app/users/operator/students/views.py:71
+#: app/users/operator/teachers/views.py:85
 msgid "Please input correct image format!"
 msgstr "Mohon masukan format gambar yang benar!"
 
-#: app/users/operator/students/views.py:81
+#: app/users/operator/students/views.py:80
 #, python-format
 msgid "successfully updated %(student_full_name)s data."
 msgstr "Berhasil memperbarui data %(student_full_name)s."
 
-#: app/users/operator/students/views.py:115
+#: app/users/operator/students/views.py:114
 #, python-format
 msgid "Student %(student_full_name)s successfully invited."
 msgstr "%(student_full_name)s telah di invite sebagai Murid."
 
-#: app/users/operator/students/views.py:137
+#: app/users/operator/students/views.py:141
 #, python-format
 msgid "Successfully added %(student_full_name)s as a Student."
 msgstr "Berhasil menambahkan %(student_full_name)s sebagai Murid."
 
-#: app/users/operator/teachers/forms.py:29
-#: app/users/operator/teachers/forms.py:44
+#: app/users/operator/teachers/forms.py:31
+#: app/users/operator/teachers/forms.py:52
 msgid "Taught course"
 msgstr "Kursus yang di ajar"
 
-#: app/users/operator/teachers/views.py:114
+#: app/users/operator/teachers/views.py:113
 #, python-format
 msgid "Successfully updated %(teacher_full_name)s data."
 msgstr "Berhasil memperbarui data %(teacher_full_name)s."
 
-#: app/users/operator/teachers/views.py:150
+#: app/users/operator/teachers/views.py:149
 #, python-format
 msgid "Teacher %(teacher_full_name)s successfully invited."
 msgstr "%(teacher_full_name)s telah di invite sebagai Guru."
 
-#: app/users/operator/teachers/views.py:184
+#: app/users/operator/teachers/views.py:187
 #, python-format
 msgid "Successfully added %(teacher_full_name)s as a Teacher."
 msgstr "Berhasil menambahkan %(teacher_full_name)s sebagai Guru."
 
 #~ msgid "Active user"
 #~ msgstr "Aktivasi user"
+
+#~ msgid "RUNNING"
+#~ msgstr "Sedang Berjalan"
+
+#~ msgid "FINISHED"
+#~ msgstr "Telah Berakhir"
+
+#~ msgid "Dashboard"
+#~ msgstr "Beranda"
+
+#~ msgid "Month"
+#~ msgstr "Bulan"
+
+#~ msgid "Edit Payment"
+#~ msgstr "Edit Pembayaran"
+
+#~ msgid "Course status"
+#~ msgstr "Status kursus"
+
+#~ msgid "Day 2"
+#~ msgstr "Hari-2"
+
+#~ msgid "Input type of class"
+#~ msgstr "Pilih tipe kelas"
+
+#~ msgid "Input Teacher"
+#~ msgstr "Masukan email guru"
+
+#~ msgid "Day-1"
+#~ msgstr "Hari-1"
+
+#~ msgid "Day-2"
+#~ msgstr "Hari-2"
+
+#~ msgid "Image"
+#~ msgstr "Gambar"
+
+#~ msgid "Payment for"
+#~ msgstr "Pembayaran untuk"
+
+#~ msgid "Successfully added new payment."
+#~ msgstr "Berhasil menambahkan pembayaran baru."
+
+#~ msgid "Start at 2"
+#~ msgstr "Mulai jam-2"
+
+#~ msgid "End at 2"
+#~ msgstr "Berakhir jam-2"
+
+#~ msgid "Successfully added new requisition schedule for %(student_full_name)s."
+#~ msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s."
+
+#~ msgid "Successfully edit requisition schedule."
+#~ msgstr "Berhasil edit permintaan jadwal."

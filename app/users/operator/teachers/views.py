@@ -29,8 +29,8 @@ def all_teachers():
 def teacher_profile(teacher_id):
     schedule = db.session.query(Schedule, Payment, Teacher).join(Payment, Teacher).filter(
         Schedule.teacher_id == teacher_id).filter(
-        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.name,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.name))
 
     list_number_of_students = []
     for data in schedule:
@@ -81,7 +81,7 @@ def teacher_profile(teacher_id):
                 filename = photos.save(request.files['photo'], name="teachers/" + teacher_name + "_teacher.")
                 teacher.photo = filename
         except Exception as e:
-            if teacher.gender == Gender.Male.value:
+            if teacher.gender == Gender.Male.name:
                 flash(_('Please input correct image format!'), 'error')
                 return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 

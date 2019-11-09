@@ -15,8 +15,8 @@ def index():
     title = "AQUR"
 
     students_payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
-        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.value,
-            Payment.status_of_payment == PaymentStatus.COMPLETED.value))
+        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.name,
+            Payment.status_of_payment == PaymentStatus.COMPLETED.name))
 
     ###### total students widgets ################
     total_students = students_payment.count()
