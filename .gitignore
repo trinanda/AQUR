@@ -137,3 +137,4 @@ dump.rdb
 .pytest_cache
 alchemydumps/
 credentials/
+save_db_bak/
