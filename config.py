@@ -94,6 +94,15 @@ class Config:
             'misfire_grace_time': 600,
             'hour': 00,  # every day at 00:05
             'minute': 5,
+        },
+        {
+            'id': 'job2',
+            'func': 'app.scheduler_task:backup_db_to_google_drive',
+            'replace_existing': True,
+            'trigger': 'cron',
+            'misfire_grace_time': 600,
+            'hour': 2,  # every day at 02:05
+            'minute': 5,
         }
     ]
     SCHEDULER_JOBSTORES = {

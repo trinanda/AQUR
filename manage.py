@@ -2,6 +2,7 @@
 import os
 import subprocess
 
+from flask_alchemydumps import AlchemyDumps, AlchemyDumpsCommand
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Shell
 from redis import Redis
@@ -14,6 +15,7 @@ from config import Config
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
+alchemydumps = AlchemyDumps(app, db)
 
 
 def make_shell_context():
@@ -22,6 +24,7 @@ def make_shell_context():
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
+manager.add_command('alchemydumps', AlchemyDumpsCommand)
 
 
 @manager.command

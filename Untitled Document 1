@@ -1,5 +1,0 @@
-get_course_name => type_of_class => total_student_wallet_in_the_course_and_type_of_course => how_many_times_in_a_week => distract with course_charge_per_meet => how to count course_charge_per_meet with how_may_times_in_a_week..?
-
-
-1. distract the total_student_wallet_in_the_course_and_type_of_course every taking day_name from course_start_at
-2. if today is taking day_name, distract the total_student_wallet_in_the_course_and_type_of_course every

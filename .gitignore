@@ -135,3 +135,5 @@ dist
 .idea
 dump.rdb
 .pytest_cache
+alchemydumps/
+credentials/

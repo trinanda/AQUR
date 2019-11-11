@@ -20,12 +20,11 @@
 11. student Taken courses details
 12. total teacher included gender on course_details route
 13. werkzeug.routing.BuildError | werkzeug.routing.BuildError: Could not build url for endpoint 'operator.operator_dashboard'. Did you mean 'operator.all_schedules' instead?
-14. autobackup to dropbox/google drive..?
-15. data dengan umur sekian
-16. deploy to a VPS
-17. set a domain for the app
-18. get current and last login user ip
-19. batasi umur
+14. data dengan umur sekian
+15. deploy to a VPS
+16. set a domain for the app
+17. get current and last login user ip
+18. batasi umur
 
 ##### Important feature
 1. Murid
