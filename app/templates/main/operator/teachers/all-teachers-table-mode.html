@@ -1,0 +1,84 @@
+{% extends "layouts/base-template.html" %}
+{% block content %}
+<style>
+	.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+	background-color: #C0D890;
+	}
+	.table-hover2 td:hover td:nth-child(1) {
+		background:#ff0000; color:#000;
+	}
+</style>
+<div class="">
+	<div class="clearfix"></div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>{{ _('Teachers') }}</h2>
+					<div class="d-flex justify-content-end">
+		        <div class="p-2">
+		          <a href="{{ url_for('operator.invite_teacher') }}" class="btn btn-info d-flex justify-content-center d-md-table mx-auto">{{ _('Invite new Teacher') }}</a>
+		        </div>
+		        <div class="p-2">
+		          <a href="{{ url_for('operator.new_teacher') }}" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto">{{ _('Add new Teacher') }}</a>
+		        </div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<table id="example" class="table table-striped table-bordered dt-responsive nowrap table table-striped table-hover" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>{{ _('Name') }}</th>
+								<th>{{ _('Gender') }}</th>
+								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Address') }}</th>
+								<th>{{ _('Phone number') }}</th>
+								<th>{{ _('Email') }}</th>
+								<th>{{ _('Taught Course') }}</th>
+								<th>{{ _('Number of students') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for data_teacher in list_of_teachers %}
+							<tr>
+								<td>{{ data_teacher.full_name }}</td>
+								<td>{{ data_teacher.gender }}</td>
+								<td>{{ data_teacher.date_of_birth }}</td>
+								<td>{{ data_teacher.address }}</td>
+								<td>{{ data_teacher.phone_number }}</td>
+								<td><a href="{{ url_for('operator.teacher_profile', teacher_id=data_teacher.id) }}">{{ data_teacher.email }}</a></td>
+								<td>
+									<table>
+										<tr>
+											{% for data_taught_course in data_teacher.taught_course %}
+											<td>
+												{{ data_taught_course.course }}
+											</td>
+											{% endfor %}
+										</tr>
+									</table>
+								</td>
+								<td>-</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>{{ _('Name') }}</th>
+								<th>{{ _('Gender') }}</th>
+								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Address') }}</th>
+								<th>{{ _('Phone number') }}</th>
+								<th>{{ _('Email') }}</th>
+								<th>{{ _('Taught Course') }}</th>
+								<th>{{ _('Number of students') }}</th>
+							</tr>
+		        </tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

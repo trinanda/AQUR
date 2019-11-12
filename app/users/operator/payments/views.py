@@ -54,7 +54,7 @@ def add_payment():
             total_duration_in_minutes = time_delta.total_seconds() / 60
             total_duration_each_month += total_duration_in_minutes * 4
 
-        if str(schedule.type_of_class) == TypeOfClass.PRIVATE.value:
+        if str(schedule.type_of_class) == TypeOfClass.PRIVATE.name:
             total_charge_per_month = total_duration_each_month * schedule.course.private_class_charge_per_minutes
         else:
             total_charge_per_month = total_duration_each_month * schedule.course.regular_class_charge_per_minutes

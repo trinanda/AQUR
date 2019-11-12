@@ -8,7 +8,7 @@ from flask_babel import _
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Teacher, Role, User, Course, Schedule, Gender, PaymentStatus, Payment
+from app.models import Teacher, Role, User, Course, Schedule, Gender, PaymentStatus, Payment, TaughtCourse
 from app.users.operator import operator
 from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
 
@@ -111,7 +111,6 @@ def teacher_profile(teacher_id):
             course.courses.append(teacher)
             db.session.commit()
         flash(_('Successfully updated %(teacher_full_name)s data.', teacher_full_name=teacher.full_name), 'success')
-
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
     return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
                            number_of_students=number_of_students)
@@ -165,26 +164,27 @@ def new_teacher():
             gender=form.gender.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
-            password=form.password.data)
+            password=form.password.data,
+        )
+        for data in form.taught_courses.data:
+            taught_course = TaughtCourse(course_id=data.id)
+            teacher.taught_course.append(taught_course)
         db.session.add(teacher)
-        form_taught_courses = form.taught_courses.data
-        taught_courses = []
-        for data in form_taught_courses:
-            taught_courses.append(str(data))
-
-        course_id = db.session.query(Course.id).filter(Course.name.in_(taught_courses)).all()
-
-        for data in course_id:
-            course = Course.query.filter_by(id=data).first()
-            course.courses.append(teacher)
-            db.session.add(course)
-            try:
-                db.session.commit()
-            except Exception as e:
-                db.session.rollback()
-                flash(str(e), 'error')
-                return redirect(url_for('operator.new_teacher'))
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), 'error')
+            return redirect(url_for('operator.new_teacher'))
         flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name),
               'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
+
+
+@operator.route('/all-teachers-table-mode')
+@login_required
+@operator_required
+def all_teachers_table_mode():
+    teachers = db.session.query(Teacher).all()
+    return render_template('main/operator/teachers/all-teachers-table-mode.html', list_of_teachers=teachers)
