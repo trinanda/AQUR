@@ -1,11 +1,5 @@
 from app import db
 
-taught_courses = db.Table(
-    'taught_courses',
-    db.Column('teacher_id', db.Integer(), db.ForeignKey('teacher.id', onupdate="CASCADE", ondelete="CASCADE")),
-    db.Column('course_id', db.Integer(), db.ForeignKey('course.id', onupdate="CASCADE", ondelete="CASCADE")),
-)
-
 
 class Course(db.Model):
     __tablename__ = 'course'
