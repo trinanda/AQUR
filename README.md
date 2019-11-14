@@ -2,7 +2,7 @@
 
 #### most important feature for now
 1. update status pembyaran murid jika tidak membayar pada bulan pertama, kedua dan ketiga
-    - sp1, sp2, sp3=nonaktivkan
+    - sp1, sp2, #sp3=nonaktivkan
 2. deploy to vps for demonstrations
 3. List of Student in table mode.
     - List of Student that didn't tuition payment

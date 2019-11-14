@@ -8,9 +8,10 @@ from flask_babel import _
 from app import db, photos
 from app.decorators import operator_required
 from app.email import send_email
-from app.models import Teacher, Role, User, Course, Schedule, Gender, PaymentStatus, Payment, TaughtCourse
+from app.models import Teacher, Role, User, Schedule, Gender, PaymentStatus, Payment, TaughtCourse
 from app.users.operator import operator
-from app.users.operator.teachers.forms import InviteTeacherForm, EditTeacherForm, NewTeacherForm
+from app.users.operator.teachers.forms import InviteTeacherForm, NewTeacherForm, \
+    edit_teacher_form_factory
 
 
 @operator.route('/all-teachers')
@@ -27,26 +28,32 @@ def all_teachers():
 @login_required
 @operator_required
 def teacher_profile(teacher_id):
+    # the number of students that taught by a teacher
     schedule = db.session.query(Schedule, Payment, Teacher).join(Payment, Teacher).filter(
         Schedule.teacher_id == teacher_id).filter(
         or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.name,
             Payment.status_of_payment == PaymentStatus.COMPLETED.name))
-
     list_number_of_students = []
     for data in schedule:
         list_number_of_students.append(
             {str(data.Schedule.course): schedule.filter(Schedule.course == data.Schedule.course).count()})
-
     number_of_students = []
     for dict_ in list_number_of_students:
         if dict_ not in number_of_students:
             number_of_students.append(dict_)
+    # /######################################################
 
     teacher = Teacher.query.filter_by(id=teacher_id).first()
     if teacher is None:
         abort(404)
 
+    # prepopulate the taught courses by a teacher
+    list_of_course_id = []
+    for teacher_taught_course in TaughtCourse.query.filter_by(teacher_id=teacher_id).all():
+        list_of_course_id.append(teacher_taught_course.course_id)
+    EditTeacherForm = edit_teacher_form_factory(list_of_course_id=list_of_course_id)
     form = EditTeacherForm(obj=teacher)
+
     if form.validate_on_submit():
         teacher_name = teacher.full_name
         teacher.first_name = form.first_name.data
@@ -55,20 +62,17 @@ def teacher_profile(teacher_id):
         teacher.date_of_birth = form.date_of_birth.data
         teacher.address = form.address.data
 
+        # validate unique/identity data
         validate_user_data = User.query.filter(~User.phone_number.in_([teacher.phone_number])).all()
         all_user_phone_number = []
         all_user_email = []
-
         for data in validate_user_data:
             all_user_phone_number.append(data.phone_number)
-
         for data in validate_user_data:
             all_user_email.append(data.email)
-
         if form.phone_number.data in all_user_phone_number:
             flash(_('Duplicate phone number with the other users, please input different number!'), 'error')
             return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
-
         if form.email.data in all_user_email:
             flash(_('Duplicate email with the other users, please input different email!'), 'error')
             return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
@@ -85,31 +89,16 @@ def teacher_profile(teacher_id):
                 flash(_('Please input correct image format!'), 'error')
                 return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
 
+        TaughtCourse.query.filter_by(teacher_id=teacher_id).delete()
+        db.session.commit()
+
+        for taught_course_data in form.taught_courses.data:
+            taught_course = TaughtCourse(course_id=taught_course_data.id)
+            teacher.taught_course.append(taught_course)
         try:
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-
-        form_taught_courses = []
-        for data in form.taught_courses.data:
-            form_taught_courses.append(str(data))
-
-        teacher_taught_courses = []
-        for data in teacher.taught_courses:
-            teacher_taught_courses.append(str(data))
-
-        course_id_1 = db.session.query(Course.id).filter(Course.name.in_(teacher_taught_courses)).all()
-        course_id_2 = db.session.query(Course.id).filter(Course.name.in_(form_taught_courses)).all()
-
-        for data in course_id_1:
-            course = Course.query.filter_by(id=data).first()
-            course.courses.remove(teacher)
-            db.session.commit()
-
-        for data in course_id_2:
-            course = Course.query.filter_by(id=data).first()
-            course.courses.append(teacher)
-            db.session.commit()
         flash(_('Successfully updated %(teacher_full_name)s data.', teacher_full_name=teacher.full_name), 'success')
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
     return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
@@ -166,8 +155,8 @@ def new_teacher():
             phone_number=form.phone_number.data,
             password=form.password.data,
         )
-        for data in form.taught_courses.data:
-            taught_course = TaughtCourse(course_id=data.id)
+        for taught_course_data in form.taught_courses.data:
+            taught_course = TaughtCourse(course_id=taught_course_data.id)
             teacher.taught_course.append(taught_course)
         db.session.add(teacher)
         try:

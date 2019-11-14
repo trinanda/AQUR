@@ -51,8 +51,8 @@
                   <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
                     <p>
                       <b>{{ _('Teach') }}</b><br/>
-                      {% for data in teacher.taught_courses %}
-                        <span>{{ data }}, </span>
+                      {% for data in teacher.taught_course %}
+                        <span>{{ data.course|string }}, </span>
                       {% endfor %}
                     </p>
                   </div>
@@ -167,7 +167,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="product-tab-list tab-pane" id="INFORMATION">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -176,44 +175,37 @@
                         <div class="col-lg-12">
                           <div class="form-row">
                             {% if teacher %}
-                            {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6', value=teacher.first_name) }}
+                              {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6', value=teacher.first_name) }}
                             {% else %}
-                            {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6') }}
+                              {{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6') }}
                             {% endif %}
-
                             {% if teacher %}
-                            {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6', value=teacher.last_name) }}
+                              {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6', value=teacher.last_name) }}
                             {% else %}
-                            {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
+                              {{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
                             {% endif %}
-
                             {{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6') }}
-
                             {% if teacher %}
-                            {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=teacher.date_of_birth) }}
+                              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=teacher.date_of_birth) }}
                             {% else %}
-                            {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6') }}
+                              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6') }}
                             {% endif %}
-
                             {% if teacher %}
-                            {{ f.render_form_field(form.address, extra_classes='form-group col-lg-6', value=teacher.address) }}
+                              {{ f.render_form_field(form.address, extra_classes='form-group col-lg-12', value=teacher.address) }}
                             {% else %}
-                            {{ f.render_form_field(form.address, extra_classes='form-group col-lg-6') }}
+                              {{ f.render_form_field(form.address, extra_classes='form-group col-lg-12') }}
                             {% endif %}
-
                             {% if teacher %}
-                            {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6', value=teacher.phone_number) }}
+                              {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6', value=teacher.phone_number) }}
                             {% else %}
-                            {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
+                              {{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
                             {% endif %}
-
+                            {% if teacher %}
+                              {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6', value=teacher.email) }}
+                            {% else %}
+                              {{ f.render_form_field(form.email, extra_classes='form-group col-lg-6') }}
+                            {% endif %}
                             {{ f.render_form_field(form.taught_courses, extra_classes='form-group col-md-12') }}
-
-                            {% if teacher %}
-                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-12', value=teacher.email) }}
-                            {% else %}
-                            {{ f.render_form_field(form.email, extra_classes='form-group col-lg-12') }}
-                            {% endif %}
                           </div>
                           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
                           {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

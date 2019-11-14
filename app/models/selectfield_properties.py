@@ -3,8 +3,8 @@ from flask_babel import lazy_gettext as _l
 
 
 class Gender(enum.Enum):
-    Male = _l('Male')
-    Female = _l('Female')
+    Male = 'Male'
+    Female = 'Female'
 
     def __str__(self):
         return '{}'.format(self.value)
