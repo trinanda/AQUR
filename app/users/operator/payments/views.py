@@ -84,13 +84,14 @@ def add_payment():
     return render_template('main/operator/payments/manipulate-payment.html', form=form)
 
 
-@operator.route('/payment/edit_payment/<int:payment_id>', methods=['GET', 'POST'])
+@operator.route('/payment/edit-payment/<int:payment_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_payment(payment_id):
     """Edit a payment's information."""
     payment = Payment.query.filter_by(id=payment_id).first()
     form = ManipulatePaymentForm(obj=payment)
+    form.populate_obj(payment)
     if payment is None:
         abort(404)
     # if form.validate_on_submit():
@@ -131,7 +132,7 @@ def add_registration_payment():
             student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         course = Course.query.filter_by(name=str(form.course_name.data)).first()
 
-        check_registered_courses = db.session.query(RegistrationPayment).all()
+        check_registered_courses = db.session.query(RegistrationPayment).filter_by(student_id=student.id).all()
         for data in check_registered_courses:
             if course.id == data.course.id:
                 flash(_('The student already registered on this course'), 'warning')
