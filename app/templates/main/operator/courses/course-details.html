@@ -112,9 +112,9 @@ var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: [{% for item in month_name_list %}
-                "{{ _(item) }}",
-        {% endfor %}],
+        labels: [{% for month in month_name_list %}
+                  "{{ _(month) }}",
+                {% endfor %}],
         datasets: [{
             label: '{{ _(legend_male) }}',
             data: {{ male_values }},

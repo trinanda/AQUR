@@ -1,12 +1,14 @@
+from collections import defaultdict
+
 from flask import render_template, flash, url_for, request, abort
 from flask_login import login_required
-from sqlalchemy import or_
+from sqlalchemy import and_
 from werkzeug.utils import redirect
 from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
-from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus
+from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus, Schedule
 from app.users.operator import operator
 
 from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
@@ -18,7 +20,6 @@ from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
 def all_courses():
     page = request.args.get('page', 1, type=int)
     per_page = 5
-
     courses = Course.query.order_by(Course.created_at.desc()).paginate(page, per_page, error_out=False)
     return render_template('main/operator/courses/all-courses.html', courses=courses)
 
@@ -106,7 +107,7 @@ def edit_course(course_id):
     return render_template('main/operator/courses/manipulate-course.html', course=course, form=form)
 
 
-@operator.route('/course/course_details/<int:course_id>')
+@operator.route('/course/course-details/<int:course_id>')
 @login_required
 @operator_required
 def course_details(course_id):
@@ -114,51 +115,63 @@ def course_details(course_id):
     if course is None:
         abort(404)
 
-    # students_payment = db.session.query(Payment, Student).join(Student).distinct(Payment.student_id).filter(
-    #     Payment.course_id == course_id)
+    # get all students data on schedule, except if the student tuition payment is None, PENDING, REJECTED or WARNING_3
+    students_courses_data = db.session.query(Schedule, Payment).join(Payment).filter(
+        Schedule.course_id == course_id).filter(and_(Payment.status_of_payment is not None,
+                                                     Payment.status_of_payment != PaymentStatus.PENDING.name,
+                                                     Payment.status_of_payment != PaymentStatus.REJECTED.name,
+                                                     Payment.status_of_payment != PaymentStatus.WARNING_3.name))
 
-    # total_students = students_payment.count()
-    # total_private_students = students_payment.filter(Payment.type_of_class == TypeOfClass.PRIVATE.value).count()
-    # total_regular_students = students_payment.filter(Payment.type_of_class == TypeOfClass.REGULAR.value).count()
-    #
-    # students_payment_male = students_payment.filter(Student.gender == Gender.Male.value)
-    # students_payment_female = students_payment.filter(Student.gender == Gender.Female.value)
-    #
-    # total_male_student = students_payment_male.count()
-    # total_female_student = students_payment_female.count()
-    #
-    # month_name_list = []
-    # for data in MonthNameList:
-    #     month_name_list.append(str(data))
+    # get the amount of students data
+    total_students = students_courses_data.distinct(Schedule.student_id).count()
+    male_student = students_courses_data.join(Student).filter(Student.gender == Gender.Male.name)
+    female_student = students_courses_data.join(Student).filter(Student.gender == Gender.Female.name)
+    total_private_students = students_courses_data.distinct(Schedule.student_id).filter(
+        Schedule.type_of_class == TypeOfClass.PRIVATE.name).count()
+    total_regular_students = students_courses_data.distinct(Schedule.student_id).filter(
+        Schedule.type_of_class == TypeOfClass.REGULAR.name).count()
+    total_male_student = male_student.distinct(Schedule.student_id).count()
+    total_female_student = female_student.distinct(Schedule.student_id).count()
 
-    total_male_students_per_month = [{'data': 5}]  # test
-    total_female_students_per_month = [{'data': 4}]  # test
-    # for data in month_name_list:
-    #     # TODO | InsyaAllah will change the "payment_for_month" filter bellow
-    #     total_male_students_per_month.append(
-    #         {data: students_payment_male.filter(Payment.payment_for_month == data).count()})
-    #     total_female_students_per_month.append(
-    #         {data: students_payment_female.filter(Payment.payment_for_month == data).count()})
+    # extract all payment data that matching to the looping month
+    month_name_list = []
+    for data in MonthNameList:
+        month_name_list.append(data.name)
+    total_male_students_per_month_list = []
+    total_female_students_per_month_list = []
+    for male_data in male_student.all():
+        for month_name_data in month_name_list:
+            total_male_students_per_month_list.append(
+                {month_name_data: [male_data.Payment.created_at.strftime('%B')].count(month_name_data)})
+    for female_data in female_student.all():
+        for month_name_data in month_name_list:
+            total_female_students_per_month_list.append(
+                {month_name_data: [female_data.Payment.created_at.strftime('%B')].count(month_name_data)})
 
-    legend_male = Gender.Male.name
-    legend_female = Gender.Female.name
+    # match the students amount with the looping of month
+    total_male_students_per_month = defaultdict(int)
+    for d in total_male_students_per_month_list:
+        for key, value in d.items():
+            total_male_students_per_month[key] += value
+    total_female_students_per_month = defaultdict(int)
+    for d in total_female_students_per_month_list:
+        for key, value in d.items():
+            total_female_students_per_month[key] += value
 
+    # storing the amount of students that has paid with matching month on the codes above
     male_values = []
+    for key, value in total_male_students_per_month.items():
+        male_values.append(value)
     female_values = []
+    for key, value in total_female_students_per_month.items():
+        female_values.append(value)
 
-    for data in total_male_students_per_month:
-        for value in data.values():
-            male_values.append(value)
+    legend_male = Gender.Male.value
+    legend_female = Gender.Female.value
 
-    for data in total_female_students_per_month:
-        for value in data.values():
-            female_values.append(value)
-
-    # return render_template('main/operator/courses/course-details.html', total_students=total_students,
-    #                        total_private_students=total_private_students, total_regular_students=total_regular_students,
-    #                        total_male_student=total_male_student, total_female_student=total_female_student,
-    #                        male_values=male_values, female_values=female_values, month_name_list=month_name_list,
-    #                        legend_male=legend_male, legend_female=legend_female, course=course)
     return render_template('main/operator/courses/course-details.html',
-                           male_values=male_values, female_values=female_values,
-                           legend_male=legend_male, legend_female=legend_female, course=course)
+                           legend_male=legend_male, legend_female=legend_female, course=course,
+                           month_name_list=month_name_list, total_students=total_students,
+                           total_male_student=total_male_student, total_female_student=total_female_student,
+                           total_private_students=total_private_students, total_regular_students=total_regular_students,
+                           male_values=male_values, female_values=female_values)

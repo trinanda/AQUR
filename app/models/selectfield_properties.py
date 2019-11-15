@@ -26,8 +26,8 @@ class LastEducation(enum.Enum):
 
 
 class TypeOfClass(enum.Enum):
-    REGULAR = 'Regular'
-    PRIVATE = 'Private'
+    REGULAR = 'REGULAR'
+    PRIVATE = 'PRIVATE'
 
     def __str__(self):
         return '{}'.format(self.value)
@@ -35,53 +35,53 @@ class TypeOfClass(enum.Enum):
 
 class DayNameList(enum.Enum):
     None_choice = ' '
-    Sunday = _l('Sunday')
-    Monday = _l('Monday')
-    Tuesday = _l('Tuesday')
-    Wednesday = _l('Wednesday')
-    Thursday = _l('Thursday')
-    Friday = _l('Friday')
-    Saturday = _l('Saturday')
+    Sunday = 'Sunday'
+    Monday = 'Monday'
+    Tuesday = 'Tuesday'
+    Wednesday = 'Wednesday'
+    Thursday = 'Thursday'
+    Friday = 'Friday'
+    Saturday = 'Saturday'
 
     def __str__(self):
         return '{}'.format(self.value)
 
 
 class MonthNameList(enum.Enum):
-    January = _l('January')
-    February = _l('February')
-    March = _l('March')
-    April = _l('April')
-    May = _l('May')
-    June = _l('June')
-    July = _l('July')
-    August = _l('August')
-    September = _l('September')
-    October = _l('October')
-    November = _l('November')
-    December = _l('December')
+    January = 'January'
+    February = 'February'
+    March = 'March'
+    April = 'April'
+    May = 'May'
+    June = 'June'
+    July = 'July'
+    August = 'August'
+    September = 'September'
+    October = 'October'
+    November = 'November'
+    December = 'December'
 
     def __str__(self):
         return '{}'.format(self.value)
 
 
 class PaymentStatus(enum.Enum):
-    PENDING = _l('PENDING')
-    INSTALLMENT = _l('INSTALLMENT')
-    REJECTED = _l('REJECTED')
-    COMPLETED = _l('COMPLETED')
-    WARNING_1 = _l('Warning-1')
-    WARNING_2 = _l('Warning-2')
-    WARNING_3 = _l('Warning-3')
+    PENDING = 'PENDING'
+    INSTALLMENT = 'INSTALLMENT'
+    REJECTED = 'REJECTED'
+    COMPLETED = 'COMPLETED'
+    WARNING_1 = 'WARNING_1'
+    WARNING_2 = 'WARNING_2'
+    WARNING_3 = 'WARNING_3'
 
     def __str__(self):
         return '{}'.format(self.value)
 
 
 class RegistrationPaymentStatus(enum.Enum):
-    PENDING = _l('PENDING')
-    INSTALLMENT = _l('INSTALLMENT')
-    COMPLETED = _l('COMPLETED')
+    PENDING = 'PENDING'
+    INSTALLMENT = 'INSTALLMENT'
+    COMPLETED = 'COMPLETED'
 
     def __str__(self):
         return '{}'.format(self.value)
