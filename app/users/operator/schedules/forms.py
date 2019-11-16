@@ -20,7 +20,7 @@ class ScheduleForm(FlaskForm):
     course_name = SelectField(_l('Course name'), validators=[required('It seems the student didn\' pay any course ')],
                               choices=[()])
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
-    teacher_email = EmailField(_l('Teacher email'), validators=[required()])
+    teacher_email_or_phone_number = StringField(_l('Teacher email or phone number'), validators=[required()])
     course_start_at = DateField(_l('Course Start at'), validators=[DataRequired()], format='%Y-%m-%d')
     how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
     time_schedule = FieldList(FormField(TimeScheduleForm))

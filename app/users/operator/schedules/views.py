@@ -41,7 +41,6 @@ def add_schedule():
             flash(_('It seems the email or phone number is not registered as a student.'), 'error')
             return redirect(url_for('operator.add_schedule'))
 
-        session['student_email'] = student_data.email
         session['student_id'] = student_data.id
 
         student = db.session.query(RegistrationPayment, Student, Course).join(Student, Course).filter(
@@ -91,13 +90,21 @@ def add_schedule():
                                local_time_form=local_time_form)
 
     elif request.form["step"] == "check_data":
-        student_email = session.get('student_email')
+        student_id = session.get('student_id')
+        student = Student.query.filter_by(id=student_id).first()
         course_name = session.get('course_name')
         type_of_class = session.get('type_of_class')
-        teacher_email = form.teacher_email.data
         course_start_at = form.course_start_at.data
-        session['teacher_email'] = teacher_email
         session['course_start_at'] = course_start_at
+
+        teacher = Teacher.query.filter_by(email=form.teacher_email_or_phone_number.data).first()
+        if teacher is None:
+            teacher = Teacher.query.filter_by(phone_number=form.teacher_email_or_phone_number.data).first()
+        if teacher is None:
+            flash(_('It seems the email is not registered as a teacher email!'), 'warning')
+            return redirect(url_for('operator.add_schedule'))
+
+        session['teacher_id'] = teacher.id
 
         time_schedule = []
         for entry in form.time_schedule:
@@ -106,27 +113,27 @@ def add_schedule():
 
         session['time_schedule'] = time_schedule
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form,
-                               step="check_data", student_email=student_email, course_name=course_name,
+                               step="check_data", course_name=course_name,
                                type_of_class=type_of_class, course_start_at=course_start_at,
-                               time_schedule=time_schedule, teacher_email=teacher_email)
+                               time_schedule=time_schedule, teacher=teacher, student=student)
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
-            student_email = session.get('student_email')
+            student_id = session.get('student_id')
             course_name = session.get('course_name')
             type_of_class = session.get('type_of_class')
-            teacher_email = session.get('teacher_email')
+            teacher_id = session.get('teacher_id')
             list_of_dict_time_schedule = session.get('time_schedule')
             course_start_at = session.get('course_start_at')
             how_many_times_in_a_week = session.get('how_many_times_in_a_week')
-            student = Student.query.filter_by(email=student_email).first()
+
+            student = Student.query.filter_by(id=student_id).first()
             course = Course.query.filter_by(name=course_name).first()
-            teacher = Teacher.query.filter_by(email=teacher_email).first()
 
             schedule = Schedule(
-                student_id=student.id,
+                student_id=student_id,
                 course_id=course.id,
-                teacher_id=teacher.id,
+                teacher_id=teacher_id,
                 course_start_at=course_start_at,
                 how_many_times_in_a_week=how_many_times_in_a_week,
                 type_of_class=type_of_class
@@ -165,7 +172,14 @@ def edit_schedule(schedule_id):
     if request.method == "POST":
         TimeSchedule.query.filter(TimeSchedule.schedule_id == schedule_id).delete()
         db.session.commit()
-        teacher = Teacher.query.filter_by(email=form.teacher_email.data).first()
+
+        teacher = Teacher.query.filter_by(email=form.teacher_email_or_phone_number.data).first()
+        if teacher is None:
+            teacher = Teacher.query.filter_by(phone_number=form.teacher_email_or_phone_number.data).first()
+        if teacher is None:
+            flash(_('It seems the email is not registered as a teacher email!'), 'warning')
+            return redirect(url_for('operator.edit_schedule'))
+
         schedule.teacher_id = teacher.id
         schedule.course_start_at = form.course_start_at.data
         list_of_dict_time_schedule = []
@@ -200,7 +214,7 @@ def edit_schedule_number_of_day(schedule_id):
     form = ScheduleForm(obj=schedule)
 
     if "step" not in request.form:
-        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html.html', form=form,
+        return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
                                step="how_many_times_in_a_week")
     elif request.form["step"] == "time_schedule":
         how_many_times_in_a_week = form.how_many_times_in_a_week.data
@@ -335,13 +349,11 @@ def add_requisition_schedules():
 
     elif request.form["step"] == "submit":
         if request.method == "POST":
-            student_email_or_phone_number = form.student_email_or_phone_number.data
-            student = Student.query.filter_by(email=student_email_or_phone_number).first()
+            student = Student.query.filter_by(email=form.student_email_or_phone_number.data).first()
             if student is None:
-                student = Student.query.filter_by(phone_number=student_email_or_phone_number).first()
-
+                student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
             if student is None:
-                flash(_('It seems the email is not registered as a student email!'), 'error')
+                flash(_('It seems the email is not registered as a student email!'), 'warning')
                 return redirect(url_for('operator.add_requisition_schedules'))
 
             course_name = form.course_name.data
