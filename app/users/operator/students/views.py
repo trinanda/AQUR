@@ -153,7 +153,8 @@ def all_students_table_mode():
     for data in students:
         list_of_students.append(
             {'id': data.id, 'full_name': data.full_name, 'gender': data.gender, 'date_of_birth': data.date_of_birth,
-             'address': data.address, 'email': data.email, 'phone_number': data.phone_number,
+             'age': data.calculate_age(), 'address': data.address, 'email': data.email,
+             'phone_number': data.phone_number,
              'data_schedule': db.session.query(Schedule).filter(Schedule.student_id == data.id).all()})
     return render_template('main/operator/students/all-students-table-mode.html', list_of_students=list_of_students)
 

@@ -1,3 +1,5 @@
+import datetime
+
 from flask import current_app
 from flask_login import AnonymousUserMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -93,6 +95,14 @@ class User(UserMixin, db.Model):
 
     def __str__(self):
         return self.full_name
+
+    def calculate_age(self):
+        today = datetime.date.today()
+        try:
+            return today.year - self.date_of_birth.year - (
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+        except Exception as e:
+            return None
 
     def can(self, permissions):
         return self.role is not None and \

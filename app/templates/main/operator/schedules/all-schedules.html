@@ -33,6 +33,7 @@
 							<tr>
 								<th>{{ _('Student') }}</th>
 								<th>{{ _('Gender') }}</th>
+								<th>{{ _('Age') }}</th>
 								<th>{{ _('Student phone number') }}</th>
 								<th>{{ _('Student email') }}</th>
 								<th>{{ _('Course') }}</th>
@@ -50,6 +51,7 @@
 							<tr>
 								<td>{{ data.student.full_name }}</td>
 								<td>{{ _(data.student.gender|safe) }}</td>
+								<td>{{ data.student.calculate_age() }}</td>
 								<td>{{ data.student.phone_number }}</td>
 								<td><a href="{{ url_for('operator.edit_schedule', schedule_id=data.id) }}">{{ data.student.email }}</a></td>
 								<td>{{ data.course.name }}</td>
@@ -87,6 +89,7 @@
 								<tr>
 									<th>{{ _('Student') }}</th>
 									<th>{{ _('Gender') }}</th>
+									<th>{{ _('Age') }}</th>
 									<th>{{ _('Student phone number') }}</th>
 									<th>{{ _('Student email') }}</th>
 									<th>{{ _('Course') }}</th>

@@ -32,6 +32,7 @@
 								<th>{{ _('Name') }}</th>
 								<th>{{ _('Gender') }}</th>
 								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Age') }}</th>
 								<th>{{ _('Address') }}</th>
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
@@ -45,6 +46,7 @@
 								<td>{{ data_teacher.full_name }}</td>
 								<td>{{ data_teacher.gender }}</td>
 								<td>{{ data_teacher.date_of_birth }}</td>
+								<td>{{ data_teacher.calculate_age() }}</td>
 								<td>{{ data_teacher.address }}</td>
 								<td>{{ data_teacher.phone_number }}</td>
 								<td><a href="{{ url_for('operator.teacher_profile', teacher_id=data_teacher.id) }}">{{ data_teacher.email }}</a></td>
@@ -68,6 +70,7 @@
 								<th>{{ _('Name') }}</th>
 								<th>{{ _('Gender') }}</th>
 								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Age') }}</th>
 								<th>{{ _('Address') }}</th>
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>

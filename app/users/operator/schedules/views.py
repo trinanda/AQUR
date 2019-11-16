@@ -315,7 +315,7 @@ def edit_schedule_number_of_day(schedule_id):
 #     return render_template('main/operator/schedules/check-schedules.html', form=form, schedules=schedules)
 
 
-@operator.route('/schedule/all-requisition-schedules')
+@operator.route('/schedule/requisition-schedules')
 @login_required
 @operator_required
 def requisition_schedules():

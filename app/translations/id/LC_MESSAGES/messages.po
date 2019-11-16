@@ -1237,3 +1237,6 @@ msgstr "Warning-3"
 
 msgid "Courses Tuition"
 msgstr "SPP kursus"
+
+msgid "Age"
+msgstr "Umur"

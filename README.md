@@ -1,16 +1,15 @@
 ### TODO LIST
 
 #### most important feature for now
-1. thinking about check_schedule feature..?, should we enable the feature..?
-2. data dengan umur sekian
-3. total teacher included gender on course_details route
-4. if payment status == warning-3, disable user account | make this feature when the students feature available
-5. deploy to vps for demonstrations
-6. prevent to input duplicate teachers schedule
+1. total teacher included gender on course_details route
+2. deploy to vps for demonstrations
+3. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------
-7. delete profile photo feature
-8. set a domain for the app
-9. get current and last login user ip
+4. delete profile photo feature
+5. set a domain for the app
+6. get current and last login user ip
+7. if payment status == warning-3, disable user account | make this feature when the students feature available
+8. thinking about check_schedule feature..?, should we enable the feature..?
 
 ##### future development
 1. Murid

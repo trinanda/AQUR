@@ -32,6 +32,7 @@
 								<th>{{ _('Name') }}</th>
 								<th>{{ _('Gender') }}</th>
 								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Age') }}</th>
 								<th>{{ _('Address') }}</th>
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
@@ -44,6 +45,7 @@
 								<td>{{ data_student.full_name }}</td>
 								<td>{{ data_student.gender }}</td>
 								<td>{{ data_student.date_of_birth }}</td>
+								<td>{{ data_student.age }}</td>
 								<td>{{ data_student.address }}</td>
 								<td>{{ data_student.phone_number }}</td>
 								<td><a href="{{ url_for('operator.student_profile', student_id=data_student.id) }}">{{ data_student.email }}</a></td>
@@ -66,6 +68,7 @@
 								<th>{{ _('Name') }}</th>
 								<th>{{ _('Gender') }}</th>
 								<th>{{ _('Date of birth') }}</th>
+								<th>{{ _('Age') }}</th>
 								<th>{{ _('Address') }}</th>
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
