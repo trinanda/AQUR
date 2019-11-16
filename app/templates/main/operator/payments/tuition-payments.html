@@ -24,6 +24,8 @@
 					<thead>
 						<tr>
 							<th>{{ _('Student') }}</th>
+							<th>{{ _('Gender') }}</th>
+							<th>{{ _('Phone number') }}</th>
 							<th>{{ _('Email') }}</th>
 							<th>{{ _('Course') }}</th>
 							<th>{{ _('Type of Class') }}</th>
@@ -38,28 +40,32 @@
 						{% for data in tuition_payments %}
 							<tr>
 								<td>{{ data.Payment.student.full_name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.student.email }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Schedule.course.name }}</td>
+								<td>{{ _(data.Schedule.student.gender|safe) }}</td>
+								<td>{{ data.Schedule.student.phone_number }}</td>
+								<td><a href="{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}">{{ data.Schedule.student.email }}</a></td>
+								<td>{{ data.Schedule.course.name }}</td>
 								{% if data.Schedule.type_of_class %}
-									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ _(data.Schedule.type_of_class|safe) }}</td>
+									<td>{{ _(data.Schedule.type_of_class|safe) }}</td>
 								{% else %}
-									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">-</td>
+									<td>-</td>
 								{% endif %}
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.total }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ _(data.Payment.status_of_payment|safe) }}</td>
+								<td>{{ data.Payment.total }}</td>
+								<td>{{ _(data.Payment.status_of_payment|safe) }}</td>
 								{% if data.Payment.note != none %}
-									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.note }}</td>
+									<td>{{ data.Payment.note }}</td>
 								{% else %}
-									<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">-</td>
+									<td>-</td>
 								{% endif %}
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.created_at.strftime('%d-%m-%Y') }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_payment', payment_id=data.Payment.id) }}'">{{ data.Payment.updated_at.strftime('%d-%m-%Y') }}</td>
+								<td>{{ data.Payment.created_at.strftime('%d-%m-%Y') }}</td>
+								<td>{{ data.Payment.updated_at.strftime('%d-%m-%Y') }}</td>
 							</tr>
 						{% endfor %}
 						</tbody>
 						<tfoot>
 							<tr>
 								<th>{{ _('Student') }}</th>
+								<th>{{ _('Gender') }}</th>
+								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of Class') }}</th>

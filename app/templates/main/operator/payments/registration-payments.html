@@ -24,6 +24,7 @@
 					<thead>
 						<tr>
 							<th>{{ _('Student') }}</th>
+							<th>{{ _('Phone number') }}</th>
 							<th>{{ _('Email') }}</th>
 							<th>{{ _('Course') }}</th>
 							<th>{{ _('Total') }}</th>
@@ -36,18 +37,20 @@
 						{% for data in registration_payments %}
 							<tr>
 								<td>{{ data.student.full_name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ data.student.email }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ data.course.name }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ data.total }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ _(data.status_of_payment|safe) }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ data.created_at.strftime('%d-%m-%Y') }}</td>
-								<td onclick="window.location='{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}'">{{ data.updated_at.strftime('%d-%m-%Y') }}</td>
+								<td>{{ data.student.phone_number }}</td>
+								<td><a href="{{ url_for('operator.edit_registration_payment', registration_payment_id=data.id) }}">{{ data.student.email }}</a></td>
+								<td>{{ data.course.name }}</td>
+								<td>{{ data.total }}</td>
+								<td>{{ _(data.status_of_payment|safe) }}</td>
+								<td>{{ data.created_at.strftime('%d-%m-%Y') }}</td>
+								<td>{{ data.updated_at.strftime('%d-%m-%Y') }}</td>
 							</tr>
 						{% endfor %}
 						</tbody>
 						<tfoot>
 							<tr>
 							<th>{{ _('Student') }}</th>
+							<th>{{ _('Phone number') }}</th>
 							<th>{{ _('Email') }}</th>
 							<th>{{ _('Course') }}</th>
 							<th>{{ _('Total') }}</th>
