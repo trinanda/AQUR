@@ -8,7 +8,8 @@ from flask_babel import _
 
 from app import db, photos
 from app.decorators import operator_required
-from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus, Schedule
+from app.models import Course, MonthNameList, Payment, TypeOfClass, Gender, Student, PaymentStatus, Schedule, \
+    TaughtCourse, RegistrationPayment, Teacher
 from app.users.operator import operator
 
 from app.users.operator.courses.forms import AddCourseForm, EditCourseForm
@@ -122,16 +123,24 @@ def course_details(course_id):
                                                      Payment.status_of_payment != PaymentStatus.REJECTED.name,
                                                      Payment.status_of_payment != PaymentStatus.WARNING_3.name))
 
+    taught_course = TaughtCourse.query.filter_by(course_id=course_id)
+    total_teachers = taught_course.count()
+
+    list_of_teacher_id = []
+    for data in taught_course:
+        list_of_teacher_id.append(data.teacher_id)
+    teachers = db.session.query(Teacher.gender).filter(Teacher.id.in_(list_of_teacher_id))
+    total_male_teachers = teachers.filter(Teacher.gender == Gender.Male.name).count()
+    total_female_teachers = teachers.filter(Teacher.gender == Gender.Female.name).count()
+
     # get the amount of students data
-    total_students = students_courses_data.distinct(Schedule.student_id).count()
+    total_students = RegistrationPayment.query.filter(RegistrationPayment.course_id == course_id).count()
     male_student = students_courses_data.join(Student).filter(Student.gender == Gender.Male.name)
     female_student = students_courses_data.join(Student).filter(Student.gender == Gender.Female.name)
     total_private_students = students_courses_data.distinct(Schedule.student_id).filter(
         Schedule.type_of_class == TypeOfClass.PRIVATE.name).count()
     total_regular_students = students_courses_data.distinct(Schedule.student_id).filter(
         Schedule.type_of_class == TypeOfClass.REGULAR.name).count()
-    total_male_student = male_student.distinct(Schedule.student_id).count()
-    total_female_student = female_student.distinct(Schedule.student_id).count()
 
     # extract all payment data that matching to the looping month
     month_name_list = []
@@ -171,7 +180,8 @@ def course_details(course_id):
 
     return render_template('main/operator/courses/course-details.html',
                            legend_male=legend_male, legend_female=legend_female, course=course,
-                           month_name_list=month_name_list, total_students=total_students,
-                           total_male_student=total_male_student, total_female_student=total_female_student,
-                           total_private_students=total_private_students, total_regular_students=total_regular_students,
-                           male_values=male_values, female_values=female_values)
+                           month_name_list=month_name_list, total_teachers=total_teachers,
+                           total_male_teachers=total_male_teachers, total_female_teachers=total_female_teachers,
+                           total_students=total_students, total_private_students=total_private_students,
+                           total_regular_students=total_regular_students, male_values=male_values,
+                           female_values=female_values)

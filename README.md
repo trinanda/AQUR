@@ -1,7 +1,7 @@
 ### TODO LIST
 
 #### most important feature for now
-1. total teacher included gender on course_details route
+1. refactor main-dashboard
 2. deploy to vps for demonstrations
 3. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------

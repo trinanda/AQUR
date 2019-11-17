@@ -1240,3 +1240,12 @@ msgstr "SPP kursus"
 
 msgid "Age"
 msgstr "Umur"
+
+msgid "Total Teachers"
+msgstr "Jumlah Guru"
+
+msgid "Male Teachers"
+msgstr "Jumlah Guru Laki-laki"
+
+msgid "Female Teachers"
+msgstr "Jumlah Guru Perempuan"

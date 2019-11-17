@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-  .btn-circle {
+  .btn-action {
     height: 45px;
     width: 70px;
   }
@@ -14,20 +14,60 @@
     <div class="masonry-sizer col-md-6"></div>
     <div class="masonry-item w-100">
       <div class="row gap-20">
-        <div class="col-md-3">
+        <div class="col-md-4">
+          <div class="layers bd bgc-white p-20">
+            <div class="layer w-100 mB-10">
+              <h6 class="lh-1">{{ _('Total Teachers') }}</h6>
+            </div>
+            <div class="layer w-100">
+              <div class="peers ai-sb fxw-nw">
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-orange-50 c-black-500">{{ total_teachers }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="layers bd bgc-white p-20">
+            <div class="layer w-100 mB-10">
+              <h6 class="lh-1">{{ _('Male Teachers') }}</h6>
+            </div>
+            <div class="layer w-100">
+              <div class="peers ai-sb fxw-nw">
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-grey-300 c-black-500">{{ total_male_teachers }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="layers bd bgc-white p-20">
+            <div class="layer w-100 mB-10">
+              <h6 class="lh-1">{{ _('Female Teachers') }}</h6>
+            </div>
+            <div class="layer w-100">
+              <div class="peers ai-sb fxw-nw">
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{ total_female_teachers }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
               <h6 class="lh-1">{{ _('Total Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
-                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">{{ total_students }}</span>
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">{{ total_students }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
               <h6 class="lh-1">{{ _('Private Students') }}</h6>
@@ -40,40 +80,14 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
               <h6 class="lh-1">{{ _('Regular Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
-                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{ total_regular_students }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="layers bd bgc-white p-20">
-            <div class="layer w-100 mB-10">
-              <h6 class="lh-1">{{ _('Male Students') }}</h6>
-            </div>
-            <div class="layer w-100">
-              <div class="peers ai-sb fxw-nw">
-                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{ total_male_student }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="layers bd bgc-white p-20">
-            <div class="layer w-100 mB-10">
-              <h6 class="lh-1">{{ _('Female Students') }}</h6>
-            </div>
-            <div class="layer w-100">
-              <div class="peers ai-sb fxw-nw">
-                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{ total_female_student }}</span>
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-brown-50 c-brown-500">{{ total_regular_students }}</span>
                 </div>
               </div>
             </div>
@@ -95,10 +109,10 @@
             </div>
               <div class="peers pT-20 mT-20 bdT fxw-nw@lg+ jc-sb ta-c gap-10">
                 <div class="peer">
-                  <a href="{{ url_for('operator.edit_course', course_id=course.id) }}"><button class="btn btn-primary btn-circle m-1">{{ _('Edit') }}</button></a>
+                  <a href="{{ url_for('operator.edit_course', course_id=course.id) }}"><button class="btn btn-primary btn-action m-1">{{ _('Edit') }}</button></a>
                 </div>
                 <div class="peer">
-                  <a href="{{ url_for('operator.delete_course', course_id=course.id) }}"><button class="btn btn-danger btn-circle m-1">{{ _('Delete') }}</button></a>
+                  <a href="{{ url_for('operator.delete_course', course_id=course.id) }}"><button class="btn btn-danger btn-action m-1">{{ _('Delete') }}</button></a>
                 </div>
               </div>
           </div>
