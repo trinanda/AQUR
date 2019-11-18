@@ -1,10 +1,13 @@
+import os
+from collections import defaultdict
+
 from flask import render_template
 from flask_login import login_required
-from sqlalchemy import or_
+from sqlalchemy import and_
 
 from app import db
 from app.decorators import operator_required
-from app.models import Student, MonthNameList, Course, PaymentStatus, Payment
+from app.models import Student, MonthNameList, Course, PaymentStatus, Payment, Teacher, Schedule
 from app.users.operator import operator
 
 
@@ -12,43 +15,65 @@ from app.users.operator import operator
 @login_required
 @operator_required
 def index():
-    title = "AQUR"
+    title = os.environ.get('APP_NAME')
 
-    students_payment = db.session.query(Payment, Student, Course).join(Student, Course).filter(
-        or_(Payment.status_of_payment == PaymentStatus.INSTALLMENT.name,
-            Payment.status_of_payment == PaymentStatus.COMPLETED.name))
+    # get all students data on schedule, except if the student tuition payment is None, PENDING, REJECTED or WARNING_3
+    students_courses_data = db.session.query(Schedule, Payment).join(Payment).filter(
+        and_(Payment.status_of_payment is not None,
+             Payment.status_of_payment != PaymentStatus.PENDING.name,
+             Payment.status_of_payment != PaymentStatus.REJECTED.name,
+             Payment.status_of_payment != PaymentStatus.WARNING_3.name))
 
-    ###### total students widgets ################
-    total_students = students_payment.count()
-    students_per_course = []
-    for data in students_payment:
-        students_per_course.append({data.Course.name: students_payment.filter(Course.name == data.Course.name).count()})
-    total_students_per_course = []
-    for dict_ in students_per_course:
-        if dict_ not in total_students_per_course:
-            total_students_per_course.append(dict_)
-    # /###########################################
+    # get the amount of Teachers and Students
+    total_students = Student.query.count()
+    total_teachers = Teacher.query.count()
 
     month_name_list = []
     for data in MonthNameList:
         month_name_list.append(str(data))
 
-    course = Course.query.all()
-    courses_list = []
-    for data in course:
-        courses_list.append(str(data))
+    # make a query object for "Tahsin" and "Arabic Language" course
+    tahsin = students_courses_data.join(Course).filter(Course.name == "Tahsin")
+    arabic = students_courses_data.join(Course).filter(Course.name == "Bahasa Arab")
 
-    # TODO | InsyaAllah will work in the feature bellow | make the line bellow can accesible dinamically
-    Tahsin_value_per_month = []
-    Arabic_language_value_per_month = []
-    courses_value = [{"Tahsin": Tahsin_value_per_month, "Bahasa Arab": Arabic_language_value_per_month}]
-    for data in month_name_list:
-        # TODO | InsyaAllah will change the "payment_for_month" filter bellow
-        data_per_month = students_payment.filter(Payment.pay_at == data)
+    # the total payment for the courses each month
+    tahsin_course_data = []
+    arabic_course_data = []
+    for data in tahsin:
+        for month_name in month_name_list:
+            tahsin_course_data.append({str(month_name): data.Payment.created_at.strftime('%B').count(month_name)})
+    for data in arabic:
+        for month_name in month_name_list:
+            arabic_course_data.append({str(month_name): data.Payment.created_at.strftime('%B').count(month_name)})
 
-        Tahsin_value_per_month.append(data_per_month.filter(Course.name == "Tahsin").count())
-        Arabic_language_value_per_month.append(data_per_month.filter(Course.name == "Bahasa Arab").count())
+    # merge and sum the total value from the dictionary on the same month from the _courses_data result above
+    total_tahsin_students_per_month = defaultdict(int)
+    total_arabic_students_per_month = defaultdict(int)
+    for d in tahsin_course_data:
+        for key, value in d.items():
+            total_tahsin_students_per_month[key] += value
+    for d in arabic_course_data:
+        for key, value in d.items():
+            total_arabic_students_per_month[key] += value
 
-    return render_template('main/operator/operator-dashboard.html', title=title, total_students=total_students,
-                           month_name_list=month_name_list, total_students_per_course=total_students_per_course,
-                           courses_value=courses_value)
+    # store all of the month values on a list for each course
+    tahsin_values = []
+    arabic_values = []
+    for key, value in total_tahsin_students_per_month.items():
+        tahsin_values.append(value)
+    for key, value in total_arabic_students_per_month.items():
+        arabic_values.append(value)
+
+    # make a dictionary to represent course name with the matching total student that do the payment for each month
+    data_courses_each_month = [
+        {
+            'Tahsin': tahsin_values,
+        },
+        {
+            'Bahasa Arab': arabic_values
+        }
+    ]
+
+    return render_template('main/operator/operator-dashboard.html', title=title, total_teachers=total_teachers,
+                           total_students=total_students, month_name_list=month_name_list,
+                           data_courses_each_month=data_courses_each_month)

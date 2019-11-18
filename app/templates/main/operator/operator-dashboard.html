@@ -15,11 +15,24 @@
         <div class="col-md-3">
           <div class="layers bd bgc-white p-20">
             <div class="layer w-100 mB-10">
+              <h6 class="lh-1">{{ _('Total Teachers') }}</h6>
+            </div>
+            <div class="layer w-100">
+              <div class="peers ai-sb fxw-nw">
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">{{ total_teachers }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="layers bd bgc-white p-20">
+            <div class="layer w-100 mB-10">
               <h6 class="lh-1">{{ _('Total Students') }}</h6>
             </div>
             <div class="layer w-100">
               <div class="peers ai-sb fxw-nw">
-                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">{{ total_students }}</span>
+                <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">{{ total_students }}</span>
                 </div>
               </div>
             </div>
@@ -72,68 +85,68 @@ var myChart = new Chart(ctx, {
                 "{{ _(item) }}",
         {% endfor %}],
           datasets: [
-              {% for dict_item in courses_value %}
+              {% for dict_item in data_courses_each_month %}
                 {% for key, value in dict_item.items() %}
                   {
                       label: '{{ key }}',
                       data: {{ value }},
 												{% if key=="Tahsin" %}
                           backgroundColor: [
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
                           ],
                           borderColor: [
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
-                              'rgba(75, 192, 192, 0.5)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(255, 159, 64, 1)',
                           ],
                         {% elif key=="Bahasa Arab" %}
 	                        backgroundColor: [
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
-	                              'rgba(255, 206, 86, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
+	                              'rgba(75, 192, 192, 0.2)',
 	                          ],
 	                          borderColor: [
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
-	                              'rgba(255, 206, 86, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
+	                              'rgba(75, 192, 192, 1)',
 	                          ],
                         {% endif %}
 

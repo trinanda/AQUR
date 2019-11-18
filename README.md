@@ -1,15 +1,14 @@
 ### TODO LIST
 
 #### most important feature for now
-1. refactor main-dashboard
-2. deploy to vps for demonstrations
-3. prevent to input duplicate teachers schedule
+1. deploy to vps for demonstrations
+2. prevent to input duplicate teachers schedule
 ----------------------------------------------------------------------------------
-4. delete profile photo feature
-5. set a domain for the app
-6. get current and last login user ip
-7. if payment status == warning-3, disable user account | make this feature when the students feature available
-8. thinking about check_schedule feature..?, should we enable the feature..?
+3. delete profile photo feature, should we do this..?
+4. set a domain for the app, should we enable the feature..?
+5. get current and last login user ip | do this feature when the students feature available
+6. if payment status == warning-3, disable user account | do this feature when the students feature available
+7. thinking about check_schedule feature..?, should we enable the feature..?
 
 ##### future development
 1. Murid

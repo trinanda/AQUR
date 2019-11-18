@@ -84,7 +84,7 @@
           </div>
           <ul class="sidebar-menu scrollable pos-r">
             {% if current_user.is_operator() %}
-  {#        <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.index') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">{{ _('Dashboard') }}</span></a></li>#}
+          <li class="nav-item mT-30 actived"><a class="sidebar-link" href="{{ url_for('operator.index') }}"><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">{{ _('Dashboard') }}</span></a></li>
             <li class="nav-item dropdown"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-user"></i> </span><span class="title">{{ _('Teachers') }}</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
               <ul class="dropdown-menu">
                 <li class="nav-item dropdown"><a href="{{ url_for('operator.all_teachers') }}"><span class="icon-holder"><i class="c-gold-500 ti-layout-grid4"></i> </span><span>{{ _('Teacher') }}</span></a></li>
