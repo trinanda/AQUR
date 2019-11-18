@@ -2,7 +2,7 @@
 import os
 import subprocess
 
-from flask_alchemydumps import AlchemyDumps, AlchemyDumpsCommand
+from packages.flask_alchemydumps import AlchemyDumps, AlchemyDumpsCommand
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Shell
 from redis import Redis
