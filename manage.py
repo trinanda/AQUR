@@ -4,7 +4,7 @@ import subprocess
 
 from packages.flask_alchemydumps import AlchemyDumps, AlchemyDumpsCommand
 from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager, Shell
+from flask_script import Manager, Shell, Server
 from redis import Redis
 from rq import Connection, Queue, Worker
 
@@ -25,6 +25,7 @@ def make_shell_context():
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 manager.add_command('alchemydumps', AlchemyDumpsCommand)
+manager.add_command('runserver', Server(host=os.environ.get('HOST'), port=os.environ.get('PORT')))
 
 
 @manager.command
