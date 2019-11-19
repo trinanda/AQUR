@@ -22,6 +22,8 @@ class InviteStudentForm(FlaskForm):
 class NewStudentForm(InviteStudentForm):
     phone_number = StringField(_l('Phone number'), validators=[InputRequired(), Length(1, 12)],
                                render_kw={'placeholder': 'e.g: 081234567890'})
+    date_of_birth = DateField(_l('Date of birth'), validators=[DataRequired()], format='%Y-%m-%d')
+    address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])
     gender = SelectField(_l('Gender'), choices=gender)
     password = PasswordField(_l('Password'),
                              validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])

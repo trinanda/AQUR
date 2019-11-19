@@ -128,6 +128,8 @@ def new_student():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             gender=form.gender.data,
+            date_of_birth=form.date_of_birth.data,
+            address=form.address.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
             password=form.password.data)
