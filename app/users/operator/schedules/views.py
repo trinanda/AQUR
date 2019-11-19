@@ -38,7 +38,7 @@ def add_schedule():
             student_data = Student.query.filter_by(phone_number=student_email_or_phone_number).first()
 
         if student_data is None:
-            flash(_('It seems the email or phone number is not registered as a student.'), 'error')
+            flash(_('It seems the email or phone number is not registered as a student'), 'error')
             return redirect(url_for('operator.add_schedule'))
 
         session['student_id'] = student_data.id
@@ -143,7 +143,7 @@ def add_schedule():
                 schedule.time_schedule.append(time_schedule)
             db.session.add(schedule)
             db.session.commit()
-            flash(_('Successfully added new schedule for %(student_full_name)s.', student_full_name=student.full_name),
+            flash(_('Successfully added new schedule for %(student_full_name)s', student_full_name=student.full_name),
                   'success')
             return redirect(url_for('operator.all_schedules'))
         return render_template('main/operator/schedules/manipulate-schedule.html', form=form, step="submit")
@@ -197,7 +197,7 @@ def edit_schedule(schedule_id):
             db.session.rollback()
             flash(str(e), 'error')
             return redirect(url_for('operator.edit_schedule', schedule_id=schedule_id))
-        flash(_('Successfully edit schedule.'), 'success')
+        flash(_('Successfully edit schedule'), 'success')
         return redirect(url_for('operator.all_schedules'))
     return render_template('main/operator/schedules/manipulate-schedule.html', schedule=schedule,
                            form=form, local_time_form=local_time_form)
@@ -250,7 +250,7 @@ def edit_schedule_number_of_day(schedule_id):
                 db.session.rollback()
                 flash(str(e), 'error')
                 return redirect(url_for('operator.edit_schedule', schedule_id=schedule_id))
-            flash(_('Successfully edit schedule.'), 'success')
+            flash(_('Successfully edit schedule'), 'success')
             return redirect(url_for('operator.all_schedules'))
         return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
                                step="submit")
@@ -385,7 +385,7 @@ def add_requisition_schedules():
                 flash(str(e), 'error')
                 return redirect(url_for('operator.add_requisition_schedules'))
 
-            flash(_('Successfully added new requistion schedule for %(student_full_name)s.',
+            flash(_('Successfully added new requistion schedule for %(student_full_name)s',
                     student_full_name=student.full_name), 'success')
             return redirect(url_for('operator.requisition_schedules'))
         return render_template('main/operator/schedules/manipulate-requisition-schedules.html', form=form,
@@ -431,7 +431,7 @@ def edit_requisition_schedules(requisition_schedule_id):
             flash(str(e), 'error')
             return redirect(
                 url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-        flash(_('Successfully edit schedule.'), 'success')
+        flash(_('Successfully edit schedule'), 'success')
         return redirect(url_for('operator.requisition_schedules'))
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html',
                            requisition_schedule=requisition_schedule, form=form, local_time_form=local_time_form)
@@ -486,9 +486,21 @@ def edit_requisition_schedule_number_of_day(requisition_schedule_id):
                 flash(str(e), 'error')
                 return redirect(
                     url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-            flash(_('Successfully edit schedule.'), 'success')
+            flash(_('Successfully edit requisition schedule'), 'success')
             return redirect(url_for('operator.requisition_schedules'))
         return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
                                step="submit")
     return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html',
                            requisition_schedule=requisition_schedule, form=form)
+
+
+@operator.route('/schedule/delete-requisition-schedule/<int:requisition_schedule_id>/_delete', methods=['GET', 'POST'])
+@login_required
+@operator_required
+def delete_requisition_schedule(requisition_schedule_id):
+    """Delete a user's account."""
+    requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
+    db.session.delete(requisition_schedule)
+    db.session.commit()
+    flash(_('Successfully deleted requisition schedule'), 'success')
+    return redirect(url_for('operator.requisition_schedules'))

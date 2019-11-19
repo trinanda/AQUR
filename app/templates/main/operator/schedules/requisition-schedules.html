@@ -36,6 +36,7 @@
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of class') }}</th>
 								<th>{{ _('Schedule') }}</th>
+								<th>{{ _('Action') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,7 +46,7 @@
 								<td>{{ _(data.student.gender|safe) }}</td>
 								<td>{{ data.student.calculate_age() }}</td>
 								<td>{{ data.student.phone_number }}</td>
-								<td><a href="{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}">{{ data.student.email }}</a></td>
+								<td>{{ data.student.email }}</td>
 								<td>{{ data.course.name }}</td>
 								<td>{{ _(data.type_of_class|safe) }}</td>
 								<td>
@@ -61,7 +62,31 @@
 										</tr>
 									</table>
 								</td>
+								<td>
+									<a href="{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}"><button class="btn btn-info">Edit</button></a>
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Delete') }}</button>
+								</td>
 							</tr>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Action</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										{{ _('Are you sure to delete this requisition schedule..?') }}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('No') }}</button>
+										<a href="{{ url_for('operator.delete_requisition_schedule', requisition_schedule_id=data.id) }}"><button type="button" class="btn btn-danger">{{ _('Yes') }}</button></a>
+									</div>
+								</div>
+							</div>
+						</div>
 						{% endfor %}
 						</tbody>
 							<tfoot>
@@ -74,6 +99,7 @@
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of class') }}</th>
 								<th>{{ _('Schedule') }}</th>
+								<th>{{ _('Action') }}</th>
 							</tr>
 		        </tfoot>
 					</table>
