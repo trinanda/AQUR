@@ -77,7 +77,7 @@ def student_profile(student_id):
             db.session.rollback()
 
         if form.gender.data == "Male" or form.gender.data == "Female":
-            flash(_('successfully updated %(student_full_name)s data.', student_full_name=student.full_name), 'success')
+            flash(_('successfully updated %(student_full_name)s data', student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.student_profile', student_id=student_id))
     return render_template('main/operator/students/student-profile.html', student=student, form=form)
 
@@ -111,7 +111,7 @@ def invite_student():
             user=student,
             invite_link=invite_link,
         )
-        flash(_('Student %(student_full_name)s successfully invited.', student_full_name=student.full_name), 'success')
+        flash(_('Student %(student_full_name)s successfully invited', student_full_name=student.full_name), 'success')
         return redirect(url_for('operator.all_students'))
     return render_template('main/operator/students/manipulate-student.html', form=form)
 
@@ -138,7 +138,7 @@ def new_student():
             db.session.rollback()
             flash(str(e), 'error')
             return redirect(url_for('operator.new_student'))
-        flash(_('Successfully added %(student_full_name)s as a Student.', student_full_name=student.full_name),
+        flash(_('Successfully added %(student_full_name)s as a Student', student_full_name=student.full_name),
               'success')
         return redirect(url_for('operator.all_students'))
     return render_template('main/operator/students/manipulate-student.html', form=form)

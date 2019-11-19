@@ -49,7 +49,7 @@ def add_course():
             image=filename)
         db.session.add(course)
         db.session.commit()
-        flash(_('successfully added %(course_name)s course.', course_name=course.course_name()), 'success')
+        flash(_('successfully added %(course_name)s course', course_name=course.course_name()), 'success')
         return redirect(url_for('operator.all_courses'))
     return render_template('main/operator/courses/manipulate-course.html', form=form)
 
@@ -69,7 +69,7 @@ def delete_course(course_id):
         db.session.rollback()
         flash('Ops!, it seems the course already have registered students, we cannot delete it!', 'error')
         return redirect(url_for('operator.course_details', course_id=course_id))
-    flash(_('successfully deleted %(course_name)s course.', course_name=course.course_name()), 'success')
+    flash(_('successfully deleted %(course_name)s course', course_name=course.course_name()), 'success')
     return redirect(url_for('operator.all_courses'))
 
 

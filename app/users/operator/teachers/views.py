@@ -99,7 +99,7 @@ def teacher_profile(teacher_id):
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash(_('Successfully updated %(teacher_full_name)s data.', teacher_full_name=teacher.full_name), 'success')
+        flash(_('Successfully updated %(teacher_full_name)s data', teacher_full_name=teacher.full_name), 'success')
         return redirect(url_for('operator.teacher_profile', teacher_id=teacher_id))
     return render_template('main/operator/teachers/teacher-profile.html', teacher=teacher, form=form,
                            number_of_students=number_of_students)
@@ -134,7 +134,7 @@ def invite_teacher():
             user=teacher,
             invite_link=invite_link,
         )
-        flash(_('Teacher %(teacher_full_name)s successfully invited.', teacher_full_name=teacher.full_name), 'success')
+        flash(_('Teacher %(teacher_full_name)s successfully invited', teacher_full_name=teacher.full_name), 'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
 
@@ -165,7 +165,7 @@ def new_teacher():
             db.session.rollback()
             flash(str(e), 'error')
             return redirect(url_for('operator.new_teacher'))
-        flash(_('Successfully added %(teacher_full_name)s as a Teacher.', teacher_full_name=teacher.full_name),
+        flash(_('Successfully added %(teacher_full_name)s as a Teacher', teacher_full_name=teacher.full_name),
               'success')
         return redirect(url_for('operator.all_teachers'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)

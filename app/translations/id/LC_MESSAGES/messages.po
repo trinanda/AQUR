@@ -944,13 +944,13 @@ msgstr "Mohon masukan format gambar yang benar!"
 
 #: app/users/operator/courses/views.py:51
 #, python-format
-msgid "successfully added %(course_name)s course."
-msgstr "Berhasil menanambahkan kursus %(course_name)s."
+msgid "successfully added %(course_name)s course"
+msgstr "Berhasil menanambahkan kursus %(course_name)s"
 
 #: app/users/operator/courses/views.py:71
 #, python-format
-msgid "successfully deleted %(course_name)s course."
-msgstr "Kursus %(course_name)s telah di hapus."
+msgid "successfully deleted %(course_name)s course"
+msgstr "Kursus %(course_name)s telah di hapus"
 
 #: app/users/operator/courses/views.py:105
 msgid "Successfully edit course"
@@ -988,16 +988,16 @@ msgid "The maximum character on note not more than 100!"
 msgstr ""
 
 #: app/users/operator/payments/views.py:112
-msgid "Successfully edit payment."
-msgstr "Pembayaran berhasil di edit."
+msgid "Successfully edit payment"
+msgstr "Pembayaran berhasil di edit"
 
 #: app/users/operator/payments/views.py:140
 msgid "The student already registered on this course"
 msgstr "Murid telah terdaftar pada kursus ini."
 
 #: app/users/operator/payments/views.py:189
-msgid "Successfully edit registration payment."
-msgstr "Berhasul edit uang pendaftaran"
+msgid "Successfully edit registration payment"
+msgstr "Berhasil edit uang pendaftaran"
 
 #: app/users/operator/schedules/forms.py:14
 msgid "Start at"
@@ -1029,20 +1029,20 @@ msgstr "Murid telah terdaftar pada kursus dengan tipe kelas yang sama!"
 
 #: app/users/operator/schedules/views.py:141
 #, python-format
-msgid "Successfully added new schedule for %(student_full_name)s."
-msgstr "Berhasil menambahkan jadwal untuk %(student_full_name)s."
+msgid "Successfully added new schedule for %(student_full_name)s"
+msgstr "Berhasil menambahkan jadwal untuk %(student_full_name)s"
 
 #: app/users/operator/schedules/views.py:189
 #: app/users/operator/schedules/views.py:242
 #: app/users/operator/schedules/views.py:425
 #: app/users/operator/schedules/views.py:480
-msgid "Successfully edit schedule."
-msgstr "Jadwal telah diubah."
+msgid "Successfully edit schedule"
+msgstr "Jadwal telah diubah"
 
 #: app/users/operator/schedules/views.py:379
 #, python-format
-msgid "Successfully added new requistion schedule for %(student_full_name)s."
-msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s."
+msgid "Successfully added new requistion schedule for %(student_full_name)s"
+msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s"
 
 #: app/users/operator/students/forms.py:33
 #: app/users/operator/teachers/forms.py:36
@@ -1079,18 +1079,18 @@ msgstr "Mohon masukan format gambar yang benar!"
 
 #: app/users/operator/students/views.py:80
 #, python-format
-msgid "successfully updated %(student_full_name)s data."
-msgstr "Berhasil memperbarui data %(student_full_name)s."
+msgid "successfully updated %(student_full_name)s data"
+msgstr "Berhasil memperbarui data %(student_full_name)s"
 
 #: app/users/operator/students/views.py:114
 #, python-format
-msgid "Student %(student_full_name)s successfully invited."
-msgstr "%(student_full_name)s telah di invite sebagai Murid."
+msgid "Student %(student_full_name)s successfully invited"
+msgstr "%(student_full_name)s telah di invite sebagai Murid"
 
 #: app/users/operator/students/views.py:141
 #, python-format
-msgid "Successfully added %(student_full_name)s as a Student."
-msgstr "Berhasil menambahkan %(student_full_name)s sebagai Murid."
+msgid "Successfully added %(student_full_name)s as a Student"
+msgstr "Berhasil menambahkan %(student_full_name)s sebagai Murid"
 
 #: app/users/operator/teachers/forms.py:27
 #: app/users/operator/teachers/forms.py:50
@@ -1099,18 +1099,18 @@ msgstr "Kursus yang di ajar"
 
 #: app/users/operator/teachers/views.py:102
 #, python-format
-msgid "Successfully updated %(teacher_full_name)s data."
-msgstr "Berhasil memperbarui data %(teacher_full_name)s."
+msgid "Successfully updated %(teacher_full_name)s data"
+msgstr "Berhasil memperbarui data %(teacher_full_name)s"
 
 #: app/users/operator/teachers/views.py:137
 #, python-format
-msgid "Teacher %(teacher_full_name)s successfully invited."
-msgstr "%(teacher_full_name)s telah di invite sebagai Guru."
+msgid "Teacher %(teacher_full_name)s successfully invited"
+msgstr "%(teacher_full_name)s telah di invite sebagai Guru"
 
 #: app/users/operator/teachers/views.py:168
 #, python-format
-msgid "Successfully added %(teacher_full_name)s as a Teacher."
-msgstr "Berhasil menambahkan %(teacher_full_name)s sebagai Guru."
+msgid "Successfully added %(teacher_full_name)s as a Teacher"
+msgstr "Berhasil menambahkan %(teacher_full_name)s sebagai Guru"
 
 msgid "Dashboard"
 msgstr "Beranda"
@@ -1145,8 +1145,8 @@ msgstr "Gambar"
 msgid "Payment for"
 msgstr "Pembayaran untuk"
 
-msgid "Successfully added new payment."
-msgstr "Berhasil menambahkan pembayaran baru."
+msgid "Successfully added new payment"
+msgstr "Berhasil menambahkan pembayaran baru"
 
 msgid "Start at 2"
 msgstr "Mulai jam-2"
@@ -1154,11 +1154,11 @@ msgstr "Mulai jam-2"
 msgid "End at 2"
 msgstr "Berakhir jam-2"
 
-msgid "Successfully added new requisition schedule for %(student_full_name)s."
-msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s."
+msgid "Successfully added new requisition schedule for %(student_full_name)s"
+msgstr "Berhasil menambahkan permintaan jadwal untuk %(student_full_name)s"
 
-msgid "Successfully edit requisition schedule."
-msgstr "Berhasil edit permintaan jadwal."
+msgid "Successfully edit requisition schedule"
+msgstr "Berhasil edit permintaan jadwal"
 
 msgid "Male"
 msgstr "Laki-laki"
@@ -1249,3 +1249,18 @@ msgstr "Jumlah Guru Laki-laki"
 
 msgid "Female Teachers"
 msgstr "Jumlah Guru Perempuan"
+
+msgid "Successfully deleted requisition schedule"
+msgstr "Data permintaan jadwal telah dihapus"
+
+msgid "Are you sure to delete this requisition schedule..?"
+msgstr "Anda yakin ingin menghapus permintaan jadwal ini..?"
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Yes"
+msgstr "Ya"
+
+msgid "No"
+msgstr "Tidak"

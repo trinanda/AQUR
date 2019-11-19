@@ -107,7 +107,7 @@ def edit_payment(payment_id):
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash(_('Successfully edit payment.'), 'success')
+        flash(_('Successfully edit payment'), 'success')
         return redirect(url_for('operator.tuition_payments'))
     return render_template('main/operator/payments/manipulate-payment.html', payment=payment, form=form)
 
@@ -184,7 +184,7 @@ def edit_registration_payment(registration_payment_id):
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash(_('Successfully edit registration payment.'), 'success')
+        flash(_('Successfully edit registration payment'), 'success')
         return redirect(url_for('operator.registration_payments'))
     return render_template('main/operator/payments/manipulate-registration-payment.html',
                            registration_payment=registration_payment, form=form)
