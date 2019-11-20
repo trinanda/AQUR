@@ -9,10 +9,10 @@ from wtforms import FieldList, FormField
 from app import db
 from app.decorators import operator_required
 from app.models import Student, Course, Schedule, Teacher, TimeSchedule, \
-    RequisitionSchedule, PaymentStatus, RegistrationPayment
+    RequisitionSchedule, PaymentStatus, RegistrationPayment, RequisitionScheduleStatus
 from app.users.operator import operator
 from app.users.operator.schedules.forms import ScheduleForm, CheckScheduleForm, TimeScheduleForm, \
-    RequisitionScheduleForm
+    RequisitionScheduleForm, edit_requisition_schedule_form_factory
 
 
 @operator.route('/all-schedules')
@@ -372,6 +372,7 @@ def add_requisition_schedules():
                 course_id=course.id,
                 type_of_class=type_of_class,
                 how_many_times_in_a_week=how_many_times_in_a_week,
+                requisition_status=RequisitionScheduleStatus.STUDENT_REQUISITION.name
             )
             for data in list_of_dict_time_schedule:
                 time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
@@ -401,7 +402,10 @@ def edit_requisition_schedules(requisition_schedule_id):
     requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
     if requisition_schedule is None:
         abort(404)
-    form = RequisitionScheduleForm(obj=requisition_schedule)
+
+    EditRequisitionScheduleForm = edit_requisition_schedule_form_factory(
+        default_requisition_status=requisition_schedule.requisition_status.name)
+    form = EditRequisitionScheduleForm(obj=requisition_schedule)
 
     class LocalTimeScheduleForm(ScheduleForm):
         pass
@@ -423,6 +427,7 @@ def edit_requisition_schedules(requisition_schedule_id):
         for data in list_of_dict_time_schedule:
             time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
             requisition_schedule.time_schedule.append(time_schedule)
+        requisition_schedule.requisition_status = form.requisition_schedule_status.data
         db.session.add(requisition_schedule)
         try:
             db.session.commit()
@@ -446,7 +451,10 @@ def edit_requisition_schedule_number_of_day(requisition_schedule_id):
     requisition_schedule = RequisitionSchedule.query.filter_by(id=requisition_schedule_id).first()
     if requisition_schedule is None:
         abort(404)
-    form = RequisitionScheduleForm(obj=requisition_schedule)
+
+    EditRequisitionScheduleForm = edit_requisition_schedule_form_factory(
+        default_requisition_status=requisition_schedule.requisition_status.name)
+    form = EditRequisitionScheduleForm(obj=requisition_schedule)
 
     if "step" not in request.form:
         return render_template('main/operator/schedules/manipulate-schedule-number-of-day.html', form=form,
@@ -470,6 +478,7 @@ def edit_requisition_schedule_number_of_day(requisition_schedule_id):
             db.session.commit()
             how_many_times_in_a_week = session.get('how_many_times_in_a_week')
             requisition_schedule.how_many_times_in_a_week = how_many_times_in_a_week
+            requisition_schedule.requisition_status = form.requisition_schedule_status.data
             list_of_dict_time_schedule = []
             for entry in form.time_schedule:
                 list_of_dict_time_schedule.append(

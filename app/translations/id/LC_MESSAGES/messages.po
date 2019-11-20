@@ -1264,3 +1264,15 @@ msgstr "Ya"
 
 msgid "No"
 msgstr "Tidak"
+
+msgid "Requisition Status"
+msgstr "Status permintaan jadwal"
+
+msgid "Student Requisition"
+msgstr "Permintaan Murid"
+
+msgid "Coordinate With Teacher"
+msgstr "Berkordinasi dengan Guru"
+
+msgid "Approved"
+msgstr "Jadwal disetujui"

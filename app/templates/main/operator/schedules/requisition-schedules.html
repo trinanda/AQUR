@@ -36,6 +36,7 @@
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of class') }}</th>
 								<th>{{ _('Schedule') }}</th>
+								<th>{{ _('Requisition Status') }}</th>
 								<th>{{ _('Action') }}</th>
 							</tr>
 						</thead>
@@ -62,6 +63,7 @@
 										</tr>
 									</table>
 								</td>
+								<td>{{ data.requisition_status }}</td>
 								<td>
 									<a href="{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}"><button class="btn btn-info">Edit</button></a>
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Delete') }}</button>
@@ -99,6 +101,7 @@
 								<th>{{ _('Course') }}</th>
 								<th>{{ _('Type of class') }}</th>
 								<th>{{ _('Schedule') }}</th>
+								<th>{{ _('Requisition Status') }}</th>
 								<th>{{ _('Action') }}</th>
 							</tr>
 		        </tfoot>

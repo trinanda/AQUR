@@ -1,11 +1,8 @@
 {% extends "layouts/base-template.html" %}
 {% import 'macros/form_macros.html' as f %}
-
 {% block scripts %}
 {% endblock %}
-
 {% block content %}
-
 <style>
   button {
     width: 75px;
@@ -31,7 +28,6 @@
 	  background-color: #4CAF50;
 	}
 </style>
-
 <div id="mainContent">
   <div class="row gap-20 masonry pos-r">
     <div class="masonry-sizer col-md-6"></div>
@@ -67,6 +63,7 @@
 	            {{ f.begin_form(local_time_form, flashes) }}
 	               {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
 					    {{ f.end_form() }}
+	            {{ f.render_form_field(form.requisition_schedule_status, extra_classes='form-group col-md-12') }}
 		          <input type=hidden name="step" value="submit">
 	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Submit') }}">
 	          {% elif step == "submit" %}

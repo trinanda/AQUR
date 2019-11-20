@@ -87,6 +87,15 @@ class RegistrationPaymentStatus(enum.Enum):
         return '{}'.format(self.value)
 
 
+class RequisitionScheduleStatus(enum.Enum):
+    STUDENT_REQUISITION = _l('Student Requisition')
+    COORDINATED_WITH_TEACHER = _l('Coordinate With Teacher')
+    APPROVED = _l('Approved')
+
+    def __str__(self):
+        return '{}'.format(self.value)
+
+
 last_educations = [(y.name, _l(str(y.value))) for y in (LastEducation)]
 gender = [(y.name, _l(str(y.value))) for y in (Gender)]
 type_of_class = [(y.name, _l(str(y.value))) for y in (TypeOfClass)]
@@ -94,3 +103,4 @@ day_name_list = [(y.name, _l(str(y.value))) for y in (DayNameList)]
 month_name_list = [(y.name, _l(str(y.value))) for y in (MonthNameList)]
 payment_status = [(y.name, _l(str(y.value))) for y in (PaymentStatus)]
 registration_payment_status = [(y.name, _l(str(y.value))) for y in (RegistrationPaymentStatus)]
+requisition_schedule_status = [(y.name, _l(str(y.value))) for y in (RequisitionScheduleStatus)]

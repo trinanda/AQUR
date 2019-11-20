@@ -1,5 +1,5 @@
 from app import db
-from app.models.selectfield_properties import DayNameList, TypeOfClass
+from app.models.selectfield_properties import DayNameList, TypeOfClass, RequisitionScheduleStatus
 
 
 class Schedule(db.Model):
@@ -37,6 +37,7 @@ class RequisitionSchedule(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     type_of_class = db.Column(db.Enum(TypeOfClass, name='type_of_class'))
     how_many_times_in_a_week = db.Column(db.Integer)
+    requisition_status = db.Column(db.Enum(RequisitionScheduleStatus, name='requisition_schedule_status'))
     time_schedule = db.relationship('TimeSchedule', backref='requisition_schedule', lazy=True)
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
