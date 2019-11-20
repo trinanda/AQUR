@@ -320,7 +320,7 @@ msgstr "Daftar Jadwal"
 
 #: app/templates/layouts/base-template.html:110
 msgid "Requisition Schedules"
-msgstr "Daftar Permintaan Jadwal"
+msgstr "Permintaan Jadwal"
 
 #: app/templates/main/operator/courses/course-details.html:20
 #: app/templates/main/operator/operator-dashboard.html:18

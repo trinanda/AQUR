@@ -63,6 +63,7 @@
 	            {{ f.begin_form(local_time_form, flashes) }}
 	               {{ f.render_form_field(local_time_form.time_schedule, extra_classes='form-group col-md-12') }}
 					    {{ f.end_form() }}
+	            {{ f.render_form_field(form.note, extra_classes='form-group col-md-12') }}
 	            {{ f.render_form_field(form.requisition_schedule_status, extra_classes='form-group col-md-12') }}
 		          <input type=hidden name="step" value="submit">
 	            <input class="btn btn-primary d-flex justify-content-center d-md-table mx-auto" type="submit" value="{{ _('Submit') }}">

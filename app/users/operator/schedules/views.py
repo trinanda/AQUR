@@ -372,7 +372,8 @@ def add_requisition_schedules():
                 course_id=course.id,
                 type_of_class=type_of_class,
                 how_many_times_in_a_week=how_many_times_in_a_week,
-                requisition_status=RequisitionScheduleStatus.STUDENT_REQUISITION.name
+                requisition_status=RequisitionScheduleStatus.STUDENT_REQUISITION.name,
+                note=form.note.data,
             )
             for data in list_of_dict_time_schedule:
                 time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
@@ -428,6 +429,7 @@ def edit_requisition_schedules(requisition_schedule_id):
             time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
             requisition_schedule.time_schedule.append(time_schedule)
         requisition_schedule.requisition_status = form.requisition_schedule_status.data
+        requisition_schedule.note = form.note.data
         db.session.add(requisition_schedule)
         try:
             db.session.commit()
@@ -479,6 +481,7 @@ def edit_requisition_schedule_number_of_day(requisition_schedule_id):
             how_many_times_in_a_week = session.get('how_many_times_in_a_week')
             requisition_schedule.how_many_times_in_a_week = how_many_times_in_a_week
             requisition_schedule.requisition_status = form.requisition_schedule_status.data
+            requisition_schedule.note = form.note.data
             list_of_dict_time_schedule = []
             for entry in form.time_schedule:
                 list_of_dict_time_schedule.append(

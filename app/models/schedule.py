@@ -38,6 +38,7 @@ class RequisitionSchedule(db.Model):
     type_of_class = db.Column(db.Enum(TypeOfClass, name='type_of_class'))
     how_many_times_in_a_week = db.Column(db.Integer)
     requisition_status = db.Column(db.Enum(RequisitionScheduleStatus, name='requisition_schedule_status'))
+    note = db.Column(db.String(100))
     time_schedule = db.relationship('TimeSchedule', backref='requisition_schedule', lazy=True)
     created_at = db.Column(db.DateTime(), default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
