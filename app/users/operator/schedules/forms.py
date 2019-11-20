@@ -22,7 +22,7 @@ class ScheduleForm(FlaskForm):
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
     teacher_email_or_phone_number = StringField(_l('Teacher email or phone number'), validators=[required()])
     course_start_at = DateField(_l('Course Start at'), validators=[DataRequired()], format='%Y-%m-%d')
-    how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
+    how_many_times_in_a_week = IntegerField(_l('How many times in a week'), widget=NumberInput(min=1, max=7))
     time_schedule = FieldList(FormField(TimeScheduleForm))
     submit = SubmitField()
 
@@ -45,7 +45,7 @@ class RequisitionScheduleForm(TimeScheduleForm):
                                    validators=[required('It seems the student didn\' pay any course ')],
                                    query_factory=lambda: Course.query.all())
     type_of_class = SelectField(_l('Type of class'), validators=[required()], choices=type_of_class)
-    how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
+    how_many_times_in_a_week = IntegerField(_l('How many times in a week'), widget=NumberInput(min=1, max=7))
     requisition_schedule_status = SelectField(_l('Requisition Schedule Status'), validators=[required()],
                                               choices=requisition_schedule_status)
     time_schedule = FieldList(FormField(TimeScheduleForm))
@@ -59,7 +59,7 @@ class RequisitionScheduleForm(TimeScheduleForm):
 
 def edit_requisition_schedule_form_factory(default_requisition_status):
     class EditRequisitionScheduleForm(TimeScheduleForm):
-        how_many_times_in_a_week = IntegerField(widget=NumberInput(min=1, max=7))
+        how_many_times_in_a_week = IntegerField(_l('How many times in a week'), widget=NumberInput(min=1, max=7))
         requisition_schedule_status = SelectField(_l('Requisition Schedule Status'), validators=[required()],
                                                   choices=requisition_schedule_status,
                                                   default=default_requisition_status)

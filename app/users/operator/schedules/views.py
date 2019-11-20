@@ -38,7 +38,7 @@ def add_schedule():
             student_data = Student.query.filter_by(phone_number=student_email_or_phone_number).first()
 
         if student_data is None:
-            flash(_('It seems the email or phone number is not registered as a student'), 'error')
+            flash(_('It seems the email or phone number is not registered as a student'), 'warning')
             return redirect(url_for('operator.add_schedule'))
 
         session['student_id'] = student_data.id

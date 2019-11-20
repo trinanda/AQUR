@@ -1017,7 +1017,7 @@ msgstr "Seperti nya email ini tidak terdaftar sebagai email Guru."
 
 #: app/users/operator/schedules/views.py:41
 msgid "It seems the email or phone number is not registered as a student."
-msgstr ""
+msgstr "Data yang anda masukan tidak terdaftar sebagai data Murid"
 
 #: app/users/operator/schedules/views.py:54
 msgid "It seems the student biodata not completed!"
@@ -1276,3 +1276,6 @@ msgstr "Berkordinasi dengan Guru"
 
 msgid "Approved"
 msgstr "Jadwal disetujui"
+
+msgid "How many times in a week"
+msgstr "Jumlah hari per pekan"

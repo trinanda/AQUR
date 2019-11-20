@@ -68,15 +68,15 @@
 								<td>{{ data.requisition_status }}</td>
 								<td>
 									<a href="{{ url_for('operator.edit_requisition_schedules', requisition_schedule_id=data.id) }}"><button class="btn btn-info">Edit</button></a>
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Delete') }}</button>
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ConfirmDeleteModal{{ data.id }}">{{ _('Delete') }}</button>
 								</td>
 							</tr>
 						<!-- Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="ConfirmDeleteModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="ConfirmDeleteModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Action</h5>
+										<h5 class="modal-title" id="ConfirmDeleteModalLabel">Action</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
