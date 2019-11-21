@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -39,14 +40,26 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
 
+    # administrators emails for logging / error handling
+    admin_list_email = re.sub(r"\s+", "", os.environ.get('ADMINS'),
+                              flags=re.UNICODE)  # remove all space if that containing on ADMINS environ variable
+    admin_list_email = [i.split(" ") for i in
+                        admin_list_email.split(",")]  # store the ADMINS environ variable to a list
+    ADMINS = []
+    for list_emails in admin_list_email:
+        for admin_email in list_emails:
+            ADMINS.append(admin_email)
+
+    # Heroku log to stdout
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+
     # Analytics
     GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID') or ''
     SEGMENT_API_KEY = os.environ.get('SEGMENT_API_KEY') or ''
 
     # Admin account
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
-    ADMIN_EMAIL = os.environ.get(
-        'ADMIN_EMAIL') or 'flask-base-admin@example.com'
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'flask-base-admin@example.com'
     EMAIL_SUBJECT_PREFIX = '[{}]'.format(APP_NAME)
     EMAIL_SENDER = '{app_name} Admin <{email}>'.format(
         app_name=APP_NAME, email=MAIL_USERNAME)

@@ -138,3 +138,4 @@ dump.rdb
 alchemydumps/
 credentials/
 save_db_bak/
+logs/
