@@ -35,7 +35,7 @@ def add_payment():
         if student is None:
             student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         if student is None:
-            flash(_('It seems the email is not registered as a student email!'), 'error')
+            flash(_('It seems the email is not registered as a student email!'), 'warning')
             return redirect(url_for('operator.add_payment'))
         session['student_id'] = student.id
         taking_courses = db.session.query(Schedule).filter(Schedule.student_id == student.id).all()
@@ -100,7 +100,7 @@ def edit_payment(payment_id):
         payment.status_of_payment = form.status_of_payment.data
 
         if len(form.note.data) > 100:
-            flash(_('The maximum character on note not more than 100!'), 'error')
+            flash(_('The maximum character on note not more than 100!'), 'warning')
             return redirect(url_for('operator.edit_payment', payment_id=payment_id))
         payment.note = form.note.data
         try:
