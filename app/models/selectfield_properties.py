@@ -89,7 +89,7 @@ class RegistrationPaymentStatus(enum.Enum):
 
 class RequisitionScheduleStatus(enum.Enum):
     STUDENT_REQUISITION = _l('Student Requisition')
-    COORDINATED_WITH_TEACHER = _l('Coordinate With Teacher')
+    COORDINATING = _l('Coordinating')
     APPROVED = _l('Approved')
 
     def __str__(self):
