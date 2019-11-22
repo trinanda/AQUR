@@ -132,9 +132,11 @@ def register_extensions(app):
     configure_uploads(app, photos)
     babel.init_app(app)
     cli.register(app)
-    scheduler.init_app(app)
-    scheduler.start()
-
+    try:
+        scheduler.init_app(app)
+        scheduler.start()
+    except Exception as e:
+        pass
 
 @babel.localeselector
 def get_locale():
