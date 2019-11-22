@@ -49,15 +49,19 @@
             {% if form.gender %}
               {{ f.render_form_field(form.gender, extra_classes='form-group col-md-6') }}
             {% endif %}
-            {% if student %}
-              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6', value=student.date_of_birth) }}
-            {% else %}
-              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
+            {% if form.date_of_birth %}
+              {% if student %}
+                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6', value=student.date_of_birth) }}
+              {% else %}
+                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
+              {% endif %}
             {% endif %}
-            {% if student %}
-              {{ f.render_form_field(form.address, extra_classes='form-group col-md-12', value=student.address) }}
-            {% else %}
-              {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
+            {% if form.address %}
+              {% if student %}
+                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12', value=student.address) }}
+              {% else %}
+                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
+              {% endif %}
             {% endif %}
             {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
             {% if form.phone_number %}
