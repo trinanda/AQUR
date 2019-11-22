@@ -35,7 +35,7 @@ def add_payment():
         if student is None:
             student = Student.query.filter_by(phone_number=form.student_email_or_phone_number.data).first()
         if student is None:
-            flash(_('It seems the email is not registered as a student email!'), 'warning')
+            flash(_('The inputted data is not registered as a student!'), 'warning')
             return redirect(url_for('operator.add_payment'))
         session['student_id'] = student.id
         taking_courses = db.session.query(Schedule).filter(Schedule.student_id == student.id).all()
@@ -99,10 +99,12 @@ def edit_payment(payment_id):
         payment.total = form.total.data
         payment.status_of_payment = form.status_of_payment.data
 
-        if len(form.note.data) > 100:
-            flash(_('The maximum character on note not more than 100!'), 'warning')
+        note = form.note.data
+        if len(str(note)) > 100:
+            flash(_("The maximum character on note can't more than 100, inputted character got %(note)s",
+                    note=len(str(note))), 'warning')
             return redirect(url_for('operator.edit_payment', payment_id=payment_id))
-        payment.note = form.note.data
+        payment.note = note
         try:
             db.session.commit()
         except Exception as e:
@@ -149,7 +151,7 @@ def add_registration_payment():
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        flash('Success added new registration payment', 'success')
+        flash(_('Success added new registration payment'), 'success')
         return redirect(url_for('operator.registration_payments'))
     return render_template('main/operator/payments/manipulate-registration-payment.html', form=form)
 

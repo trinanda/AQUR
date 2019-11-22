@@ -418,6 +418,13 @@ def edit_requisition_schedules(requisition_schedule_id):
     local_time_form = LocalTimeScheduleForm(obj=requisition_schedule)
 
     if request.method == "POST":
+        note = form.note.data
+        if len(str(note)) > 100:
+            flash(_("The maximum character on note can't more than 100, inputted character got %(note)s",
+                    note=len(str(note))), 'warning')
+            return redirect(
+                url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
+
         TimeSchedule.query.filter(TimeSchedule.requisition_schedule_id == requisition_schedule_id).delete()
         db.session.commit()
         list_of_dict_time_schedule = []
@@ -428,8 +435,9 @@ def edit_requisition_schedules(requisition_schedule_id):
         for data in list_of_dict_time_schedule:
             time_schedule = TimeSchedule(day=data['day'], start_at=data['start_at'], end_at=data['end_at'])
             requisition_schedule.time_schedule.append(time_schedule)
+
         requisition_schedule.requisition_status = form.requisition_schedule_status.data
-        requisition_schedule.note = form.note.data
+        requisition_schedule.note = note
         db.session.add(requisition_schedule)
         try:
             db.session.commit()
@@ -438,7 +446,7 @@ def edit_requisition_schedules(requisition_schedule_id):
             flash(str(e), 'error')
             return redirect(
                 url_for('operator.edit_requisition_schedules', requisition_schedule_id=requisition_schedule_id))
-        flash(_('Successfully edit schedule'), 'success')
+        flash(_('Successfully edit requisition schedule'), 'success')
         return redirect(url_for('operator.requisition_schedules'))
     return render_template('main/operator/schedules/manipulate-requisition-schedules.html',
                            requisition_schedule=requisition_schedule, form=form, local_time_form=local_time_form)

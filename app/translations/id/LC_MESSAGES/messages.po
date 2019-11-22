@@ -1271,11 +1271,20 @@ msgstr "Status permintaan jadwal"
 msgid "Student Requisition"
 msgstr "Permintaan Murid"
 
-msgid "Coordinate With Teacher"
-msgstr "Berkordinasi dengan Guru"
+msgid "Coordinating"
+msgstr "Berkordinasi"
 
 msgid "Approved"
 msgstr "Jadwal disetujui"
 
 msgid "How many times in a week"
 msgstr "Jumlah hari per pekan"
+
+msgid "Success added new registration payment"
+msgstr "Berhasil menambahkan uang pendaftaran"
+
+msgid "The inputted data is not registered as a student!"
+msgstr "Data yang dimasukkan tidak terdaftar sebagai Murid!"
+
+msgid "The maximum character on note can't more than 100, inputted character got %(note)s"
+msgstr "Jumlah Karakter pada catatan sebaiknya tidak lebih dari 100, Anda memasukan %(note)s"
