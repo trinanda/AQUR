@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.fields import PasswordField, StringField, SubmitField, BooleanField
+from wtforms.fields import PasswordField, StringField, SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import Email, EqualTo, InputRequired, Length
 
@@ -39,9 +39,9 @@ class InviteUserForm(FlaskForm):
 
 
 class NewUserForm(InviteUserForm):
-    password = PasswordField(_l('Password'), validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
+    password = PasswordField(_l('Password'),
+                             validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField(_l('Confirm password'), validators=[InputRequired()])
-    confirmed = BooleanField('')
     submit = SubmitField(_l('Create'))
 
 
@@ -51,5 +51,4 @@ class EditUserForm(FlaskForm):
     first_name = StringField(_l('First name'), validators=[InputRequired(), Length(1, 64)])
     last_name = StringField(_l('Last name'), validators=[InputRequired(), Length(1, 64)])
     email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
-    confirmed = BooleanField('')
     submit = SubmitField(_l('Edit'))

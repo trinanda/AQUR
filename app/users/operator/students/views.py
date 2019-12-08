@@ -132,7 +132,9 @@ def new_student():
             address=form.address.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
-            password=form.password.data)
+            password=form.password.data,
+            confirmed=True,
+        )
         db.session.add(student)
         try:
             db.session.commit()

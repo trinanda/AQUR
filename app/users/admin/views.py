@@ -35,7 +35,7 @@ def new_user():
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data,
-                confirmed=form.confirmed.data
+                confirmed=True
             )
             db.session.add(user)
             db.session.commit()
@@ -48,7 +48,7 @@ def new_user():
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data,
-                confirmed=form.confirmed.data
+                confirmed=True
             )
             db.session.add(operator)
             db.session.commit()
@@ -62,7 +62,7 @@ def new_user():
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data,
-                confirmed=form.confirmed.data
+                confirmed=True
             )
             db.session.add(teacher)
             db.session.commit()
@@ -76,7 +76,7 @@ def new_user():
                 last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data,
-                confirmed=form.confirmed.data
+                confirmed=True
             )
             db.session.add(student)
             db.session.commit()
@@ -118,7 +118,7 @@ def invite_user():
     return render_template('admin/manipulate-user.html', form=form)
 
 
-@admin.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+@admin.route('/edit-user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_user(user_id):
@@ -145,7 +145,6 @@ def edit_user(user_id):
             return redirect(url_for('admin.edit_user', user_id=user_id))
 
         user.email = form.email.data
-        user.confirmed = form.confirmed.data
 
         try:
             db.session.commit()
@@ -204,7 +203,8 @@ def change_user_email(user_id):
 def change_account_type(user_id):
     """Change a user's account type."""
     if current_user.id == user_id:
-        flash(_('You cannot change the type of your own account. Please ask another administrator to do this.'), 'error')
+        flash(_('You cannot change the type of your own account. Please ask another administrator to do this.'),
+              'error')
         return redirect(url_for('admin.user_info', user_id=user_id))
 
     user = User.query.get(user_id)
@@ -215,8 +215,9 @@ def change_account_type(user_id):
         user.role = form.role.data
         db.session.add(user)
         db.session.commit()
-        flash(_('Role for user %(user_full_name)s successfully changed to %(user_role)s.', user_full_name=user.full_name,
-                user_role=user.role), 'form-success')
+        flash(
+            _('Role for user %(user_full_name)s successfully changed to %(user_role)s.', user_full_name=user.full_name,
+              user_role=user.role), 'form-success')
 
     return render_template('admin/manage_user.html', user=user, form=form)
 

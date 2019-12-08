@@ -3,10 +3,10 @@
 #### most important feature for now
 1. all-teachers, edit form for: gender, date_of_birth, address, taught_courses
     - from date_of_birth, address
-2. all-schedules
+2. if user is authenticated, redirect it to the it role homepage.
+3. all-schedules
     schedule i18&l10
-3. change login background-image
-4. set status to active when adding new user from superuser
+4. change login background-image
 5. re-check SCHEDULER_JOB_DEFAULTS
 6. think about taking_courses on student-profile, do we need it..?
 7. what if operator add space after email_or phone_number form..?

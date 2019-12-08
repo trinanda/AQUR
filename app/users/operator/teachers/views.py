@@ -154,6 +154,7 @@ def new_teacher():
             email=form.email.data,
             phone_number=form.phone_number.data,
             password=form.password.data,
+            confirmed=True,
         )
         for taught_course_data in form.taught_courses.data:
             taught_course = TaughtCourse(course_id=taught_course_data.id)
