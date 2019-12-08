@@ -42,6 +42,7 @@ oauthlib==3.1.0
 packaging==19.2
 pipupgrade==1.5.2
 psycopg2==2.8.4
+psycopg2-binary==2.8.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.7
 pygdrive3==0.6.0
