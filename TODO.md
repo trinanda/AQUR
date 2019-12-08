@@ -1,19 +1,19 @@
 ### TODO LIST
 
 #### most important feature for now
-1. all-teachers, edit form for: gender, date_of_birth, address, taught_courses
-    - from date_of_birth, address
-2. if user is authenticated, redirect it to the it role homepage.
-3. all-schedules
+1. all-teachers view | jumlah murid yang diaajar
+2. fix static error on account.register views
+3. if user is authenticated, redirect it to the it role homepage.
+4. all-schedules
     schedule i18&l10
-4. change login background-image
-5. re-check SCHEDULER_JOB_DEFAULTS
-6. think about taking_courses on student-profile, do we need it..?
-7. what if operator add space after email_or phone_number form..?
-8. prevent to input duplicate teachers schedule at the same time
+5. change login background-image
+6. re-check SCHEDULER_JOB_DEFAULTS
+7. think about taking_courses on student-profile, do we need it..?
+8. what if operator add space after email_or phone_number form..?
+9. prevent to input duplicate teachers schedule at the same time
 ----------------------------------------------------------------------------------
-9. get current and last login user ip | do this feature when the students feature available
-10. if payment status == warning-3, disable user account | do this feature when the students feature available
+10. get current and last login user ip | do this feature when the students feature available
+11. if payment status == warning-3, disable user account | do this feature when the students feature available
 
 #### ask when the meething time
 1. Re-check all feature before ask Ustadz Faidil for the meeting time

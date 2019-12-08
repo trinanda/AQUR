@@ -47,7 +47,21 @@
               {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
             {% endif %}
             {% if form.gender %}
-              {{ f.render_form_field(form.gender, extra_classes='form-group col-md-12') }}
+              {{ f.render_form_field(form.gender, extra_classes='form-group col-md-6') }}
+            {% endif %}
+            {% if form.date_of_birth %}
+              {% if teacher %}
+                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6', value=teacher.date_of_birth) }}
+              {% else %}
+                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
+              {% endif %}
+            {% endif %}
+            {% if form.address %}
+              {% if teacher %}
+                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12', value=teacher.address) }}
+              {% else %}
+                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
+              {% endif %}
             {% endif %}
             {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
             {% if form.phone_number %}

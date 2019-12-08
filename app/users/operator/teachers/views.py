@@ -10,8 +10,7 @@ from app.decorators import operator_required
 from app.email import send_email
 from app.models import Teacher, Role, User, Schedule, Gender, PaymentStatus, Payment, TaughtCourse
 from app.users.operator import operator
-from app.users.operator.teachers.forms import InviteTeacherForm, NewTeacherForm, \
-    edit_teacher_form_factory
+from app.users.operator.teachers.forms import InviteTeacherForm, NewTeacherForm, edit_teacher_form_factory
 
 
 @operator.route('/all-teachers')
@@ -151,6 +150,8 @@ def new_teacher():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             gender=form.gender.data,
+            date_of_birth=form.date_of_birth.data,
+            address=form.address.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
             password=form.password.data,

@@ -24,6 +24,8 @@ class NewTeacherForm(InviteTeacherForm):
     phone_number = StringField(_l('Phone number'), validators=[InputRequired(), Length(1, 12)],
                                render_kw={'placeholder': 'e.g: 081234567890'})
     gender = SelectField(_l('Gender'), choices=gender)
+    date_of_birth = DateField(_l('Date of birth'), validators=[DataRequired()], format='%Y-%m-%d')
+    address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])
     taught_courses = QuerySelectMultipleField(_l('Taught course'), validators=[required()],
                                               query_factory=lambda: Course.query.all())
     password = PasswordField(_l('Password'),

@@ -106,6 +106,7 @@ Other useful variables include:
 | `HOST`| `0.0.0.0` | Server host |
 | `PORT`| `8000` | Server port |
 | `SSL_DISABLE`| `True` | SSL |
+| `GOOGLE_ANALYTICS_ID`| `True` | Google analytics ID |
 
 ##### Install the dependencies
 
