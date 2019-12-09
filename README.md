@@ -28,8 +28,8 @@ This app based on this nicely boilerplate: https://github.com/hack4impact/flask-
 ##### Clone the repository 
 
 ```
-$ git clone https://github.com/trinanda/AQUR-Payakumbuh.git
-$ cd AQUR-Payakumbuh/
+$ git clone https://github.com/trinanda/AQUR.git
+$ cd AQUR/
 ```
 
 ##### Initialize a virtual environment
@@ -106,7 +106,7 @@ Other useful variables include:
 | `HOST`| `0.0.0.0` | Server host |
 | `PORT`| `8000` | Server port |
 | `SSL_DISABLE`| `True` | SSL |
-| `GOOGLE_ANALYTICS_ID`| `True` | Google analytics ID |
+| `GOOGLE_ANALYTICS_ID`| `your_google_analytics_id` | Google analytics ID |
 
 ##### Install the dependencies
 

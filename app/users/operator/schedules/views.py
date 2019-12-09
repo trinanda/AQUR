@@ -203,7 +203,7 @@ def edit_schedule(schedule_id):
                            form=form, local_time_form=local_time_form)
 
 
-@operator.route('/schedule/edit-schedule-schedule-number-of-day/<int:schedule_id>', methods=['GET', 'POST'])
+@operator.route('/schedule/edit-schedule-number-of-day/<int:schedule_id>', methods=['GET', 'POST'])
 @login_required
 @operator_required
 def edit_schedule_number_of_day(schedule_id):
