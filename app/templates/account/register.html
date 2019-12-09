@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <title>Sign Up</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}">
     <style>
       #loader {
         transition: all .3s ease-in-out;
@@ -58,6 +59,10 @@
         }
       }
     </style>
+    <link href="{{ url_for('static', filename='adminator-admin-dashboard/css/stylesheet.css' )}}" rel="stylesheet" type="text/css" />
+    {% include 'partials/_head.html' %}
+    {# Any templates that extend this template can set custom_head_tags to add scripts to their page #}
+    {% block custom_head_tags %}{% endblock %}
   </head>
   <body class="app">
     <div id="loader">
