@@ -1288,3 +1288,6 @@ msgstr "Data yang dimasukkan tidak terdaftar sebagai Murid!"
 
 msgid "The maximum character on note can't more than 100, inputted character got %(note)s"
 msgstr "Jumlah Karakter pada catatan sebaiknya tidak lebih dari 100, Anda memasukan %(note)s"
+
+msgid "Teacher email or phone number"
+msgstr "Email atau nomor telepon Guru"

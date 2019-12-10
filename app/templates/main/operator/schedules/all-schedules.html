@@ -74,7 +74,7 @@
 										<tr>
 											{% for schedule_data in data.time_schedule %}
 												<td>
-													{{ schedule_data.day }}
+													{{ _(schedule_data.day|safe) }}
 													<br>
 													{{ schedule_data.start_at.strftime('%H:%M') }} - {{ schedule_data.end_at.strftime('%H:%M') }}
 												</td>
