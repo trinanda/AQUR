@@ -31,13 +31,13 @@ def update_tuition_payment_status():
             elif str(three_month_later_after_pay_at) == current_time and \
                 str(data.status_of_payment) == PaymentStatus.WARNING_2.name:
                 data.status_of_payment = PaymentStatus.WARNING_3.name
-
+        print('update_tuition_payment_status')
     return str('ok')
 
 
 def backup_db_to_google_drive():
     dir_path = os.path.dirname(os.path.realpath('../config.py')) + '/AQUR/'
-    drive_service = service.DriveService(dir_path + 'credentials/client_secrets.json')
+    drive_service = service.DriveService(dir_path + 'credentials/client_secret.json')
     try:
         drive_service.auth()
     except Exception as e:
@@ -46,12 +46,13 @@ def backup_db_to_google_drive():
     current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
     filename_to_upload = 'aqur_database_' + current_time
 
-    # remove old files with autoclean command | https://github.com/cuducos/alchemydumps#and-you-can-use-the-auto-clean-command
-    os.system('python3 manage.py alchemydumps autoclean')
+    # backup database | https://github.com/cuducos/alchemydumps#you-can-backup-all-your-data
+    os.system('python3 manage.py alchemydumps create')
 
+    folder_name_on_local = 'alchemydumps-backup'
     # convert directory to zip
     file_to_upload = shutil.make_archive(dir_path + 'save_db_bak/' + filename_to_upload, 'zip',
-                                         dir_path + 'alchemydumps')
+                                         dir_path + folder_name_on_local)
 
     # folder name on google drive
     folder = drive_service.create_folder('aqur_db_backup_' + current_time)
@@ -62,5 +63,9 @@ def backup_db_to_google_drive():
         print('uploaded to to google drive', file)
     except Exception as e:
         return str(e)
+
+    root_password = os.environ.get('SUDO')
+    os.system('echo ' + root_password + '| sudo -S rm -rf alchemydumps-backup/*')
+    print('Deleted the database backup on local ' + folder_name_on_local + ' folder')
 
     return file

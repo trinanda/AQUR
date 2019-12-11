@@ -107,6 +107,7 @@ Other useful variables include:
 | `PORT`| `8000` | Server port |
 | `SSL_DISABLE`| `True` | SSL |
 | `GOOGLE_ANALYTICS_ID`| `your_google_analytics_id` | Google analytics ID |
+| `SUDO`| `sudo_password` | sudo access |
 
 ##### Install the dependencies
 

@@ -105,7 +105,7 @@ class Config:
             'replace_existing': True,
             'trigger': 'cron',  # Cron: For example, every day at 5 am
             'misfire_grace_time': 600,
-            'hour': 00,  # every day at 00:05
+            'hour': 1,  # every day at 1:05
             'minute': 5,
         },
         {
@@ -125,7 +125,7 @@ class Config:
 
     SCHEDULER_JOB_DEFAULTS = {
         'coalesce': False,
-        'max_instances': 1
+        'max_instances': 10
     }
 
     SCHEDULER_EXECUTORS = {
@@ -158,6 +158,8 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    DEBUG = False
+    USE_RELOADER = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     SSL_DISABLE = (os.environ.get('SSL_DISABLE') or 'True') == 'True'
