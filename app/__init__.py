@@ -12,6 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import configure_uploads, UploadSet
 from flask_wtf import CSRFProtect
 from flask_babel import Babel
+from werkzeug.contrib.fixers import ProxyFix
 
 from app import cli
 from app.assets import app_css, app_js, vendor_css, vendor_js
@@ -36,6 +37,9 @@ login_manager.login_view = 'account.login'
 def create_app(config):
     app = Flask(__name__)
     config_name = config
+
+    # fix insecure content blocked
+    app.wsgi_app = ProxyFix(app.wsgi_app)
 
     if not isinstance(config, str):
         config_name = os.getenv('FLASK_CONFIG', 'default')
@@ -137,6 +141,7 @@ def register_extensions(app):
         scheduler.start()
     except Exception as e:
         pass
+
 
 @babel.localeselector
 def get_locale():
