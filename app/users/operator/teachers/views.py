@@ -178,4 +178,5 @@ def new_teacher():
 @operator_required
 def all_teachers_table_mode():
     teachers = db.session.query(Teacher).all()
-    return render_template('main/operator/teachers/all-teachers-table-mode.html', list_of_teachers=teachers)
+    return render_template('main/operator/teachers/all-teachers-table-mode.html', list_of_teachers=teachers,
+                           Schedule=Schedule)

@@ -65,7 +65,7 @@
 										</tr>
 									</table>
 								</td>
-								<td>-</td>
+								<td>{{ Schedule.query.filter_by(teacher_id=data_teacher.id).count() }}</td>
 							</tr>
 						{% endfor %}
 						</tbody>
