@@ -50,8 +50,8 @@
               </a>
               <strong class="all-pro-ad">
                 {{ _('Teach') }}:
-                {% for data in data.taught_courses %}
-                  {{ data }},
+                {% for taught in data.taught_course %}
+                  {{ taught.course|string }},
                 {% endfor %}
               </strong>
             </div>

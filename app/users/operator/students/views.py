@@ -144,7 +144,7 @@ def new_student():
             return redirect(url_for('operator.new_student'))
         flash(_('Successfully added %(student_full_name)s as a Student', student_full_name=student.full_name),
               'success')
-        return redirect(url_for('operator.all_students'))
+        return redirect(url_for('operator.all_students_table_mode'))
     return render_template('main/operator/students/manipulate-student.html', form=form)
 
 

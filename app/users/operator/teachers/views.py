@@ -169,7 +169,7 @@ def new_teacher():
             return redirect(url_for('operator.new_teacher'))
         flash(_('Successfully added %(teacher_full_name)s as a Teacher', teacher_full_name=teacher.full_name),
               'success')
-        return redirect(url_for('operator.all_teachers'))
+        return redirect(url_for('operator.all_teachers_table_mode'))
     return render_template('main/operator/teachers/manipulate-teacher.html', form=form)
 
 

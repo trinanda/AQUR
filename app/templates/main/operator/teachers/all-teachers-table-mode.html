@@ -45,7 +45,11 @@
 							<tr>
 								<td>{{ data_teacher.full_name }}</td>
 								<td>{{ data_teacher.gender }}</td>
-								<td>{{ data_teacher.date_of_birth }}</td>
+								{% if data_teacher.date_of_birth %}
+									<td>{{ data_teacher.date_of_birth.strftime('%d-%m-%Y') }}</td>
+								{% else %}
+									<td>{{ data_teacher.date_of_birth }}</td>
+								{% endif %}
 								<td>{{ data_teacher.calculate_age() }}</td>
 								<td>{{ data_teacher.address }}</td>
 								<td>{{ data_teacher.phone_number }}</td>
