@@ -7,14 +7,6 @@
 
 {% block content %}
 
-<style>
-  button {
-    width: 75px;
-    height: 35px;
-    margin-top: -20px;
-  }
-</style>
-
 <div id="mainContent">
   <div class="row gap-20 masonry pos-r">
     <div class="masonry-sizer col-md-6"></div>
@@ -36,40 +28,21 @@
         <div class="mT-30">
           {{ f.begin_form(form, flashes) }}
           <div class="form-row">
-            {% if student %}
-              {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6', value=student.first_name) }}
-            {% else %}
-              {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6') }}
-            {% endif %}
-            {% if student %}
-              {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6', value=student.last_name) }}
-            {% else %}
-              {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
-            {% endif %}
             {% if form.gender %}
+              {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
               {{ f.render_form_field(form.gender, extra_classes='form-group col-md-6') }}
-            {% endif %}
-            {% if form.date_of_birth %}
-              {% if student %}
-                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6', value=student.date_of_birth) }}
-              {% else %}
-                {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
-              {% endif %}
-            {% endif %}
-            {% if form.address %}
-              {% if student %}
-                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12', value=student.address) }}
-              {% else %}
-                {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
-              {% endif %}
-            {% endif %}
-            {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
-            {% if form.phone_number %}
+              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
+              {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
               {{ f.render_form_field(form.phone_number, extra_classes='form-group col-md-12') }}
-            {% endif %}
-            {% if form.password %}
               {{ f.render_form_field(form.password, extra_classes='form-group col-md-6') }}
               {{ f.render_form_field(form.password2, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.description, extra_classes='form-group col-md-12') }}
+            {% else %}
+              {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
+              {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
             {% endif %}
           </div>
           {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}

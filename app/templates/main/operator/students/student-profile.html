@@ -93,6 +93,10 @@
 																<td>{{ student.phone_number }}</td>
 															</tr>
 															<tr>
+																<th>{{ _('Description') }}</th>
+																<td>{{ student.description }}</td>
+															</tr>
+															<tr>
 																<th>{{ _('Taken courses') }}</th>
 																<td>[ <span data-toggle="collapse" data-target="#course1" style="cursor:pointer;">Arabic Language, </span><span
 																	data-toggle="collapse" data-target="#course2" style="cursor:pointer;">Tahsin</span> ]
@@ -154,69 +158,6 @@
 													</div>
 												</div>
 											</div>
-
-											<div class="row mg-b-15">
-												<div class="col-lg-12">
-													<div class="row">
-														<div class="col-lg-12">
-															<div class="skill-title">
-																<h2>{{ _('Education') }}</h2>
-																<hr/>
-															</div>
-														</div>
-													</div>
-													<div class="ex-pro">
-														<ul>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<div class="row mg-b-15">
-												<div class="col-lg-12">
-													<div class="row">
-														<div class="col-lg-12">
-															<div class="skill-title">
-																<h2>{{ _('Experience') }}</h2>
-																<hr/>
-															</div>
-														</div>
-													</div>
-													<div class="ex-pro">
-														<ul>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-															<li><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet, consectetur adipiscing
-																elit.
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -229,47 +170,14 @@
 											<div class="row">
 												<div class="col-lg-12">
 													<div class="form-row">
-														{% if student %}
-														{{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6', value=student.first_name) }}
-														{% else %}
-														{{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6', value=student.last_name) }}
-														{% else %}
-														{{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6', value=student.gender) }}
-														{% else %}
-														{{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=student.date_of_birth) }}
-														{% else %}
-														{{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.address, extra_classes='form-group col-lg-12', value=student.address) }}
-														{% else %}
-														{{ f.render_form_field(form.address, extra_classes='form-group col-lg-12') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6', value=student.phone_number) }}
-														{% else %}
-														{{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6') }}
-														{% endif %}
-
-														{% if student %}
-														{{ f.render_form_field(form.email, extra_classes='form-group col-lg-6', value=student.email) }}
-														{% else %}
-														{{ f.render_form_field(form.email, extra_classes='form-group col-lg-6') }}
-														{% endif %}
+															{{ f.render_form_field(form.first_name, extra_classes='form-group col-lg-6', value=student.first_name) }}
+															{{ f.render_form_field(form.last_name, extra_classes='form-group col-lg-6', value=student.last_name) }}
+															{{ f.render_form_field(form.gender, extra_classes='form-group col-lg-6', value=student.gender) }}
+															{{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-lg-6', value=student.date_of_birth.strftime('%d-%m-%Y')) }}
+															{{ f.render_form_field(form.address, extra_classes='form-group col-lg-12', value=student.address) }}
+															{{ f.render_form_field(form.phone_number, extra_classes='form-group col-lg-6', value=student.phone_number) }}
+															{{ f.render_form_field(form.email, extra_classes='form-group col-lg-6', value=student.email) }}
+															{{ f.render_form_field(form.description, extra_classes='form-group col-lg-12', value=student.description) }}
 													</div>
 													{{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
 													{{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

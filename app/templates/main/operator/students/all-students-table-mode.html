@@ -37,6 +37,7 @@
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
 								<th>{{ _('Taking Course') }}</th>
+								<th>{{ _('Description') }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -64,6 +65,11 @@
 										</tr>
 									</table>
 								</td>
+								{% if data_student.description %}
+									<td>{{ data_student.description }}</td>
+								{% else %}
+									<td>-</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 						</tbody>
@@ -77,6 +83,7 @@
 								<th>{{ _('Phone number') }}</th>
 								<th>{{ _('Email') }}</th>
 								<th>{{ _('Taking Course') }}</th>
+								<th>{{ _('Description') }}</th>
 							</tr>
 		        </tfoot>
 					</table>

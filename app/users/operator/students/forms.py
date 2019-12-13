@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms.fields import StringField, SubmitField, FileField, PasswordField, SelectField
-from wtforms import ValidationError
+from wtforms import ValidationError, TextAreaField
 from wtforms.fields.html5 import EmailField, DateField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 
@@ -28,6 +28,7 @@ class NewStudentForm(InviteStudentForm):
     password = PasswordField(_l('Password'),
                              validators=[InputRequired(), EqualTo('password2', 'Passwords must match.')])
     password2 = PasswordField(_l('Confirm password'), validators=[InputRequired()])
+    description = TextAreaField(_l('Description'))
     submit = SubmitField(_l('Create'))
 
     def validate_phone_number(self, field):
@@ -45,6 +46,7 @@ class EditStudentForm(FlaskForm):
     address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])
     date_of_birth = DateField(_l('Date of birth'), validators=[DataRequired()], format='%Y-%m-%d')
     photo = FileField(_l('Photo'))
+    description = TextAreaField(_l('Description'))
     submit = SubmitField(_l('Update'))
 
     def validate_phone_number(self, field):

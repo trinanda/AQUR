@@ -31,7 +31,6 @@ def student_profile(student_id):
         abort(404)
 
     form = EditStudentForm(obj=student)
-
     if form.validate_on_submit():
         student_name = student.full_name
         student.first_name = form.first_name.data
@@ -39,6 +38,7 @@ def student_profile(student_id):
         student.gender = form.gender.data
         student.date_of_birth = form.date_of_birth.data
         student.address = form.address.data
+        student.description = form.description.data
 
         validate_user_data = User.query.filter(~User.phone_number.in_([student.phone_number])).all()
         all_user_phone_number = []
@@ -133,6 +133,7 @@ def new_student():
             email=form.email.data,
             phone_number=form.phone_number.data,
             password=form.password.data,
+            description=form.description.data,
             confirmed=True,
         )
         db.session.add(student)
@@ -158,7 +159,7 @@ def all_students_table_mode():
         list_of_students.append(
             {'id': data.id, 'full_name': data.full_name, 'gender': data.gender, 'date_of_birth': data.date_of_birth,
              'age': data.calculate_age(), 'address': data.address, 'email': data.email,
-             'phone_number': data.phone_number,
+             'phone_number': data.phone_number, 'description': data.description,
              'data_schedule': db.session.query(Schedule).filter(Schedule.student_id == data.id).all()})
     return render_template('main/operator/students/all-students-table-mode.html', list_of_students=list_of_students)
 
