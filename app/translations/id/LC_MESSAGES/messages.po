@@ -1294,3 +1294,27 @@ msgstr "Email atau nomor telepon Guru"
 
 msgid "Description"
 msgstr "Deskripsi/catatan tambahan"
+
+msgid "Time"
+msgstr "Jam"
+
+msgid "Successfully added new data"
+msgstr "Berhasil menambahkan data"
+
+msgid "Personal data"
+msgstr "Data pribadi"
+
+msgid "Phone number, e.g: 081234567890"
+msgstr "No HP, mohon masukan dengan format "08", contoh: 081234567890"
+
+msgid "Reason"
+msgstr "Alasan ingin masuk kursus"
+
+msgid "Are you sure you have inputed the correct data..?"
+msgstr "Apakah Anda yakin semua data yang dimasukan sudah benar..?"
+
+msgid "Sure"
+msgstr "Yakin"
+
+msgid "Registration"
+msgstr "Pendaftaran"

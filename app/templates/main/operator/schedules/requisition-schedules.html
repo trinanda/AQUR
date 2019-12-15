@@ -58,7 +58,13 @@
 												<td>
 													{{ _(schedule_data.day|safe) }}
 													<br>
-													{{ schedule_data.start_at.strftime('%H:%M') }} - {{ schedule_data.end_at.strftime('%H:%M') }}
+													{% if schedule_data.start_at and schedule_data.end_at %}
+														{{ schedule_data.start_at.strftime('%H:%M') }} - {{ schedule_data.end_at.strftime('%H:%M') }}
+													{% elif schedule_data.start_at %}
+														{{ schedule_data.start_at.strftime('%H:%M') }}
+													{% else %}
+														{{ schedule_data.start_at }} - {{ schedule_data.end_at }}
+													{% endif %}
 												</td>
 											{% endfor %}
 										</tr>
@@ -71,26 +77,26 @@
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ConfirmDeleteModal{{ data.id }}">{{ _('Delete') }}</button>
 								</td>
 							</tr>
-						<!-- Modal -->
-						<div class="modal fade" id="ConfirmDeleteModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="ConfirmDeleteModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="ConfirmDeleteModalLabel">Action</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										{{ _('Are you sure to delete this requisition schedule..?') }}
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('No') }}</button>
-										<a href="{{ url_for('operator.delete_requisition_schedule', requisition_schedule_id=data.id) }}"><button type="button" class="btn btn-danger">{{ _('Yes') }}</button></a>
+							<!-- Modal -->
+							<div class="modal fade" id="ConfirmDeleteModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="ConfirmDeleteModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ConfirmDeleteModalLabel">Action</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											{{ _('Are you sure to delete this requisition schedule..?') }}
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('No') }}</button>
+											<a href="{{ url_for('operator.delete_requisition_schedule', requisition_schedule_id=data.id) }}"><button type="button" class="btn btn-danger">{{ _('Yes') }}</button></a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 						{% endfor %}
 						</tbody>
 							<tfoot>

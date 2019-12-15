@@ -139,3 +139,4 @@ alchemydumps/
 credentials/
 save_db_bak/
 logs/
+!/migrations/env.py

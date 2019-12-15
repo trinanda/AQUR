@@ -1,0 +1,146 @@
+{% import 'macros/form_macros.html' as f %}
+<!doctype html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	  <title>{{ _('Registration Form') }}</title>
+		<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}">
+	  <style>
+	    .banner {
+	      position: relative;
+	      background-size: cover;
+	      justify-content: center;
+	      align-items: center;
+	      text-align: center;
+	    }
+	    button {
+		    width: 125px;
+		    height: 50px;
+	    }
+	  </style>
+	  {% include 'partials/_head.html' %}
+	  {% block custom_head_tags %}
+	      <link href="{{ url_for('static', filename='adminator-admin-dashboard/css/stylesheet.css' )}}" rel="stylesheet" type="text/css" />
+	      <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}">
+	      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/main.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/style.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='kialap-master/css/responsive.css') }}">
+	  {% endblock %}
+	</head>
+
+	<body class="app">
+	  <div id="loader">
+	    <div class="spinner"></div>
+	  </div>
+	  <script>
+	    window.addEventListener('load', function load() {
+	      const loader = document.getElementById('loader');
+	      setTimeout(function() {
+	        loader.classList.add('fadeOut');
+	        }, 300);
+	      });
+		</script>
+	  <div>
+		  <div class="header navbar" style="width: 100%;">
+			  <div class="banner" style="margin-top: 30px;">
+				  <div style="margin-top: 50px;">
+					  <img  align="left" class="card-img-top" src="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}" alt="" style="margin-left: 20px;margin-bottom: 15px;margin-top: -15px;width: 150px;height: auto;">
+					  <h3 style="color: orange;">SEKOLAH AL-QUR'AN PAYAKUMBUH</h3>
+					  <h1 style="color: green;">AShHABUL QUR'AN</h1>
+					  <h4><i>Mengaji Untuk Investasi Akhirat</i></h4>
+				  </div>
+			  </div>
+		  </div>
+	    <main class="main-content bgc-grey-100" style="padding-top: 0px;">
+	      <div id="mainContent">
+	        {% set flashes = {
+	        'error': get_flashed_messages(category_filter=['form-error']),
+	        'warning': get_flashed_messages(category_filter=['form-check-email']),
+	        'info': get_flashed_messages(category_filter=['form-info']),
+	        'success': get_flashed_messages(category_filter=['form-success'])
+	        } %}
+	        {{ f.begin_form(form, flashes) }}
+	        <div class="row gap-20 masonry pos-r">
+	          <div class="masonry-item col-md-6">
+	            <div class="bgc-white p-20 bd"  style="height: 685px; margin-bottom: 30px;">
+		            <legend>{{ _('Personal data') }}</legend>
+	              <div class="mT-30">
+	                <div class="form-row">
+			              {{ f.render_form_field(form.first_name, extra_classes='form-group col-md-6') }}
+			              {{ f.render_form_field(form.last_name, extra_classes='form-group col-md-6') }}
+			              {{ f.render_form_field(form.gender, extra_classes='form-group col-md-6') }}
+			              {{ f.render_form_field(form.date_of_birth, extra_classes='form-group col-md-6') }}
+			              {{ f.render_form_field(form.address, extra_classes='form-group col-md-12') }}
+			              {{ f.render_form_field(form.email, extra_classes='form-group col-md-12') }}
+			              {{ f.render_form_field(form.phone_number, extra_classes='form-group col-md-12') }}
+			            </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="masonry-item col-md-6">
+	            <div class="bgc-white p-20 bd">
+		            <legend>{{ _('Course') }}</legend>
+	              <div class="mT-30">
+	                <div class="form-row">
+			              {{ f.render_form_field(form.course_name, extra_classes='form-group col-md-6') }}
+			              {{ f.render_form_field(form.type_of_class, extra_classes='form-group col-md-6') }}
+		                {{ f.render_form_field(form.time_schedule, extra_classes='form-group col-md-6') }}
+		                <div class="form-group">
+			                <br>
+			                <div class="form-group">
+				                <h4>Tahsin</h4>
+				                <ul>
+					                <li>{{ _('Registration') }} : Rp. 75.000</li>
+					                <li>{{ _('Regular') }} : Rp. 75.000</li>
+					                <li>{{ _('Private') }} : Rp. 200.000</li>
+				                </ul>
+			                </div>
+			                <br>
+			                <div class="form-group">
+				                <h4>Bahasa Arab</h4>
+				                <ul>
+					                <li>{{ _('Registration') }} : Rp. 150.000</li>
+					                <li>{{ _('Regular') }} : Rp. 100.000</li>
+					                <li>{{ _('Private') }} : Rp. 200.000</li>
+				                </ul>
+			                </div>
+		                </div>
+			              {{ f.render_form_field(form.description, extra_classes='form-group col-md-12') }}
+			            </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <br>
+	        <button type="button" class="btn btn-primary d-flex justify-content-center d-md-table mx-auto button" data-toggle="modal" data-target="#actionModal">Submit</button>
+		      <br>
+		      <!-- Modal -->
+					<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="actionModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="actionModalLabel">Action</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					        {{  _('Are you sure you have inputed the correct data..?') }}
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Cancel') }}</button>
+					        <button type="submit" class="btn btn-primary">{{ _('Sure') }}</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+	        {{ f.end_form() }}
+	      </div>
+	    </main>
+	  </div>
+	  <script src="{{ url_for('static', filename='kialap-master/js/bootstrap.min.js') }}"></script>
+	</body>
+</html>
