@@ -14,8 +14,8 @@ main = Blueprint('main', __name__)
 @main.route('/index')
 def index():
     # redirect to login page until the homepage feature available
-    return redirect(url_for('account.login'))
-    # return render_template('main/index.html')
+    # return redirect(url_for('account.login'))
+    return render_template('main/index.html')
 
 
 @main.route('/about')

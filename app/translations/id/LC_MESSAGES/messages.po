@@ -1318,3 +1318,15 @@ msgstr "Yakin"
 
 msgid "Registration"
 msgstr "Pendaftaran"
+
+msgid "Register Now"
+msgstr "Daftar Sekarang"
+
+msgid "Number of Teachers"
+msgstr "Jumlah Guru"
+
+msgid "Number of Students"
+msgstr "Jumlah Murid"
+
+msgid "Event"
+msgstr "Event"
