@@ -21,7 +21,7 @@ class OneStepForm(FlaskForm):
     date_of_birth = DateField(_l('Date of birth'), validators=[DataRequired()], format='%Y-%m-%d')
     address = StringField(_l('Address'), validators=[InputRequired(), Length(1, 255)])
     gender = SelectField(_l('Gender'), choices=gender)
-    email = EmailField(_l('Email'), validators=[InputRequired(), Length(1, 64), Email()])
+    email = EmailField(_l('Email'))
     phone_number = StringField(_l('Phone number, e.g: 081234567890'), validators=[InputRequired(), Length(1, 12)])
     course_name = QuerySelectField(_l('Course name'),
                                    validators=[required('It seems the student didn\' pay any course ')],
@@ -37,5 +37,5 @@ class OneStepForm(FlaskForm):
                                     'please input different phone number!'))
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if User.query.filter_by(email=field.data).first() and not field.data == "":
             raise ValidationError(_('Email already registered.'))

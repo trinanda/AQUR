@@ -1,3 +1,5 @@
+import secrets
+
 from flask import Blueprint, render_template, url_for, flash
 from werkzeug.utils import redirect
 from flask_babel import _
@@ -38,17 +40,17 @@ def one_step_form():
     if form.validate_on_submit():
         first_name = str(form.first_name.data)
         last_name = str(form.last_name.data)
-
-        # TODO | InsyaAllah will working in the line bellow | what if user doesn't have email..?
         email = form.email.data
-        if email is None:
+
+        if email == "":
             number = 0
             while True:
                 number += 1
-                if User.query.filter_by(email=email).first is not None:
-                    email = "".join(first_name.split()) + "".join(last_name.split()) + str(number) + '@gmail.com'
+                email = "".join(first_name.split()) + "".join(last_name.split()) + str(number) + '@gmail.com'
+                if User.query.filter_by(email=email).first() is not None:
+                    continue
                 else:
-                    return False
+                    break
 
         student = Student(
             role=set_defatul_student_role,
@@ -59,7 +61,7 @@ def one_step_form():
             address=form.address.data,
             email=email,
             phone_number=form.phone_number.data,
-            password='1',  # TODO | set all password to '1' before the student login feature available
+            password=secrets.token_hex(8),  # TODO | set all password to '1' before the student login feature available
             confirmed=True,
         )
         db.session.add(student)
@@ -92,5 +94,5 @@ def one_step_form():
             flash(str(e), 'error')
             return redirect(url_for('main.one_step_form'))
         flash(_('Successfully added new data'), 'success')
-        return redirect(url_for('main.one_step_form'))
+        return redirect(url_for('main.index'))
     return render_template('main/one-step-form.html', form=form)
