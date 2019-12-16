@@ -51,27 +51,30 @@ def login():
 @account.route('/register', methods=['GET', 'POST'])
 def register():
     """Register a new user, and send them a confirmation email."""
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = Student(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email=form.email.data,
-            password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        token = user.generate_confirmation_token()
-        confirm_link = url_for('account.confirm', token=token, _external=True)
-        get_queue().enqueue(
-            send_email,
-            recipient=user.email,
-            subject='Confirm Your Account',
-            template='account/email/confirm',
-            user=user,
-            confirm_link=confirm_link)
-        flash(_('A confirmation link has been sent to your email'), 'warning')
-        return redirect(url_for('account.login'))
-    return render_template('account/register.html', form=form)
+
+    # TODO | disable these code bellow until Teachers and Students account feature available
+    # form = RegistrationForm()
+    # if form.validate_on_submit():
+    #     user = Student(
+    #         first_name=form.first_name.data,
+    #         last_name=form.last_name.data,
+    #         email=form.email.data,
+    #         password=form.password.data)
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     token = user.generate_confirmation_token()
+    #     confirm_link = url_for('account.confirm', token=token, _external=True)
+    #     get_queue().enqueue(
+    #         send_email,
+    #         recipient=user.email,
+    #         subject='Confirm Your Account',
+    #         template='account/email/confirm',
+    #         user=user,
+    #         confirm_link=confirm_link)
+    #     flash(_('A confirmation link has been sent to your email'), 'warning')
+    #     return redirect(url_for('account.login'))
+    # return render_template('account/register.html', form=form)
+    return redirect(url_for('account.login'))
 
 
 @account.route('/logout')
@@ -92,26 +95,29 @@ def manage():
 @account.route('/reset-password', methods=['GET', 'POST'])
 def reset_password_request():
     """Respond to existing user's request to reset their password."""
-    if not current_user.is_anonymous:
-        return redirect(url_for('main.index'))
-    form = RequestResetPasswordForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            token = user.generate_password_reset_token()
-            reset_link = url_for(
-                'account.reset_password', token=token, _external=True)
-            get_queue().enqueue(
-                send_email,
-                recipient=user.email,
-                subject='Reset Your Password',
-                template='account/email/reset_password',
-                user=user,
-                reset_link=reset_link,
-                next=request.args.get('next'))
-        flash(_('A password reset link has been sent to %(email)s.', email=user.form.email.data), 'warning')
-        return redirect(url_for('account.login'))
-    return render_template('account/reset_password.html', form=form)
+
+    # TODO | disable these code bellow until Teachers and Students account feature available
+    # if not current_user.is_anonymous:
+    #     return redirect(url_for('main.index'))
+    # form = RequestResetPasswordForm()
+    # if form.validate_on_submit():
+    #     user = User.query.filter_by(email=form.email.data).first()
+    #     if user:
+    #         token = user.generate_password_reset_token()
+    #         reset_link = url_for(
+    #             'account.reset_password', token=token, _external=True)
+    #         get_queue().enqueue(
+    #             send_email,
+    #             recipient=user.email,
+    #             subject='Reset Your Password',
+    #             template='account/email/reset_password',
+    #             user=user,
+    #             reset_link=reset_link,
+    #             next=request.args.get('next'))
+    #     flash(_('A password reset link has been sent to %(email)s.', email=user.form.email.data), 'warning')
+    #     return redirect(url_for('account.login'))
+    # return render_template('account/reset_password.html', form=form)
+    return redirect(url_for('account.login'))
 
 
 @account.route('/reset-password/<token>', methods=['GET', 'POST'])
