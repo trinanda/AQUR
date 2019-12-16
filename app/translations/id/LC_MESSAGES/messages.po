@@ -1330,3 +1330,12 @@ msgstr "Jumlah Murid"
 
 msgid "Event"
 msgstr "Event"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Contact"
+msgstr "Kontak"
+
+msgid "About us"
+msgstr "Tentang Kami"
