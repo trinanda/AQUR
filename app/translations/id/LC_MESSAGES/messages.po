@@ -1339,3 +1339,6 @@ msgstr "Kontak"
 
 msgid "About us"
 msgstr "Tentang Kami"
+
+msgid "Registration Form"
+msgstr "Form Registrasi"

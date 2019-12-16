@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>AQUR | Home</title>
+    <title>AQUR</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/app/example/AQUR-logo.jpg') }}">
@@ -56,15 +56,15 @@
                             <!-- Search Button -->
                             <div class="search-area">
                                 <form action="#" method="post">
-                                    <input disabled type="search" name="search" id="search" placeholder="Search">
-                                    <button disabled type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <input disabled title="Coming soon" type="search" name="search" id="search" placeholder="Search">
+                                    <button disabled title="Coming soon" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </form>
                             </div>
 
                             <!-- Register / Login -->
                             <div class="register-login-area">
-                                <a disabled href="#" class="btn">Register</a>
-                                <a href="#" class="btn active">Login</a>
+                                <a disabled title="Coming soon" href="#" class="btn">Register</a>
+                                <a href="{{ url_for('account.login') }}" class="btn active">Login</a>
                             </div>
 
                         </div>
@@ -84,7 +84,7 @@
                     <!-- Hero Content -->
                     <div class="hero-content text-center">
                         <h2>AShHABUL QUR'AN</h2>
-                        <a href="#" class="btn clever-btn">{{ _('Register Now') }}</a>
+                        <a href="{{ url_for('main.one_step_form') }}" class="btn clever-btn">{{ _('Register Now') }}</a>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Tahsin</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis</p>
+                            <p title="Coming soon">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis</p>
                         </div>
                         <!-- Seat Rating Fee -->
                         <div class="seat-rating-fee d-flex justify-content-between">
@@ -183,7 +183,7 @@
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Bahasa Arab</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis</p>
+                            <p title="Coming soon">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis</p>
                         </div>
                         <!-- Seat Rating Fee -->
                         <div class="seat-rating-fee d-flex justify-content-between">
@@ -217,7 +217,7 @@
                     <div class="tutors-slide owl-carousel wow fadeInUp" data-wow-delay="250ms">
 
                         <!-- Single Tutors Slide -->
-                        <div class="single-tutors-slides">
+                        <div class="single-tutors-slides" title="Coming soon">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
                                 <img src="https://i.ytimg.com/vi/qVpKfPJ9lyc/maxresdefault.jpg" alt="">
@@ -236,7 +236,7 @@
                         </div>
 
                         <!-- Single Tutors Slide -->
-                        <div class="single-tutors-slides">
+                        <div class="single-tutors-slides" title="Coming soon">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
                                 <img src="https://i.ytimg.com/vi/qVpKfPJ9lyc/maxresdefault.jpg" alt="">
@@ -255,7 +255,7 @@
                         </div>
 
                         <!-- Single Tutors Slide -->
-                        <div class="single-tutors-slides">
+                        <div class="single-tutors-slides" title="Coming soon">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
                                 <img src="https://i.ytimg.com/vi/qVpKfPJ9lyc/maxresdefault.jpg" alt="">
@@ -274,7 +274,7 @@
                         </div>
 
                         <!-- Single Tutors Slide -->
-                        <div class="single-tutors-slides">
+                        <div class="single-tutors-slides" title="Coming soon">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
                                 <img src="https://i.ytimg.com/vi/qVpKfPJ9lyc/maxresdefault.jpg" alt="">
@@ -293,7 +293,7 @@
                         </div>
 
                         <!-- Single Tutors Slide -->
-                        <div class="single-tutors-slides">
+                        <div class="single-tutors-slides" title="Coming soon">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
                                 <img src="https://i.ytimg.com/vi/qVpKfPJ9lyc/maxresdefault.jpg" alt="">
