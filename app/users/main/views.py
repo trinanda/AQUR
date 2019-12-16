@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, url_for, flash
 from werkzeug.utils import redirect
+from flask_babel import _
 
 from app.models import EditableHTML, Role, Student, User, RequisitionSchedule, TimeSchedule, Course, \
-    RequisitionScheduleStatus
-from flask_babel import _
+    RequisitionScheduleStatus, Teacher, RegistrationPayment
 from app import db
 from app.users.main.forms import OneStepForm
 
@@ -13,9 +13,15 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @main.route('/index')
 def index():
-    # redirect to login page until the homepage feature available
-    # return redirect(url_for('account.login'))
-    return render_template('main/index.html')
+    students_courses_data = db.session.query(RegistrationPayment)
+    total_teachers = Teacher.query.count()
+    total_students = students_courses_data.count()
+    total_Tahsin_students = students_courses_data.join(Course).filter(Course.name == "Tahsin").count()
+    total_Arabic_language_students = students_courses_data.join(Course).filter(Course.name == "Bahasa Arab").count()
+
+    return render_template('main/index.html', total_teachers=total_teachers, total_students=total_students,
+                           total_Tahsin_students=total_Tahsin_students,
+                           total_Arabic_language_students=total_Arabic_language_students)
 
 
 @main.route('/about')
