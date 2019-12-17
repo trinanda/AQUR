@@ -59,9 +59,9 @@ def one_step_form():
             gender=form.gender.data,
             date_of_birth=form.date_of_birth.data,
             address=form.address.data,
-            email=email,
+            email=email.lower(),
             phone_number=form.phone_number.data,
-            password=secrets.token_hex(8),  # TODO | set all password to '1' before the student login feature available
+            password=secrets.token_hex(8),  # TODO | set all password to random secret_token before the student login feature available
             confirmed=True,
         )
         db.session.add(student)
@@ -94,5 +94,5 @@ def one_step_form():
             flash(str(e), 'error')
             return redirect(url_for('main.one_step_form'))
         flash(_('Successfully added new data'), 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.one_step_form'))
     return render_template('main/one-step-form.html', form=form)
